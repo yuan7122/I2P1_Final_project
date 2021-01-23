@@ -36,9 +36,9 @@ int main(int argc, char *argv[]) {
     printf("Hello world!!!\n");
     printf("Close window to terminate.\n");
 
-    while (msg != GAME_TERMINATE) {
+    while ( msg != GAME_TERMINATE ) {
         msg = game_run();
-        if (msg == GAME_TERMINATE)
+        if ( msg == GAME_TERMINATE )
             printf("See you, world\n");
     }
     game_destroy();
@@ -52,13 +52,13 @@ void show_err_msg(int msg) {
 }
 
 void game_init() {
-    if (!al_init()) {
+    if ( !al_init() ) {
         show_err_msg(AL_INIT_FAILED);
     }
 
     display = al_create_display(width, height);
     al_set_window_position(display, 0, 0);
-    if (display == NULL) {
+    if ( display == NULL ) {
         show_err_msg(DESPLAY_INIT_FAILED);
     }
 

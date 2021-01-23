@@ -20,9 +20,11 @@ int main(int argc, char *argv[]) {
     int msg = 0;
 
     printf("Hello world!!!\n");
-    al_rest(5);
 
     game_init();
+
+    al_rest(5);
+
     game_begin();
 
     al_rest(5);
@@ -47,7 +49,7 @@ void show_err_msg(int msg) {
 */
 
 void game_init() {
-    if (!al_init()) { // call al_init() to initialize all allegro function
+    if ( !al_init() ) { // call al_init() to initialize all allegro function
         show_err_msg(-1);
     }
 

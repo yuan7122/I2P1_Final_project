@@ -2,7 +2,7 @@
 
 GOAL:
 Create a display window.
- 
+
 */
 #include <stdio.h>
 #include <allegro5/allegro.h>
@@ -24,9 +24,11 @@ int main(int argc, char *argv[]) {
     int msg = 0;
 
     printf("Hello world!!!\n");
-    al_rest(5);
 
     game_init();
+
+    al_rest(5);
+
     game_begin();
 
     al_rest(5);
@@ -51,7 +53,7 @@ void show_err_msg(int msg) {
 */
 
 void game_init() {
-    if (!al_init()) {
+    if ( !al_init() ) {
         show_err_msg(-1);
     }
 

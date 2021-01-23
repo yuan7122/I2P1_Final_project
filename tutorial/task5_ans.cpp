@@ -37,9 +37,9 @@ int main(int argc, char *argv[]) {
     game_begin();
     printf("Hello world!!!\n");
 
-    while (msg != GAME_TERMINATE) {
+    while ( msg != GAME_TERMINATE ) {
         msg = game_run();
-        if (msg == GAME_TERMINATE)
+        if ( msg == GAME_TERMINATE )
             printf("See you, world\n");
     }
     game_destroy();
@@ -54,7 +54,7 @@ void show_err_msg(int msg) {
 }
 
 void game_init() {
-    if (!al_init()) {
+    if ( !al_init() ) {
         show_err_msg(-1);
     }
 
@@ -65,7 +65,7 @@ void game_init() {
     al_set_window_position(display, 0, 0);
     event_queue = al_create_event_queue();
 
-    if (display == NULL || event_queue == NULL) {
+    if ( display == NULL || event_queue == NULL ) {
         show_err_msg(-1);
     }
 
@@ -101,7 +101,7 @@ int process_event() {
         pos_y = event.mouse.y;
     }
     al_clear_to_color(al_map_rgb(0,0,0));
-    if(show_box)
+    if( show_box )
         al_draw_filled_rectangle(pos_x, pos_y, pos_x + 30, pos_y + 30, al_map_rgb(255,0,255));
     al_flip_display();
     return 0;
@@ -109,7 +109,7 @@ int process_event() {
 
 int game_run() {
     int error = 0;
-    if (!al_is_event_queue_empty(event_queue)) {
+    if ( !al_is_event_queue_empty(event_queue) ) {
         error = process_event();
     }
     return error;

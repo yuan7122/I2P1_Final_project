@@ -2,7 +2,7 @@
 
 GOAL:
 Draw a picture, a rectangle and some text.
- 
+
 */
 #include <stdio.h>
 #include <allegro5/allegro.h>
@@ -51,12 +51,12 @@ void show_err_msg(int msg) {
 }
 
 void game_init() {
-    if (!al_init()) {
+    if ( !al_init() ) {
         show_err_msg(-1);
     }
 
     display = al_create_display(width, height);
-    if (display == NULL) {
+    if ( display == NULL ) {
         show_err_msg(-1);
     }
 

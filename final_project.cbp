@@ -25,7 +25,6 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="../allegro/lib/liballegro_monolith.dll.a" />
 				</Linker>
 			</Target>
 		</Build>

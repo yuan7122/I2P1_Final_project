@@ -51,13 +51,13 @@ void show_err_msg(int msg) {
 }
 
 void game_init() {
-    if (!al_init()) {
+    if ( !al_init() ) {
         show_err_msg(-1);
     }
 
     display = al_create_display(width, height);
     al_set_window_position(display, 0, 0);
-    if (display == NULL) {
+    if ( display == NULL ) {
         show_err_msg(-1);
     }
 

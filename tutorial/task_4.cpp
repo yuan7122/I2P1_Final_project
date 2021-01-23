@@ -1,12 +1,10 @@
 /*
 
 GOAL:
-1. Using mouse to determinate the location of the box
-2. The box should be the same place as the cursor whenever the cursor is in the window.
-3. Press left button to make the box disappear and press it again to make it visible.
-4. Press right button to terminate the program
+1. Using W, A, S, D button to control the box move in the same way.
+2. The box should move to the direction whenever the corresponding button is pressed, and stop whenever the corresponding button is released.
+3. Press ESC to terminate the program
 
- 
 */
 
 #include <stdio.h>
@@ -47,9 +45,9 @@ int main(int argc, char *argv[]) {
     game_begin();
     printf("Hello world!!!\n");
 
-    while (msg != GAME_TERMINATE) {
+    while ( msg != GAME_TERMINATE ) {
         msg = game_run();
-        if (msg == GAME_TERMINATE)
+        if ( msg == GAME_TERMINATE )
             printf("See you, world\n");
     }
     game_destroy();
@@ -64,7 +62,7 @@ void show_err_msg(int msg) {
 }
 
 void game_init() {
-    if (!al_init()) {
+    if ( !al_init() ) {
         show_err_msg(-1);
     }
 
@@ -74,7 +72,7 @@ void game_init() {
     display = al_create_display(width, height);
     event_queue = al_create_event_queue();
 
-    if (display == NULL || event_queue == NULL) {
+    if ( display == NULL || event_queue == NULL ) {
         show_err_msg(-1);
     }
 
@@ -103,7 +101,7 @@ int process_event() {
 
 int game_run() {
     int error = 0;
-    if (!al_is_event_queue_empty(event_queue)) {
+    if ( !al_is_event_queue_empty(event_queue) ) {
         error = process_event();
     }
     return error;
