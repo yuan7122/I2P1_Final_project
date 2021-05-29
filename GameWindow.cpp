@@ -65,6 +65,7 @@ void game_begin() {
     sample_instance = al_create_sample_instance(song);
     // Loop the song until the display closes
     al_set_sample_instance_playmode(sample_instance, ALLEGRO_PLAYMODE_LOOP);
+    al_restore_default_mixer();
     al_attach_sample_instance_to_mixer(sample_instance, al_get_default_mixer());
     // set the volume of instance
     al_set_sample_instance_gain(sample_instance, 1) ;

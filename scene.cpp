@@ -29,7 +29,6 @@ void game_scene_init(){
 void game_scene_draw(){
     al_draw_bitmap(background, 0, 0, 0);
     character_draw();
-    al_flip_display();
 }
 void game_scene_destroy(){
     al_destroy_bitmap(background);
