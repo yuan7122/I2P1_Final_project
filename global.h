@@ -18,4 +18,17 @@ extern bool key_state[ALLEGRO_KEY_MAX];
 extern bool judge_next_window;
 extern ALLEGRO_EVENT_QUEUE *event_queue;
 extern ALLEGRO_TIMER *fps;
+typedef struct character
+{
+    int x, y; // the position of image
+    int width, height; // the width and height of image
+    bool dir; // left: false, right: true
+    int state; // the state of character
+    ALLEGRO_BITMAP *img_move[2];
+    ALLEGRO_BITMAP *img_atk[2];
+    ALLEGRO_SAMPLE_INSTANCE *atk_Sound;
+    int anime; // counting the time of animation
+    int anime_time; // indicate how long the animation
+}Character;
+extern Character *pchara;
 #endif
