@@ -57,7 +57,7 @@ void game_init() {
     ALLEGRO_BITMAP *icon = al_load_bitmap("./image/icon.jpg");
     al_set_display_icon(display, icon);
 
-    pchara = ( Character * )malloc( sizeof( Character ) );
+    e_pchara = ( Character * )malloc( sizeof( Character ) );
 }
 
 void game_begin() {
@@ -133,7 +133,7 @@ int game_run() {
 
 void game_destroy() {
     // Make sure you destroy all things
-    free( pchara );
+    free( e_pchara );
 
     al_destroy_event_queue(event_queue);
     al_destroy_display(display);

@@ -35,5 +35,5 @@ typedef struct character
     float FallingTick;
 } Character;
 
-extern Character *pchara;
+extern Character *e_pchara;
 #endif

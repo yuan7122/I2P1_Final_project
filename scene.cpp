@@ -150,11 +150,11 @@ void game_scene_draw( void ){
     // find closest lower ground
     int nFoundGroundIdx[ MAX_COUNTOF_FOUNDGROUND ] = { 0 };
     int nFoundGroundCount = 0;
-    FindGround( nFoundGroundIdx, &nFoundGroundCount, pchara->x );
+    FindGround( nFoundGroundIdx, &nFoundGroundCount, e_pchara->x );
 
     int nClosestGroundIdx = -1;
     int nGroundY = -1;
-    nClosestGroundIdx = FindClosestGround( nFoundGroundIdx, nFoundGroundCount, pchara->x, pchara->y + pchara->height );
+    nClosestGroundIdx = FindClosestGround( nFoundGroundIdx, nFoundGroundCount, e_pchara->x, e_pchara->y + e_pchara->height );
     if( nClosestGroundIdx != -1 ) {
         nGroundY = g_Ground[ nClosestGroundIdx ].y;
         // draw the closest lower ground
@@ -162,7 +162,7 @@ void game_scene_draw( void ){
     }
 
     if( DEBUGPRINT_SCENE ) {
-        printf( "chara x = %d, y = %d\n", pchara->x, pchara->y );
+        printf( "chara x = %d, y = %d\n", e_pchara->x, e_pchara->y );
         for( int i = 0; i < nFoundGroundCount; i++ ) {
             printf( "*************************************Ground %d: x = %d, y = %d, width = %d, height = %d\n",
                     i, g_Ground[ nFoundGroundIdx[ i ] ].x, g_Ground[ nFoundGroundIdx[ i ] ].y,

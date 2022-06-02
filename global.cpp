@@ -12,4 +12,4 @@ ALLEGRO_TIMER *fps = NULL;
 bool key_state[ALLEGRO_KEY_MAX] = {false};
 bool judge_next_window = false;
 
-Character *pchara = NULL;
+Character *e_pchara = NULL;
