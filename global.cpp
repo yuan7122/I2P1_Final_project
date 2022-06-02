@@ -5,8 +5,8 @@ const float FPS = 60.0;
 //const int WIDTH = 400;
 //const int HEIGHT = 600;
 
-const int WIDTH = 600;
-const int HEIGHT = 400;
+const int WIDTH = 640;
+const int HEIGHT = 480;
 ALLEGRO_EVENT_QUEUE *event_queue = NULL;
 ALLEGRO_TIMER *fps = NULL;
 bool key_state[ALLEGRO_KEY_MAX] = {false};
