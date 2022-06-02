@@ -1,0 +1,20 @@
+# makefile for windows, executed by powershell
+# Note that you need to modify the path of CC and ALLEGRO_PATH
+CC = ../MinGW/bin/g++.exe
+CFLAGS = -Wall -O2
+ALLEGRO_PATH = ../allegro
+ALLEGRO_FLAGS = -I$(ALLEGRO_PATH)/include -L$(ALLEGRO_PATH)/lib/liballegro_monolith.dll.a
+DLL_PATH = $(ALLEGRO_PATH)/lib/liballegro_monolith.dll.a
+
+OUT = game.exe
+SOURCE = main.cpp GameWindow.cpp global.cpp scene.cpp charater.cpp 
+OBJ = main.o GameWindow.o global.o scene.o charater.o 
+
+all:
+	$(CC) -c -g $(CFLAGS) $(SOURCE) $(ALLEGRO_FLAGS)
+	$(CC) $(CFLAGS) -o $(OUT) $(OBJ) $(ALLEGRO_FLAGS) $(DLL_PATH)
+	del $(OBJ)
+
+.PHONY:clean
+clean:
+	del $(OUT)
