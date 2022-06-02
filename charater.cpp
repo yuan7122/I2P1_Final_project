@@ -3,30 +3,15 @@
 // the state of character
 enum {STOP = 0, MOVE, ATK};
 
-
-
-/*
-typedef struct character
-{
-    int x, y; // the position of image
-    int width, height; // the width and height of image
-    bool dir; // left: false, right: true
-    int state; // the state of character
-    ALLEGRO_BITMAP *img_move[2];
-    ALLEGRO_BITMAP *img_atk[2];
-    ALLEGRO_SAMPLE_INSTANCE *atk_Sound;
-    int anime; // counting the time of animation
-    int anime_time; // indicate how long the animation
-}Character;
-
-Character chara;
-*/
-
 ALLEGRO_SAMPLE *sample = NULL;
 
-float CameraPosition[ 2 ] = { 0.0, 0.0 };
+float g_CameraPosition[ 2 ] = { 0.0, 0.0 };
 ALLEGRO_TRANSFORM camera;
 Character *pCharacter;
+
+float g_Gravity = 9.8;
+float g_Tick = 0.3;
+int g_nTerrainWidth = 0;
 
 void CameraUpdate( float *CamPosition, int x, int y, int width, int height )
 {
@@ -38,23 +23,23 @@ void CameraUpdate( float *CamPosition, int x, int y, int width, int height )
     if( CamPosition[ 0 ] < 0 ) {
         CamPosition[ 0 ] = 0.0;
     }
-    else if( CamPosition[ 0 ] >= 500 ) {
-        CamPosition[ 0 ] = 500.0;
+    else if( CamPosition[ 0 ] >= g_nTerrainWidth ) {
+        CamPosition[ 0 ] = ( float )g_nTerrainWidth;
     }
 
     CamPosition[ 1 ] = 0;
 }
 
-void character_init(){
+void character_init( const int nTerrainWidth ){
     // load character images
     for(int i = 1 ; i <= 2 ; i++){
         char temp[50];
-        sprintf( temp, "./image/char_move%d.png", i );
+        sprintf( temp, "./image/char_move_small%d.png", i );
         pchara->img_move[i-1] = al_load_bitmap(temp);
     }
     for(int i = 1 ; i <= 2 ; i++){
         char temp[50];
-        sprintf( temp, "./image/char_atk%d.png", i );
+        sprintf( temp, "./image/char_atk_small%d.png", i );
         pchara->img_atk[i-1] = al_load_bitmap(temp);
     }
     // load effective sound
@@ -74,6 +59,14 @@ void character_init(){
     pchara->state = STOP;
     pchara->anime = 0;
     pchara->anime_time = 30;
+
+    // gravity
+    pchara->y0 = pchara->y;
+    pchara->vy = 0.0;
+    pchara->FallingTick = 0.0;
+
+    // terrain width
+    g_nTerrainWidth = nTerrainWidth;
 }
 
 void charater_process(ALLEGRO_EVENT event){
@@ -95,18 +88,22 @@ void charater_process(ALLEGRO_EVENT event){
 void charater_update(){
     // use the idea of finite state machine to deal with different state
     if( key_state[ALLEGRO_KEY_W] ){
-        pchara->y -= 5;
+        pchara->vy = -70; // jump upward velocity
+        // ToDo:
+        // 1. prevent second jump before certain time of the first jump
+        // 2. only two consecutive jump is allowed
+
         pchara->state = MOVE;
     }else if( key_state[ALLEGRO_KEY_A] ){
         pchara->dir = false;
-        pchara->x -= 5;
+        pchara->x -= 10;
         pchara->state = MOVE;
     }else if( key_state[ALLEGRO_KEY_S] ){
-        pchara->y += 5;
+        pchara->y += 10;
         pchara->state = MOVE;
     }else if( key_state[ALLEGRO_KEY_D] ){
         pchara->dir = true;
-        pchara->x += 5;
+        pchara->x += 10;
         pchara->state = MOVE;
     }else if( key_state[ALLEGRO_KEY_SPACE] ){
         pchara->state = ATK;
@@ -117,12 +114,41 @@ void charater_update(){
         pchara->state = STOP;
     }
 }
-void character_draw(){
 
-    CameraUpdate( CameraPosition, pchara->x, pchara->y, pchara->width, pchara->height );
+void character_gravity( const int nGroundY ) {
+    if( nGroundY == -1 ) {
+        return;
+    }
+
+    // ticktock
+    pchara->FallingTick += g_Tick;
+
+    // velocity;
+    pchara->vy += g_Gravity * g_Tick;
+    // position
+    pchara->y = pchara->y0
+        + ( int )(pchara->vy * pchara->FallingTick + ( 0.5 * g_Gravity * ( pchara->FallingTick * pchara->FallingTick ) ) );
+
+
+    if( ( pchara->y + pchara->height ) >= nGroundY ) {
+        pchara->y = nGroundY - pchara->height;
+        pchara->y0 = pchara->y;
+        pchara->vy = 0.0;
+        pchara->FallingTick = 0;
+    }
+    else {
+        // do nothing
+    }
+}
+
+void character_draw( const int nGroundY ){
+
+    CameraUpdate( g_CameraPosition, pchara->x, pchara->y, pchara->width, pchara->height );
     al_identity_transform( &camera );
-    al_translate_transform( &camera, -CameraPosition[ 0 ], -CameraPosition[ 1 ] );
+    al_translate_transform( &camera, -g_CameraPosition[ 0 ], -g_CameraPosition[ 1 ] );
     al_use_transform( &camera );
+
+    character_gravity( nGroundY );
 
     // with the state, draw corresponding image
     if( pchara->state == STOP ){

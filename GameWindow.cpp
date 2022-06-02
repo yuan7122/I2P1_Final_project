@@ -3,7 +3,7 @@
 bool draw = false;
 int window = 1;
 
-const char *title = "Final Project 10xxxxxxx";
+const char *title = "Final Project Team-4";
 
 // ALLEGRO Variables
 ALLEGRO_DISPLAY* display = NULL;
@@ -56,11 +56,13 @@ void game_init() {
     // initialize the icon on the display
     ALLEGRO_BITMAP *icon = al_load_bitmap("./image/icon.jpg");
     al_set_display_icon(display, icon);
+
+    pchara = ( Character * )malloc( sizeof( Character ) );
 }
 
 void game_begin() {
     // Load sound
-    song = al_load_sample("./sound/hello.wav");
+    song = al_load_sample("./sound/Green Greens.wav");
     al_reserve_samples(20);
     sample_instance = al_create_sample_instance(song);
     // Loop the song until the display closes
@@ -68,12 +70,11 @@ void game_begin() {
     al_restore_default_mixer();
     al_attach_sample_instance_to_mixer(sample_instance, al_get_default_mixer());
     // set the volume of instance
-    al_set_sample_instance_gain(sample_instance, 1) ;
+    al_set_sample_instance_gain(sample_instance, 0.1 );
     al_play_sample_instance(sample_instance);
     al_start_timer(fps);
     // initialize the menu before entering the loop
     menu_init();
-
 }
 void game_update(){
     if( judge_next_window ){
@@ -132,6 +133,8 @@ int game_run() {
 
 void game_destroy() {
     // Make sure you destroy all things
+    free( pchara );
+
     al_destroy_event_queue(event_queue);
     al_destroy_display(display);
     game_scene_destroy();
