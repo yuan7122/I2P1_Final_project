@@ -1,16 +1,31 @@
 #include <stdio.h>
 #include <allegro5/allegro.h>
-#include "algif5/src/algif.h"         //Our gif header file, set the path to your .h file
+#include "../algif5/src/algif.h"         //Our gif header file, set the path to your .h file
 #define GAME_TERMINATE 666
-
-struct GIF{
-    double start_time = 0;
-    ALGIF_ANIMATION *gif = NULL;
-    double get_time(double time) {
-        if(start_time == 0) start_time = time;
-        return time - start_time;
-    }
-} obj;
+typedef struct GIF GIF;
+typedef double (*fptrTime)(GIF*, double) ;
+typedef void (*fptrDestroy)(GIF*) ;
+typedef struct GIF{
+    double start_time;
+    ALGIF_ANIMATION *gif;
+    fptrTime time;
+    fptrDestroy destroy;
+}GIF;
+double get_time(GIF* obj, double time) {
+    if(obj->start_time == 0) obj->start_time = time;
+    return time - obj->start_time;
+}
+void gif_destroy(GIF* obj) {
+    algif_destroy_animation(obj->gif);
+}
+GIF* New_GIF(){
+    GIF* obj = (GIF*)malloc(sizeof(GIF));
+    obj->start_time = 0;
+    obj->time = get_time;
+    obj->destroy = gif_destroy;
+    return obj;
+}
+GIF* obj;
 ALLEGRO_DISPLAY* display = NULL;
 ALLEGRO_EVENT_QUEUE *event_queue;
 ALLEGRO_TIMER *timer = NULL;
@@ -69,13 +84,12 @@ void game_init() {
     /*
         TODO: Something need to be created, initialized and registered.
     */
-    al_register_event_source(event_queue, al_get_timer_event_source(timer));
-    al_register_event_source(event_queue, al_get_display_event_source(display));
 }
 
 void game_begin() {
     // load the gif file
-    obj.gif = algif_load_animation("meme.gif");
+    obj = New_GIF();
+    obj->gif = algif_load_animation("meme.gif");
     al_start_timer(timer);
 }
 
@@ -86,12 +100,6 @@ int process_event() {
         TODO: Process the mouse event.
         Seperate the processing fo click event and moving event is encouraged.
     */
-    if( event.type == ALLEGRO_EVENT_TIMER ){
-        if(event.timer.source == timer)
-            draw = true;
-    }else if( event.type == ALLEGRO_EVENT_DISPLAY_CLOSE ) {
-            return GAME_TERMINATE;
-    }
     return 0;
 }
 void game_draw(){
@@ -99,7 +107,7 @@ void game_draw(){
     The second argument of algif_get_bitmap is double, you need to know when it exactly start.
     If you just use al_get_time() as input the gif may not play from start.
     */
-    ALLEGRO_BITMAP *frame = algif_get_bitmap( obj.gif, obj.get_time( al_get_time() ) );
+    ALLEGRO_BITMAP *frame = algif_get_bitmap( obj->gif, obj->time(obj, al_get_time()) );
     if (frame == NULL) return;
     // rescale the bitmap
     al_draw_scaled_bitmap(frame,
@@ -130,6 +138,6 @@ void game_destroy() {
     al_destroy_event_queue(event_queue);
     al_destroy_display(display);
     al_destroy_timer(timer);
-    algif_destroy_animation(obj.gif);
+    obj->destroy(obj);
 }
 

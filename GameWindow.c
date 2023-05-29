@@ -1,27 +1,22 @@
 #include "GameWindow.h"
 
 bool draw = false;
-int window = 1;
-
 const char *title = "Final Project 10xxxxxxx";
 
 // ALLEGRO Variables
 ALLEGRO_DISPLAY* display = NULL;
 ALLEGRO_SAMPLE *song=NULL;
 ALLEGRO_SAMPLE_INSTANCE *sample_instance;
-
+Scene* scene = NULL;
 int Game_establish() {
     int msg = 0;
-
     game_init();
     game_begin();
-
     while ( msg != GAME_TERMINATE ) {
         msg = game_run();
         if ( msg == GAME_TERMINATE )
             printf( "Game Over\n" );
     }
-
     game_destroy();
     return 0;
 }
@@ -60,7 +55,7 @@ void game_init() {
 
 void game_begin() {
     // Load sound
-    song = al_load_sample("./sound/hello.wav");
+    song = al_load_sample("./sound/menu.mp3");
     al_reserve_samples(20);
     sample_instance = al_create_sample_instance(song);
     // Loop the song until the display closes
@@ -68,26 +63,18 @@ void game_begin() {
     al_restore_default_mixer();
     al_attach_sample_instance_to_mixer(sample_instance, al_get_default_mixer());
     // set the volume of instance
-    al_set_sample_instance_gain(sample_instance, 1) ;
+    al_set_sample_instance_gain(sample_instance, 0.1) ;
     al_play_sample_instance(sample_instance);
     al_start_timer(fps);
     // initialize the menu before entering the loop
-    menu_init();
+    scene = New_Menu("Menu");
 
 }
 void game_update(){
-    if( judge_next_window ){
-        if( window == 1 ){
-            // not back menu anymore, therefore destroy it
-            menu_destroy();
-            // initialize next scene
-            game_scene_init();
-            judge_next_window = false;
-            window = 2;
-        }
-    }
-    if( window == 2 ){
-        charater_update();
+    scene->Update(scene);
+    if(scene->scene_end){
+        scene->Destroy(scene);
+        scene = New_GameScene("GameScene");
     }
 }
 int process_event(){
@@ -95,12 +82,7 @@ int process_event(){
     ALLEGRO_EVENT event;
     al_wait_for_event(event_queue, &event);
     // process the event of other component
-    if( window == 1 ){
-        menu_process(event);
-    }else if( window == 2 ){
-        charater_process(event);
-    }
-
+    scene->Process(scene, event);
     // Shutdown our program
     if(event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
         return GAME_TERMINATE;
@@ -111,11 +93,7 @@ int process_event(){
     return 0;
 }
 void game_draw(){
-    if( window == 1 ){
-        menu_draw();
-    }else if( window == 2 ){
-        game_scene_draw();
-    }
+    scene->Draw(scene);
     al_flip_display();
 }
 int game_run() {
@@ -134,5 +112,5 @@ void game_destroy() {
     // Make sure you destroy all things
     al_destroy_event_queue(event_queue);
     al_destroy_display(display);
-    game_scene_destroy();
+    scene->Destroy(scene);
 }
