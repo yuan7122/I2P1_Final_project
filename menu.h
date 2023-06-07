@@ -7,8 +7,8 @@
 typedef struct _Menu
 {
     ALLEGRO_FONT* font;
-}Menu;
-Scene* New_Menu(char* label);
+} Menu;
+Scene* New_Menu(int label);
 void menu_process(Scene* const pMenuObj, ALLEGRO_EVENT event);
 void menu_update(Scene* const pMenuObj);
 void menu_draw(Scene* const pMenuObj);

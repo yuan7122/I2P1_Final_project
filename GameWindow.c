@@ -7,7 +7,7 @@ const char *title = "Final Project 10xxxxxxx";
 ALLEGRO_DISPLAY* display = NULL;
 ALLEGRO_SAMPLE *song=NULL;
 ALLEGRO_SAMPLE_INSTANCE *sample_instance;
-Scene* scene = NULL;
+Scene *scene = NULL;
 int Game_establish() {
     int msg = 0;
     game_init();
@@ -67,14 +67,24 @@ void game_begin() {
     al_play_sample_instance(sample_instance);
     al_start_timer(fps);
     // initialize the menu before entering the loop
-    scene = New_Menu("Menu");
+    scene = New_Menu(Menu_L);
 
 }
 void game_update(){
     scene->Update(scene);
     if(scene->scene_end){
         scene->Destroy(scene);
-        scene = New_GameScene("GameScene");
+        switch(window)
+        {
+            case 0:
+                scene = New_Menu(Menu_L);
+                break;
+            case 1:
+                scene = New_GameScene(GameScene_L);
+                break;
+            default:
+                break;
+        }
     }
 }
 int process_event(){

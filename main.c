@@ -1,5 +1,6 @@
 #include "GameWindow.h"
 
-int main(){
+int main()
+{
     Game_establish();
 }

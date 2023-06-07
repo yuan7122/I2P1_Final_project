@@ -1,7 +1,8 @@
 #ifndef CHARATER_H_INCLUDED
 #define CHARATER_H_INCLUDED
-#include "global.h"
 #include "element.h"
+#include "scene.h"
+#include "projectile.h"
 
 /*
    [character object]
@@ -18,11 +19,13 @@ typedef struct _Character
     ALLEGRO_SAMPLE_INSTANCE *atk_Sound;
     int anime; // counting the time of animation
     int anime_time; // indicate how long the animation
-}Character;
-Elements* New_Character(char* label);
-void charater_process(Elements* const ele, ALLEGRO_EVENT event);
-void charater_update(Elements* const self_ele);
-void character_draw(Elements* const ele);
-void character_destory(Elements* const ele);
+    bool new_proj;
+} Character;
+Elements* New_Character(int label);
+void Character_process(Elements* const ele, ALLEGRO_EVENT event);
+void Character_update(Elements* const self_ele);
+void Character_interact(Elements* const, Elements* const);
+void Character_draw(Elements* const ele);
+void Character_destory(Elements* const ele);
 
 #endif
