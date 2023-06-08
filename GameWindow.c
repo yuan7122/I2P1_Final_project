@@ -99,7 +99,11 @@ int process_event(){
     else if(event.type == ALLEGRO_EVENT_TIMER)
         if(event.timer.source == fps)
             draw = true;
-    if(draw) game_update();
+    if(draw){
+        game_update();
+        game_draw();
+        draw = false;
+    }
     return 0;
 }
 void game_draw(){
@@ -108,10 +112,6 @@ void game_draw(){
 }
 int game_run() {
     int error = 0;
-    if( draw ){
-        game_draw();
-        draw = false;
-    }
     if ( !al_is_event_queue_empty(event_queue) ) {
         error = process_event();
     }

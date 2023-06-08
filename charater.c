@@ -52,17 +52,8 @@ Elements* New_Character(int label)
 void Character_process(Elements* const ele, ALLEGRO_EVENT event)
 {
     Character *chara = ((Character*)(ele->pDerivedObj));
-    // process the animation
-    if( event.type == ALLEGRO_EVENT_TIMER )
-    {
-        if( event.timer.source == fps )
-        {
-            chara->anime++;
-            chara->anime %= chara->anime_time;
-        }
-        // process the keyboard event
-    }
-    else if( event.type == ALLEGRO_EVENT_KEY_DOWN )
+    // process the keyboard event
+    if( event.type == ALLEGRO_EVENT_KEY_DOWN )
     {
         key_state[event.keyboard.keycode] = true;
     }
@@ -75,30 +66,63 @@ void Character_update(Elements* const ele)
 {
     // use the idea of finite state machine to deal with different state
     Character *chara = ((Character*)(ele->pDerivedObj));
-    if( key_state[ALLEGRO_KEY_A] )
+    if(chara->state == STOP)
     {
-        chara->dir = false;
-        chara->x -= 5;
-        chara->state = MOVE;
+        if( key_state[ALLEGRO_KEY_SPACE] )
+        {
+            chara->anime = 1;
+            chara->state = ATK;
+        }
+        else if( key_state[ALLEGRO_KEY_A] )
+        {
+            chara->anime = 1;
+            chara->dir = false;
+            chara->state = MOVE;
+        }
+        else if( key_state[ALLEGRO_KEY_D] )
+        {
+            chara->anime = 1;
+            chara->dir = true;
+            chara->state = MOVE;
+        }
+        else
+        {
+            chara->state = STOP;
+        }
     }
-    else if( key_state[ALLEGRO_KEY_D] )
+    else if(chara->state == MOVE)
     {
-        chara->dir = true;
-        chara->x += 5;
-        chara->state = MOVE;
+        if( key_state[ALLEGRO_KEY_SPACE] )
+        {
+            chara->anime = 1;
+            chara->state = ATK;
+        }
+        else if( key_state[ALLEGRO_KEY_A] )
+        {
+            chara->dir = false;
+            chara->x -= 5;
+            chara->state = MOVE;
+        }
+        else if( key_state[ALLEGRO_KEY_D] )
+        {
+            chara->dir = true;
+            chara->x += 5;
+            chara->state = MOVE;
+        }else if( chara->anime >= chara->anime_time ) chara->state = STOP;
     }
-    else if( key_state[ALLEGRO_KEY_SPACE] && chara->state == STOP )
+    else if(chara->state == ATK)
     {
-        chara->state = ATK;
+        if(chara->anime >= chara->anime_time) chara->state = STOP;
     }
-    else if( chara->anime == chara->anime_time-1 )
+    // process anime time
+    if( chara->anime > 0 && chara->anime < chara->anime_time )
     {
-        chara->anime = 0;
-        chara->state = STOP;
+        chara->anime++;
     }
-    else if ( chara->anime == 0 )
+    else
     {
-        chara->state = STOP;
+        if(chara->state == MOVE) chara->anime = 1;
+        else chara->anime = 0;
     }
 }
 void Character_interact(Elements* const self_ele, Elements* const ele) {}
@@ -108,7 +132,7 @@ void Character_draw(Elements* const ele)
     Character *chara = ((Character*)(ele->pDerivedObj));
     if( chara->state == STOP )
     {
-        chara->new_proj = false;
+
         if( chara->dir )
             al_draw_bitmap(chara->img_move[0], chara->x, chara->y, ALLEGRO_FLIP_HORIZONTAL);
         else
@@ -146,6 +170,7 @@ void Character_draw(Elements* const ele)
             if( chara->anime < chara->anime_time/2 )
             {
                 al_draw_bitmap(chara->img_atk[0], chara->x, chara->y, ALLEGRO_FLIP_HORIZONTAL);
+                chara->new_proj = false;
             }
             else
             {
@@ -168,6 +193,7 @@ void Character_draw(Elements* const ele)
             if( chara->anime < chara->anime_time/2 )
             {
                 al_draw_bitmap(chara->img_atk[0], chara->x, chara->y, 0);
+                chara->new_proj = false;
             }
             else
             {
