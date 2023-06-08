@@ -14,6 +14,7 @@ struct _Elements
     void* pDerivedObj;
     int inter_len;
     int inter_obj[MAX_ELEMENT];
+    bool dele;
     //interface for function
     fptrEleProcess Process;
     fptrEleDraw Draw;

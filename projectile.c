@@ -36,15 +36,15 @@ void Projectile_interact(Elements* const self_ele, Elements* const ele)
     Projectile *Obj = ((Projectile*)(self_ele->pDerivedObj));
     if(ele->label == Floor_L)
     {
-        if(Obj->x < 0 - Obj->width) _Remove_elements(scene, self_ele);
-        else if(Obj->x > WIDTH + Obj->width) _Remove_elements(scene, self_ele);
+        if(Obj->x < 0 - Obj->width) self_ele->dele = true;
+        else if(Obj->x > WIDTH + Obj->width) self_ele->dele = true;
 
     }
     else if(ele->label == Tree_L)
     {
         Tree* tree = ((Tree*)(ele->pDerivedObj));
         if(Obj->x + Obj->width/2 >= tree->x + 75 && Obj->x + Obj->width/2 <= tree->x + tree->width - 75)
-            _Remove_elements(scene, self_ele);
+            self_ele->dele = true;
     }
 }
 void Projectile_draw(Elements* const ele)

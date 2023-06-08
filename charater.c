@@ -65,7 +65,6 @@ void Character_process(Elements* const ele, ALLEGRO_EVENT event)
     else if( event.type == ALLEGRO_EVENT_KEY_DOWN )
     {
         key_state[event.keyboard.keycode] = true;
-        chara->anime = 0;
     }
     else if( event.type == ALLEGRO_EVENT_KEY_UP )
     {
@@ -88,7 +87,7 @@ void Character_update(Elements* const ele)
         chara->x += 5;
         chara->state = MOVE;
     }
-    else if( key_state[ALLEGRO_KEY_SPACE] )
+    else if( key_state[ALLEGRO_KEY_SPACE] && chara->state == STOP )
     {
         chara->state = ATK;
     }

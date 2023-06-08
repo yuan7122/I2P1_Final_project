@@ -22,6 +22,7 @@ struct _Scene
     void* pDerivedObj;
     bool scene_end;
     int ele_len;
+    int ele_num;
     Elements *ele_list[MAX_ELEMENT];
     int ele_pos[MAX_ELEMENT];
     //interface for function
@@ -33,7 +34,7 @@ struct _Scene
 extern Scene* scene;
 Scene* New_Scene(int label);
 void _Register_elements(Scene* const, Elements* const);
-void _Remove_elements(Scene* const, Elements* const);
+void _Remove_elements(Scene* const, int);
 
 
 

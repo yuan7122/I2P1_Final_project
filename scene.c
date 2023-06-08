@@ -10,6 +10,7 @@ Scene* New_Scene(int label)
     pObj->label = label;
     pObj->scene_end = false;
     pObj->ele_len = 0;
+    pObj->ele_num = 0;
     for(int i = 0 ; i < MAX_ELEMENT ; i++) pObj->ele_pos[i] = -1;
     for(int i = 0 ; i < MAX_ELEMENT ; i++) pObj->ele_list[i] = NULL;
     pObj->pDerivedObj = pObj;
@@ -20,25 +21,15 @@ void _Register_elements(Scene* const scene, Elements* const ele)
     scene->ele_list[scene->ele_len] = ele;
     scene->ele_pos[ele->label] = scene->ele_len;
     scene->ele_len++;
+    scene->ele_num++;
 }
-void _Remove_elements(Scene* const scene, Elements* const ele)
+void _Remove_elements(Scene* const scene, int index)
 {
-    int null_num = 0;
-    for(int i = 0 ; i < scene->ele_len ; i++)
-    {
-        if(scene->ele_list[i] == NULL)
-        {
-            null_num++;
-            continue;
-        }
-        if(scene->ele_list[i]->label == ele->label)
-        {
-            scene->ele_pos[ele->label] = -1;
-            scene->ele_list[i]->Destroy(scene->ele_list[i]);
-            scene->ele_list[i] = NULL;
-        }
-    }
-    if(null_num >= scene->ele_len/2)
+    scene->ele_num--;
+    scene->ele_pos[scene->ele_list[index]->label] = -1;
+    scene->ele_list[index]->Destroy(scene->ele_list[index]);
+    scene->ele_list[index] = NULL;
+    if(scene->ele_num <= scene->ele_len/2)
     {
         Elements *temp_ele_list[MAX_ELEMENT];
         int ind = 0;

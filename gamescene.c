@@ -40,7 +40,7 @@ void game_scene_update(Scene* const pGameSceneObj)
     }
     // interact the elements
     int *ele_pos = pGameSceneObj->ele_pos;
-    // run every element
+    // run interact for every element
     for(int i = 0 ; i < pGameSceneObj->ele_len ; i++)
     {
         if(ele_list[i] == NULL) continue;
@@ -51,10 +51,16 @@ void game_scene_update(Scene* const pGameSceneObj)
             if(ele_pos[inter_obj] != -1)
             {
                 ele_list[i]->Interact(ele_list[i], ele_list[ele_pos[inter_obj]]);
-                if(ele_list[i] == NULL) break;
             }
         }
     }
+    // remove element
+    for(int i = 0 ; i < pGameSceneObj->ele_len ; i++)
+    {
+        if(ele_list[i] == NULL) continue;
+        if(ele_list[i]->dele) _Remove_elements(pGameSceneObj, i);
+    }
+
 }
 void game_scene_draw(Scene* const pGameSceneObj)
 {
