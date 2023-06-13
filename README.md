@@ -9,7 +9,8 @@ Introduction to programming 1 final project
 
 - Allegro download: [https ://github.com/liballeg/allegro5/releases](https://github.com/liballeg/allegro5/releases)
 
-- Allegro install(mac): https://hackmd.io/@kerwintsai/SkRTk6kCS
+- Allegro install(mac): [https://hackmd.io/@Jiza/BkZ5a5yL2](https://hackmd.io/@Jiza/BkZ5a5yL2)
 - Allegro install(Windows):  https://github.com/yuan7122/I2P1_Final_project/blob/master/tutorial/Allegro_install.pdf
-- Allegro documentation: https://liballeg.org/a5docs/trunk/
+- Allegro documentation: [https://www.allegro.cc/manual/5/index.html](https://www.allegro.cc/manual/5/index.html)
+- GIF convert: https://ezgif.com/video-to-gif
 - For more information refer to [tutorial folder](https://github.com/yuan7122/I2P1_Final_project/tree/master/tutorial)
