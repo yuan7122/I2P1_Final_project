@@ -32,7 +32,6 @@ void game_destroy();
 
 
 int main(int argc, char *argv[]) {
-    int msg = 0;
 
     game_init();
     game_begin();

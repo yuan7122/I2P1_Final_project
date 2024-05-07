@@ -82,11 +82,11 @@ int process_event() {
      *       If so, return GAME_TERMINATE.
      * Hint: using event.type == ALLEGRO_EVENT_DISPLAY_CLOSE to judge whether the display is closed just now.
      */
-     al_wait_for_event(event_queue, &event);
-     if( event.type == ALLEGRO_EVENT_DISPLAY_CLOSE ){
-        return GAME_TERMINATE;
-     }
-
+    al_wait_for_event(event_queue, &event);
+    if( event.type == ALLEGRO_EVENT_DISPLAY_CLOSE ){
+    return GAME_TERMINATE;
+    }
+    return 1;
 }
 
 int game_run() {

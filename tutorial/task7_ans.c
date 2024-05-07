@@ -1,31 +1,8 @@
 #include <stdio.h>
 #include <allegro5/allegro.h>
-#include "../algif5/src/algif.h"         //Our gif header file, set the path to your .h file
+#include "algif5/src/algif.h"         //Our gif header file, set the path to your .h file
 #define GAME_TERMINATE 666
-typedef struct GIF GIF;
-typedef double (*fptrTime)(GIF*, double) ;
-typedef void (*fptrDestroy)(GIF*) ;
-typedef struct GIF{
-    double start_time;
-    ALGIF_ANIMATION *gif;
-    fptrTime time;
-    fptrDestroy destroy;
-}GIF;
-double get_time(GIF* obj, double time) {
-    if(obj->start_time == 0) obj->start_time = time;
-    return time - obj->start_time;
-}
-void gif_destroy(GIF* obj) {
-    algif_destroy_animation(obj->gif);
-}
-GIF* New_GIF(){
-    GIF* obj = (GIF*)malloc(sizeof(GIF));
-    obj->start_time = 0;
-    obj->time = get_time;
-    obj->destroy = gif_destroy;
-    return obj;
-}
-GIF* obj;
+ALGIF_ANIMATION* gif;
 ALLEGRO_DISPLAY* display = NULL;
 ALLEGRO_EVENT_QUEUE *event_queue;
 ALLEGRO_TIMER *timer = NULL;
@@ -90,8 +67,7 @@ void game_init() {
 
 void game_begin() {
     // load the gif file
-    obj = New_GIF();
-    obj->gif = algif_load_animation("meme.gif");
+    gif = algif_new_gif("meme.gif", 0);
     al_start_timer(timer);
 }
 
@@ -115,7 +91,7 @@ void game_draw(){
     The second argument of algif_get_bitmap is double, you need to know when it exactly start.
     If you just use al_get_time() as input the gif may not play from start.
     */
-    ALLEGRO_BITMAP *frame = algif_get_bitmap( obj->gif, obj->time(obj, al_get_time()) );
+    ALLEGRO_BITMAP *frame = algif_get_bitmap(gif, al_get_time());
     if (frame == NULL) return;
     // rescale the bitmap
     al_draw_scaled_bitmap(frame,
@@ -146,6 +122,6 @@ void game_destroy() {
     al_destroy_event_queue(event_queue);
     al_destroy_display(display);
     al_destroy_timer(timer);
-    obj->destroy(obj);
+    algif_destroy_animation(gif);
 }
 

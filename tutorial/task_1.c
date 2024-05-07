@@ -21,7 +21,6 @@ void game_destroy();
 
 
 int main(int argc, char *argv[]) {
-    int msg = 0;
 
     printf("Hello world!!!\n");
 
