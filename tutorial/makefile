@@ -24,7 +24,7 @@ else
 	ALLEGRO_DLL_PATH_RELEASE := 
 	ALLEGRO_FLAGS_DEBUG := $(ALLEGRO_FLAGS_RELEASE)
 	ALLEGRO_DLL_PATH_DEBUG := 
-	RM_OBJ := rm $(OBJ) *.o
+	RM_OBJ := rm *.o
 	RM_OUT := rm $(OUT)
 endif
 

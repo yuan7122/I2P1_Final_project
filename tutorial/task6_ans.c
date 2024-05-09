@@ -2,17 +2,19 @@
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_video.h>
 #include <stdio.h>
+#define ALLEGRO_NO_MAGIC_MAIN
 static ALLEGRO_DISPLAY *screen;
 static char const *filename;
 ALLEGRO_EVENT_QUEUE *queue;
 ALLEGRO_EVENT event;
 ALLEGRO_TIMER *timer;
 ALLEGRO_VIDEO *video;
-void video_display(ALLEGRO_VIDEO *video) {
+void video_display(ALLEGRO_VIDEO *video)
+{
     ALLEGRO_BITMAP *frame = al_get_video_frame(video);
     // check if we get the frame successfully
     // Note the this code is necessary
-    if ( !frame )
+    if (!frame)
         return;
     // Display the frame.
     // rescale the frame into the size of screen
@@ -30,20 +32,21 @@ void video_display(ALLEGRO_VIDEO *video) {
     al_flip_display();
 }
 
-void init_video(){
+void init_video()
+{
     al_init();
     al_init_video_addon();
     al_install_audio();
     timer = al_create_timer(1.0 / 60);
-    //al_set_new_display_flags(ALLEGRO_RESIZABLE);
-    //al_set_new_display_option(ALLEGRO_VSYNC, 1, ALLEGRO_SUGGEST);
+    // al_set_new_display_flags(ALLEGRO_RESIZABLE);
+    // al_set_new_display_option(ALLEGRO_VSYNC, 1, ALLEGRO_SUGGEST);
     screen = al_create_display(1024, 760);
     // linear interpolation for scaling images
     al_set_new_bitmap_flags(ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR);
     filename = "video.ogv";
     printf("reading video.....\n");
     video = al_open_video(filename);
-    if( video )
+    if (video)
         printf("read video succeed\n");
     else
         printf("read video fail!!!!\n");
@@ -53,31 +56,45 @@ void init_video(){
     al_register_event_source(queue, temp);
     al_register_event_source(queue, al_get_display_event_source(screen));
     al_register_event_source(queue, al_get_timer_event_source(timer));
-
 }
-void video_begin(){
+void video_begin()
+{
     al_reserve_samples(1);
     al_start_video(video, al_get_default_mixer());
     al_start_timer(timer);
 }
-void destroy_video(){
+void destroy_video()
+{
     al_destroy_display(screen);
     al_destroy_event_queue(queue);
 }
-int main() {
+
+int real_main(int argc, char **argv)
+{
     init_video();
     video_begin();
-    while( 1 ){
+    while (1)
+    {
         al_wait_for_event(queue, &event);
-        if( event.type == ALLEGRO_EVENT_TIMER ) {
+        if (event.type == ALLEGRO_EVENT_TIMER)
+        {
             video_display(video);
-        } else if( event.type == ALLEGRO_EVENT_DISPLAY_CLOSE ) {
+        }
+        else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+        {
             al_close_video(video);
             break;
-        } else if( event.type == ALLEGRO_EVENT_VIDEO_FINISHED ) {
+        }
+        else if (event.type == ALLEGRO_EVENT_VIDEO_FINISHED)
+        {
             break;
         }
     }
     destroy_video();
     return 0;
+}
+
+int main(int argc, char **argv)
+{
+    return al_run_main(argc, argv, real_main);
 }
