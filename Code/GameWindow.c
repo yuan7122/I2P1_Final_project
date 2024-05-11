@@ -152,4 +152,5 @@ void game_destroy(Game *game)
     al_destroy_event_queue(event_queue);
     al_destroy_display(game->display);
     scene->Destroy(scene);
+    free(game);
 }

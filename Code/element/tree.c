@@ -36,4 +36,7 @@ void Tree_destory(Elements *const ele)
 {
     Tree *Obj = ((Tree *)(ele->pDerivedObj));
     al_destroy_bitmap(Obj->img);
+    free(Obj->hitbox);
+    free(Obj);
+    free(ele);
 }

@@ -66,8 +66,8 @@ void game_scene_draw(Scene *const pGameSceneObj)
 }
 void game_scene_destroy(Scene *const pGameSceneObj)
 {
-    GameScene *gs = ((GameScene *)(pGameSceneObj->pDerivedObj));
-    ALLEGRO_BITMAP *background = gs->background;
+    GameScene *Obj = ((GameScene *)(pGameSceneObj->pDerivedObj));
+    ALLEGRO_BITMAP *background = Obj->background;
     al_destroy_bitmap(background);
     ElementVec allEle = _Get_all_elements(pGameSceneObj);
     for (int i = 0; i < allEle.len; i++)
@@ -75,4 +75,6 @@ void game_scene_destroy(Scene *const pGameSceneObj)
         Elements *ele = allEle.arr[i];
         ele->Destroy(ele);
     }
+    free(Obj);
+    free(pGameSceneObj);
 }

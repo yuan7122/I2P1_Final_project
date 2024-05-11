@@ -70,4 +70,6 @@ void Floor_destory(Elements *const ele)
 {
     Floor *Obj = ((Floor *)(ele->pDerivedObj));
     al_destroy_bitmap(Obj->img);
+    free(Obj);
+    free(ele);
 }

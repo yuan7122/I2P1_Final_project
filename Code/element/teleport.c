@@ -56,4 +56,6 @@ void Teleport_destory(Elements *const ele)
 {
     Teleport *Obj = ((Teleport *)(ele->pDerivedObj));
     al_destroy_bitmap(Obj->img);
+    free(Obj);
+    free(ele);
 }

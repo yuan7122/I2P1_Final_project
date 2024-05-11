@@ -33,15 +33,13 @@ double Rectangle_center_y(Shape *const self)
 }
 void Rectangle_update_center_x(Shape *const self, int x)
 {
-	double dx = x - Rectangle_center_x(self);
-	Rectangle_Self(self)->x1 += dx;
-	Rectangle_Self(self)->x2 += dx;
+	Rectangle_Self(self)->x1 += x;
+	Rectangle_Self(self)->x2 += x;
 }
 void Rectangle_update_center_y(Shape *const self, int y)
 {
-	double dy = y - Rectangle_center_y(self);
-	Rectangle_Self(self)->y1 += dy;
-	Rectangle_Self(self)->y2 += dy;
+	Rectangle_Self(self)->y1 += y;
+	Rectangle_Self(self)->y2 += y;
 }
 ShapeType Rectangle_getType()
 {

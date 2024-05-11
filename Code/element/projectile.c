@@ -74,4 +74,7 @@ void Projectile_destory(Elements *const ele)
 {
     Projectile *Obj = ((Projectile *)(ele->pDerivedObj));
     al_destroy_bitmap(Obj->img);
+    free(Obj->hitbox);
+    free(Obj);
+    free(ele);
 }

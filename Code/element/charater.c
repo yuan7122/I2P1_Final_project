@@ -29,12 +29,12 @@ Elements *New_Character(int label)
     // initial the geometric information of character
     pDerivedObj->width = pDerivedObj->gif_status[0]->width;
     pDerivedObj->height = pDerivedObj->gif_status[0]->height;
-    pDerivedObj->hitbox = New_Rectangle(WIDTH / 2,
-                                        HEIGHT - pDerivedObj->height - 60,
-                                        WIDTH / 2 + pDerivedObj->width,
-                                        HEIGHT - 60);
     pDerivedObj->x = 300;
     pDerivedObj->y = HEIGHT - pDerivedObj->height - 60;
+    pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x,
+                                        pDerivedObj->y,
+                                        pDerivedObj->x + pDerivedObj->width,
+                                        pDerivedObj->y + pDerivedObj->height);
     pDerivedObj->dir = false; // true: face to right, false: face to left
     // initial the animation component
     pDerivedObj->state = STOP;
@@ -137,10 +137,13 @@ void Character_draw(Elements *const ele)
 }
 void Character_destory(Elements *const ele)
 {
-    Character *chara = ((Character *)(ele->pDerivedObj));
-    al_destroy_sample_instance(chara->atk_Sound);
+    Character *Obj = ((Character *)(ele->pDerivedObj));
+    al_destroy_sample_instance(Obj->atk_Sound);
     for (int i = 0; i < 3; i++)
-        algif_destroy_animation(chara->gif_status[i]);
+        algif_destroy_animation(Obj->gif_status[i]);
+    free(Obj->hitbox);
+    free(Obj);
+    free(ele);
 }
 
 void _Character_update_position(Elements *const ele, int dx, int dy)

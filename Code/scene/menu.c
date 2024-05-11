@@ -50,4 +50,6 @@ void menu_destroy(Scene *const pMenuObj)
     al_destroy_font(Obj->font);
     al_destroy_sample(Obj->song);
     al_destroy_sample_instance(Obj->sample_instance);
+    free(Obj);
+    free(pMenuObj);
 }
