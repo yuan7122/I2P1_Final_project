@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Platform-specific functions</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/javascript" src="autosuggest.js"></script>
+  <script type="text/javascript" src="search_index.js"></script>
+</head>
+<body>
+<div class="sidebar">
+<div>
+<ul>
+<li><a href="index.html"><strong>Contents</strong></a></li>
+<li><a href="config.html">Configuration files</a></li>
+<li><a href="display.html">Display</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="file.html">File I/O</a></li>
+<li><a href="fshook.html">Filesystem</a></li>
+<li><a href="fixed.html">Fixed point math</a></li>
+<li><a href="fullscreen_mode.html">Fullscreen modes</a></li>
+<li><a href="graphics.html">Graphics</a></li>
+<li><a href="haptic.html">Haptic</a></li>
+<li><a href="joystick.html">Joystick</a></li>
+<li><a href="keyboard.html">Keyboard</a></li>
+<li><a href="memory.html">Memory</a></li>
+<li><a href="monitor.html">Monitor</a></li>
+<li><a href="mouse.html">Mouse</a></li>
+<li><a href="path.html">Path</a></li>
+<li><a href="shader.html">Shader</a></li>
+<li><a href="state.html">State</a></li>
+<li><a href="system.html">System</a></li>
+<li><a href="threads.html">Threads</a></li>
+<li><a href="time.html">Time</a></li>
+<li><a href="timer.html">Timer</a></li>
+<li><a href="touch.html">Touch input</a></li>
+<li><a href="transformations.html">Transformations</a></li>
+<li><a href="utf8.html">UTF-8</a></li>
+<li><a href="misc.html">Miscellaneous</a></li>
+<li><a href="platform.html">Platform-specific</a></li>
+<li><a href="direct3d.html">Direct3D</a></li>
+<li><a href="opengl.html">OpenGL</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index.html#addons"><strong>Addons</strong></a></li>
+<li><a href="audio.html">Audio addon</a></li>
+<li><a href="acodec.html">Audio codecs</a></li>
+<li><a href="color.html">Color addon</a></li>
+<li><a href="font.html">Font addons</a></li>
+<li><a href="image.html">Image I/O addon</a></li>
+<li><a href="main.html">Main addon</a></li>
+<li><a href="memfile.html">Memfile addon</a></li>
+<li><a href="native_dialog.html">Native dialogs addon</a></li>
+<li><a href="physfs.html">PhysicsFS addon</a></li>
+<li><a href="primitives.html">Primitives addon</a></li>
+<li><a href="video.html">Video streaming addon</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index_all.html"><strong>Index</strong></a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div class="searchbox">
+<script type="text/javascript">
+function on_search(index, control) {
+    // Note to self: the less-than sign must NOT converted to an entity!
+    // SCRIPT elements are special.  The HTML validator gives bad advice.
+    for (i = 0; i < search_index.length; i++) {
+        if (search_index[i] == control.keywords[index]) {
+            break;
+        }
+    }
+    location.href = search_urls[i];
+}
+</script>
+Search<br/> <input type="text" name="q" id="q" size="15" autocomplete="off" placeholder="Press ‘S’ to search" /><br/>
+<script type="text/javascript"> new autosuggest("q", search_index, null, on_search); </script>
+</div>
+</div>
+<div class="content">
+
+
+<header id="title-block-header">
+<h1 class="title">Platform-specific functions</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#windows">Windows</a>
+<ul>
+<li><a href="#al_get_win_window_handle">al_get_win_window_handle</a></li>
+<li><a href="#al_win_add_window_callback">al_win_add_window_callback</a></li>
+<li><a href="#al_win_remove_window_callback">al_win_remove_window_callback</a></li>
+</ul></li>
+<li><a href="#mac-os-x">Mac OS X</a>
+<ul>
+<li><a href="#al_osx_get_window">al_osx_get_window</a></li>
+</ul></li>
+<li><a href="#iphone">iPhone</a>
+<ul>
+<li><a href="#al_iphone_set_statusbar_orientation">al_iphone_set_statusbar_orientation</a></li>
+<li><a href="#al_iphone_get_view">al_iphone_get_view</a></li>
+<li><a href="#al_iphone_get_window">al_iphone_get_window</a></li>
+</ul></li>
+<li><a href="#android">Android</a>
+<ul>
+<li><a href="#al_android_set_apk_file_interface">al_android_set_apk_file_interface</a></li>
+<li><a href="#al_android_set_apk_fs_interface">al_android_set_apk_fs_interface</a></li>
+<li><a href="#al_android_get_os_version">al_android_get_os_version</a></li>
+<li><a href="#al_android_get_jni_env">al_android_get_jni_env</a></li>
+<li><a href="#al_android_get_activity">al_android_get_activity</a></li>
+</ul></li>
+<li><a href="#x11">X11</a>
+<ul>
+<li><a href="#al_get_x_window_id">al_get_x_window_id</a></li>
+<li><a href="#al_x_set_initial_icon">al_x_set_initial_icon</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="windows">Windows</h1>
+<p>These functions are declared in the following header file:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a> <span class="pp">#include </span><span class="im">&lt;allegro5/allegro_windows.h&gt;</span></span></code></pre></div>
+<h2 id="al_get_win_window_handle">al_get_win_window_handle</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>HWND al_get_win_window_handle(ALLEGRO_DISPLAY *display)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/win/wwindow.c#L1388">Source Code</a></p>
+<p>Returns the handle to the window that the passed display is using.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_ogre3d.cpp#L115">ex_ogre3d.cpp</a></li>
+</ul>
+<h2 id="al_win_add_window_callback">al_win_add_window_callback</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_win_add_window_callback(ALLEGRO_DISPLAY *display,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">bool</span> (*callback)(ALLEGRO_DISPLAY *display, UINT message, WPARAM wparam,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>   LPARAM lparam, LRESULT *result, <span class="dt">void</span> *userdata), <span class="dt">void</span> *userdata)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/win/wwindow.c#L1416">Source Code</a></p>
+<p>The specified callback function will intercept the window’s message before Allegro processes it. If the callback function consumes the event, then it should return true. In that case, Allegro will not do anything with the event.</p>
+<p>Optionally, you may use <code>result</code> to customize what Allegro will return return in response to this event. By default, Allegro returns <code>TRUE</code>.</p>
+<p>The <code>userdata</code> pointer can be used to supply additional context to the callback function.</p>
+<p>The callbacks are executed in the same order they were added.</p>
+<p>Returns true if the callback was added.</p>
+<p>Since: 5.1.2</p>
+<h2 id="al_win_remove_window_callback">al_win_remove_window_callback</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_win_remove_window_callback(ALLEGRO_DISPLAY *display,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">bool</span> (*callback)(ALLEGRO_DISPLAY *display, UINT message, WPARAM wparam,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>   LPARAM lparam, LRESULT *result, <span class="dt">void</span> *userdata), <span class="dt">void</span> *userdata)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/win/wwindow.c#L1445">Source Code</a></p>
+<p>Removes the callback that was previously registered with <a href="platform.html#al_win_add_window_callback">al_win_add_window_callback</a>. The <code>userdata</code> pointer must be the same as what was used during the registration of the callback.</p>
+<p>Returns true if the callback was removed.</p>
+<p>Since: 5.1.2</p>
+<h1 id="mac-os-x">Mac OS X</h1>
+<p>These functions are declared in the following header file:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a> <span class="pp">#include </span><span class="im">&lt;allegro5/allegro_osx.h&gt;</span></span></code></pre></div>
+<h2 id="al_osx_get_window">al_osx_get_window</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>NSWindow* al_osx_get_window(ALLEGRO_DISPLAY *display)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/macosx/osxgl.m#L2516">Source Code</a></p>
+<p>Retrieves the NSWindow handle associated with the Allegro display.</p>
+<p>Since: 5.0.8, 5.1.3</p>
+<h1 id="iphone">iPhone</h1>
+<p>These functions are declared in the following header file:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a> <span class="pp">#include </span><span class="im">&lt;allegro5/allegro_iphone.h&gt;</span></span></code></pre></div>
+<h2 id="al_iphone_set_statusbar_orientation">al_iphone_set_statusbar_orientation</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_iphone_set_statusbar_orientation(<span class="dt">int</span> o)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/iphone/allegroAppDelegate.m#L216">Source Code</a></p>
+<p>Sets the orientation of the status bar, which can be one of the following:</p>
+<ul>
+<li>ALLEGRO_IPHONE_STATUSBAR_ORIENTATION_PORTRAIT</li>
+<li>ALLEGRO_IPHONE_STATUSBAR_ORIENTATION_PORTRAIT_UPSIDE_DOWN</li>
+<li>ALLEGRO_IPHONE_STATUSBAR_ORIENTATION_LANDSCAPE_RIGHT</li>
+<li>ALLEGRO_IPHONE_STATUSBAR_ORIENTATION_LANDSCAPE_LEFT</li>
+</ul>
+<p>Since: 5.1.0</p>
+<h2 id="al_iphone_get_view">al_iphone_get_view</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>UIView *al_iphone_get_view(ALLEGRO_DISPLAY *display)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/iphone/allegroAppDelegate.m#L158">Source Code</a></p>
+<p>Retrieves the UIView* (EAGLView*) associated with the Allegro display.</p>
+<p>Since: 5.1.0</p>
+<h2 id="al_iphone_get_window">al_iphone_get_window</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>UIWindow *al_iphone_get_window(ALLEGRO_DISPLAY *display)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/iphone/allegroAppDelegate.m#L144">Source Code</a></p>
+<p>Retrieves the UIWindow* associated with the Allegro display.</p>
+<p>Since: 5.1.0</p>
+<h1 id="android">Android</h1>
+<p>These functions are declared in the following header file:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a> <span class="pp">#include </span><span class="im">&lt;allegro5/allegro_android.h&gt;</span></span></code></pre></div>
+<h2 id="al_android_set_apk_file_interface">al_android_set_apk_file_interface</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_android_set_apk_file_interface(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/android/android_apk_file.c#L306">Source Code</a></p>
+<p>This function will set up a custom <a href="file.html#allegro_file_interface">ALLEGRO_FILE_INTERFACE</a> that makes all future calls of <a href="file.html#al_fopen">al_fopen</a> read from the applicatons’s APK file.</p>
+<blockquote>
+<p><em>Note:</em> Currently, access to the APK file after calling this function is read only.</p>
+</blockquote>
+<p>Since: 5.1.2</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/common.c#L19">common.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_android.c#L5">ex_android.c</a></li>
+</ul>
+<h2 id="al_android_set_apk_fs_interface">al_android_set_apk_fs_interface</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_android_set_apk_fs_interface(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/android/android_apk_fs.c#L302">Source Code</a></p>
+<p>This function will set up a custom <a href="fshook.html#allegro_fs_interface">ALLEGRO_FS_INTERFACE</a> which allows working within the APK filesystem. The filesystem root is your assets directory and there is read-only access to all files within.</p>
+<blockquote>
+<p><em>Note:</em> Some things like querying file size or attributes are not supported by this. You can always use the PhysFS addon to open the APK file (it is just a regular .zip file) and get more complete information.</p>
+</blockquote>
+<p>Since: 5.1.13</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_dir.c#L103">ex_dir.c</a></li>
+</ul>
+<h2 id="al_android_get_os_version">al_android_get_os_version</h2>
+<div class="sourceCode" id="cb14"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dt">const</span> <span class="dt">char</span> *al_android_get_os_version(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/android/android_system.c#L599">Source Code</a></p>
+<p>Returns a pointer to a static buffer that contains the version string of the Android platform that the calling Allegro program is running on.</p>
+<p>Since: 5.1.2</p>
+<h2 id="al_android_get_jni_env">al_android_get_jni_env</h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>JNIEnv *al_android_get_jni_env(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/android/android_system.c#L647">Source Code</a></p>
+<p>Returns the Android JNI environment used by Allegro to call into Java. As a convenience this function provides it to the user so there is no need to obtain it yourself.</p>
+<p>For example if you have a Java method “void send(String message)” in your activity class, you could call it like this from C code:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>JNIEnv * env = al_android_get_jni_env();</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>jclass class_id = (* env)-&gt;GetObjectClass(env, al_android_get_activity());</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>jmethodID method_id = (* env)-&gt;GetMethodID(env, class_id, <span class="st">&quot;send&quot;</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;(Ljava/lang/String;)V&quot;</span>);</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>jstring jdata = (* env)-&gt;NewStringUTF(env, <span class="st">&quot;Hello Java!&quot;</span>);</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>(* env)-&gt;CallVoidMethod(env, al_android_get_activity(), method_id, jdata);</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>(* env)-&gt;DeleteLocalRef(env, jdata);</span></code></pre></div>
+<p>Since: 5.2.2</p>
+<blockquote>
+<p><em><a href="getting_started.html#unstable-api">Unstable API</a>:</em> This API is new and subject to refinement.</p>
+</blockquote>
+<h2 id="al_android_get_activity">al_android_get_activity</h2>
+<div class="sourceCode" id="cb17"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>jobject al_android_get_activity(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/android/android_system.c#L654">Source Code</a></p>
+<p>Returns the Java Android activity used by Allegro. This is the same object created by Android from the class you specify in your manifest and either an instance of AllegroActivity or a derived class.</p>
+<p>Since: 5.2.2</p>
+<blockquote>
+<p><em><a href="getting_started.html#unstable-api">Unstable API</a>:</em> This API is new and subject to refinement.</p>
+</blockquote>
+<h1 id="x11">X11</h1>
+<p>These functions are declared in the following header file:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a> <span class="pp">#include </span><span class="im">&lt;allegro5/allegro_x.h&gt;</span></span></code></pre></div>
+<h2 id="al_get_x_window_id">al_get_x_window_id</h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>XID al_get_x_window_id(ALLEGRO_DISPLAY *display)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/x/xwindow.c#L397">Source Code</a></p>
+<p>Retrieves the XID associated with the Allegro display.</p>
+<p>Since: 5.1.12</p>
+<h2 id="al_x_set_initial_icon">al_x_set_initial_icon</h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_x_set_initial_icon(ALLEGRO_BITMAP *bitmap)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/x/xsystem.c#L148">Source Code</a></p>
+<p>On some window managers (notably Ubuntu’s Unity) al_set_display_icon doesn’t work and you need to use a .desktop file. But with this function you can set an icon before calling al_create_display. This works by setting the icon before XMapWindow.</p>
+<p>Since: 5.2.3</p>
+<blockquote>
+<p><em><a href="getting_started.html#unstable-api">Unstable API</a>:</em> New API.</p>
+</blockquote>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_icon2.c#L45">ex_icon2.c</a></li>
+</ul>
+<p class="timestamp">
+Allegro version 5.2.7
+ - Last updated: 2021-03-08 01:00:42 UTC
+</p>
+</div>
+</body>
+</html>

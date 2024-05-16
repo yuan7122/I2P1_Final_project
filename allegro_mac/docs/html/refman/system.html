@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>System routines</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/javascript" src="autosuggest.js"></script>
+  <script type="text/javascript" src="search_index.js"></script>
+</head>
+<body>
+<div class="sidebar">
+<div>
+<ul>
+<li><a href="index.html"><strong>Contents</strong></a></li>
+<li><a href="config.html">Configuration files</a></li>
+<li><a href="display.html">Display</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="file.html">File I/O</a></li>
+<li><a href="fshook.html">Filesystem</a></li>
+<li><a href="fixed.html">Fixed point math</a></li>
+<li><a href="fullscreen_mode.html">Fullscreen modes</a></li>
+<li><a href="graphics.html">Graphics</a></li>
+<li><a href="haptic.html">Haptic</a></li>
+<li><a href="joystick.html">Joystick</a></li>
+<li><a href="keyboard.html">Keyboard</a></li>
+<li><a href="memory.html">Memory</a></li>
+<li><a href="monitor.html">Monitor</a></li>
+<li><a href="mouse.html">Mouse</a></li>
+<li><a href="path.html">Path</a></li>
+<li><a href="shader.html">Shader</a></li>
+<li><a href="state.html">State</a></li>
+<li><a href="system.html">System</a></li>
+<li><a href="threads.html">Threads</a></li>
+<li><a href="time.html">Time</a></li>
+<li><a href="timer.html">Timer</a></li>
+<li><a href="touch.html">Touch input</a></li>
+<li><a href="transformations.html">Transformations</a></li>
+<li><a href="utf8.html">UTF-8</a></li>
+<li><a href="misc.html">Miscellaneous</a></li>
+<li><a href="platform.html">Platform-specific</a></li>
+<li><a href="direct3d.html">Direct3D</a></li>
+<li><a href="opengl.html">OpenGL</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index.html#addons"><strong>Addons</strong></a></li>
+<li><a href="audio.html">Audio addon</a></li>
+<li><a href="acodec.html">Audio codecs</a></li>
+<li><a href="color.html">Color addon</a></li>
+<li><a href="font.html">Font addons</a></li>
+<li><a href="image.html">Image I/O addon</a></li>
+<li><a href="main.html">Main addon</a></li>
+<li><a href="memfile.html">Memfile addon</a></li>
+<li><a href="native_dialog.html">Native dialogs addon</a></li>
+<li><a href="physfs.html">PhysicsFS addon</a></li>
+<li><a href="primitives.html">Primitives addon</a></li>
+<li><a href="video.html">Video streaming addon</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index_all.html"><strong>Index</strong></a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div class="searchbox">
+<script type="text/javascript">
+function on_search(index, control) {
+    // Note to self: the less-than sign must NOT converted to an entity!
+    // SCRIPT elements are special.  The HTML validator gives bad advice.
+    for (i = 0; i < search_index.length; i++) {
+        if (search_index[i] == control.keywords[index]) {
+            break;
+        }
+    }
+    location.href = search_urls[i];
+}
+</script>
+Search<br/> <input type="text" name="q" id="q" size="15" autocomplete="off" placeholder="Press ‘S’ to search" /><br/>
+<script type="text/javascript"> new autosuggest("q", search_index, null, on_search); </script>
+</div>
+</div>
+<div class="content">
+
+
+<header id="title-block-header">
+<h1 class="title">System routines</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#al_install_system">al_install_system</a></li>
+<li><a href="#al_init">al_init</a></li>
+<li><a href="#al_uninstall_system">al_uninstall_system</a></li>
+<li><a href="#al_is_system_installed">al_is_system_installed</a></li>
+<li><a href="#al_get_allegro_version">al_get_allegro_version</a></li>
+<li><a href="#al_get_standard_path">al_get_standard_path</a></li>
+<li><a href="#al_set_exe_name">al_set_exe_name</a></li>
+<li><a href="#al_set_app_name">al_set_app_name</a></li>
+<li><a href="#al_set_org_name">al_set_org_name</a></li>
+<li><a href="#al_get_app_name">al_get_app_name</a></li>
+<li><a href="#al_get_org_name">al_get_org_name</a></li>
+<li><a href="#al_get_system_config">al_get_system_config</a></li>
+<li><a href="#al_get_system_id">al_get_system_id</a></li>
+<li><a href="#al_register_assert_handler">al_register_assert_handler</a></li>
+<li><a href="#al_register_trace_handler">al_register_trace_handler</a></li>
+<li><a href="#al_get_cpu_count">al_get_cpu_count</a></li>
+<li><a href="#al_get_ram_size">al_get_ram_size</a></li>
+<li><a href="#allegro_system_id">ALLEGRO_SYSTEM_ID</a></li>
+</ul>
+</nav>
+<p>These functions are declared in the main Allegro header file:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a> <span class="pp">#include </span><span class="im">&lt;allegro5/allegro.h&gt;</span></span></code></pre></div>
+<h1 id="al_install_system">al_install_system</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_install_system(<span class="dt">int</span> version, <span class="dt">int</span> (*atexit_ptr)(<span class="dt">void</span> (*)(<span class="dt">void</span>)))</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/system.c#L216">Source Code</a></p>
+<p>Initialize the Allegro system. No other Allegro functions can be called before this (with one or two exceptions).</p>
+<p>The version field should always be set to ALLEGRO_VERSION_INT.</p>
+<p>If atexit_ptr is non-NULL, and if hasn’t been done already, <a href="system.html#al_uninstall_system">al_uninstall_system</a> will be registered as an atexit function.</p>
+<p>Returns true if Allegro was successfully initialized by this function call (or already was initialized previously), false if Allegro cannot be used. A common reason for this function to fail is when the version of Allegro you compiled your game against is not compatible with the version of the shared libraries that were found on the system.</p>
+<p>The version compatibility check works as follows. Let A = xa.ya.za.* be the version of Allegro you compiled with, and B = xb.yb.zb.* be the version of Allegro found in the system shared library.</p>
+<p>If you defined <code>ALLEGRO_UNSTABLE</code> before including Allegro headers, then version A is compatible with B only if xa.ya.za = xb.yb.zb. Otherwise, A is compatible with B only if xa.ya = xb.yb.</p>
+<p>See also: <a href="system.html#al_init">al_init</a></p>
+<h1 id="al_init">al_init</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#define al_init()    (al_install_system(ALLEGRO_VERSION_INT, atexit))</span></span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/include/allegro5/system.h#L30">Source Code</a></p>
+<p>Like <a href="system.html#al_install_system">al_install_system</a>, but automatically passes in the version and uses the atexit function visible in the current binary.</p>
+<blockquote>
+<p>Note: It is typically wrong to call al_init anywhere except the final game binary. In particular, do not call it inside a shared library unless you know what you’re doing. In those cases, it is better to call al_install_system either with a <code>NULL</code> atexit_ptr, or with a pointer to atexit provided by the user of this shared library.</p>
+</blockquote>
+<p>See also: <a href="system.html#al_install_system">al_install_system</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_get_path.c#L30">ex_get_path.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_monitorinfo.c#L15">ex_monitorinfo.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_path.c#L12">ex_path.c</a></li>
+</ul>
+<h1 id="al_uninstall_system">al_uninstall_system</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_uninstall_system(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/system.c#L315">Source Code</a></p>
+<p>Closes down the Allegro system.</p>
+<blockquote>
+<p>Note: al_uninstall_system() can be called without a corresponding <a href="system.html#al_install_system">al_install_system</a> call, e.g. from atexit().</p>
+</blockquote>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_opengl_pixel_shader.c#L128">ex_opengl_pixel_shader.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_icon2.c#L85">ex_icon2.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_icon.c#L74">ex_icon.c</a></li>
+</ul>
+<h1 id="al_is_system_installed">al_is_system_installed</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_is_system_installed(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/system.c#L345">Source Code</a></p>
+<p>Returns true if Allegro is initialized, otherwise returns false.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/common.c#L40">common.c</a></li>
+</ul>
+<h1 id="al_get_allegro_version">al_get_allegro_version</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">uint32_t</span> al_get_allegro_version(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/allegro.c#L27">Source Code</a></p>
+<p>Returns the (compiled) version of the Allegro library, packed into a single integer as groups of 8 bits in the form <code>(major &lt;&lt; 24) | (minor &lt;&lt; 16) | (revision &lt;&lt; 8) | release</code>.</p>
+<p>You can use code like this to extract them:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">uint32_t</span> version = al_get_allegro_version();</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> major = version &gt;&gt; <span class="dv">24</span>;</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> minor = (version &gt;&gt; <span class="dv">16</span>) &amp; <span class="dv">255</span>;</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> revision = (version &gt;&gt; <span class="dv">8</span>) &amp; <span class="dv">255</span>;</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> release = version &amp; <span class="dv">255</span>;</span></code></pre></div>
+<p>The <code>release</code> number is 0 for an unofficial version and 1 or greater for an official release. For example “5.0.2[1]” would be the (first) official 5.0.2 release while “5.0.2[0]” would be a compile of a version from the “5.0.2” branch before the official release.</p>
+<h1 id="al_get_standard_path">al_get_standard_path</h1>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_PATH *al_get_standard_path(<span class="dt">int</span> id)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/system.c#L380">Source Code</a></p>
+<p>Gets a system path, depending on the <code>id</code> parameter. Some of these paths may be affected by the organization and application name, so be sure to set those before calling this function.</p>
+<p>The paths are not guaranteed to be unique (e.g., SETTINGS and DATA may be the same on some platforms), so you should be sure your filenames are unique if you need to avoid naming collisions. Also, a returned path may not actually exist on the file system.</p>
+<dl>
+<dt>ALLEGRO_RESOURCES_PATH</dt>
+<dd><p>If you bundle data in a location relative to your executable, then you should use this path to locate that data. On most platforms, this is the directory that contains the executable file.</p>
+<p>If called from an OS X app bundle, then this will point to the internal resource directory (&lt;bundle.app&gt;/Contents/Resources). To maintain consistency, if you put your resources into a directory called “data” beneath the executable on some other platform (like Windows), then you should also create a directory called “data” under the OS X app bundle’s resource folder.</p>
+<p>You should not try to write to this path, as it is very likely read-only.</p>
+<p>If you install your resources in some other system directory (e.g., in /usr/share or C:\ProgramData), then you are responsible for keeping track of that yourself.</p>
+</dd>
+<dt>ALLEGRO_TEMP_PATH</dt>
+<dd>Path to the directory for temporary files.
+</dd>
+<dt>ALLEGRO_USER_HOME_PATH</dt>
+<dd>This is the user’s home directory. You should not normally write files into this directory directly, or create any sub folders in it, without explicit permission from the user. One practical application of this path would be to use it as the starting place of a file selector in a GUI.
+</dd>
+<dt>ALLEGRO_USER_DOCUMENTS_PATH</dt>
+<dd><p>This location is easily accessible by the user, and is the place to store documents and files that the user might want to later open with an external program or transfer to another place.</p>
+<p>You should not save files here unless the user expects it, usually by explicit permission.</p>
+</dd>
+<dt>ALLEGRO_USER_DATA_PATH</dt>
+<dd>If your program saves any data that the user doesn’t need to access externally, then you should place it here. This is generally the least intrusive place to store data. This path will usually not be present on the file system, so make sure to create it before writing to it.
+</dd>
+<dt>ALLEGRO_USER_SETTINGS_PATH</dt>
+<dd>If you are saving configuration files (especially if the user may want to edit them outside of your program), then you should place them here. This path will usually not be present on the file system, so make sure to create it before writing to it.
+</dd>
+<dt>ALLEGRO_EXENAME_PATH</dt>
+<dd>The full path to the executable.
+</dd>
+</dl>
+<p>Returns NULL on failure. The returned path should be freed with <a href="path.html#al_destroy_path">al_destroy_path</a>.</p>
+<p>See also: <a href="system.html#al_set_app_name">al_set_app_name</a>, <a href="system.html#al_set_org_name">al_set_org_name</a>, <a href="path.html#al_destroy_path">al_destroy_path</a>, <a href="system.html#al_set_exe_name">al_set_exe_name</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_get_path.c#L11">ex_get_path.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_physfs.c#L87">ex_physfs.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_android.c#L20">ex_android.c</a></li>
+</ul>
+<h1 id="al_set_exe_name">al_set_exe_name</h1>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_set_exe_name(<span class="dt">char</span> <span class="dt">const</span> *path)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/system.c#L404">Source Code</a></p>
+<p>This override the executable name used by <a href="system.html#al_get_standard_path">al_get_standard_path</a> for ALLEGRO_EXENAME_PATH and ALLEGRO_RESOURCES_PATH.</p>
+<p>One possibility where changing this can be useful is if you use the Python wrapper. Allegro would then by default think that the system’s Python executable is the current executable - but you can set it to the .py file being executed instead.</p>
+<p>Since: 5.0.6, 5.1.0</p>
+<p>See also: <a href="system.html#al_get_standard_path">al_get_standard_path</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_get_path.c#L41">ex_get_path.c</a></li>
+</ul>
+<h1 id="al_set_app_name">al_set_app_name</h1>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_set_app_name(<span class="dt">const</span> <span class="dt">char</span> *app_name)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/system.c#L427">Source Code</a></p>
+<p>Sets the global application name.</p>
+<p>The application name is used by <a href="system.html#al_get_standard_path">al_get_standard_path</a> to build the full path to an application’s files.</p>
+<p>This function may be called before <a href="system.html#al_init">al_init</a> or <a href="system.html#al_install_system">al_install_system</a>.</p>
+<p>See also: <a href="system.html#al_get_app_name">al_get_app_name</a>, <a href="system.html#al_set_org_name">al_set_org_name</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_get_path.c#L28">ex_get_path.c</a></li>
+</ul>
+<h1 id="al_set_org_name">al_set_org_name</h1>
+<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_set_org_name(<span class="dt">const</span> <span class="dt">char</span> *org_name)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/system.c#L416">Source Code</a></p>
+<p>Sets the global organization name.</p>
+<p>The organization name is used by <a href="system.html#al_get_standard_path">al_get_standard_path</a> to build the full path to an application’s files.</p>
+<p>This function may be called before <a href="system.html#al_init">al_init</a> or <a href="system.html#al_install_system">al_install_system</a>.</p>
+<p>See also: <a href="system.html#al_get_org_name">al_get_org_name</a>, <a href="system.html#al_set_app_name">al_set_app_name</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_get_path.c#L25">ex_get_path.c</a></li>
+</ul>
+<h1 id="al_get_app_name">al_get_app_name</h1>
+<div class="sourceCode" id="cb12"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">const</span> <span class="dt">char</span> *al_get_app_name(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/system.c#L451">Source Code</a></p>
+<p>Returns the global application name string.</p>
+<p>See also: <a href="system.html#al_set_app_name">al_set_app_name</a></p>
+<h1 id="al_get_org_name">al_get_org_name</h1>
+<div class="sourceCode" id="cb13"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">const</span> <span class="dt">char</span> *al_get_org_name(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/system.c#L443">Source Code</a></p>
+<p>Returns the global organization name string.</p>
+<p>See also: <a href="system.html#al_set_org_name">al_set_org_name</a></p>
+<h1 id="al_get_system_config">al_get_system_config</h1>
+<div class="sourceCode" id="cb14"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_CONFIG *al_get_system_config(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/system.c#L370">Source Code</a></p>
+<p>Returns the system configuration structure. The returned configuration should not be destroyed with <a href="config.html#al_destroy_config">al_destroy_config</a>. This is mainly used for configuring Allegro and its addons. You may populate this configuration before Allegro is installed to control things like the logging levels and other features.</p>
+<p>Allegro will try to populate this configuration by loading a configuration file from a few different locations, in this order:</p>
+<ul>
+<li><p><em>Unix only:</em> /etc/allegro5rc</p></li>
+<li><p><em>Unix only:</em> $HOME/allegro5rc</p></li>
+<li><p><em>Unix only:</em> $HOME/.allegro5rc</p></li>
+<li><p>allegro5.cfg next to the executable</p></li>
+</ul>
+<p>If multiple copies are found, then they are merged using <a href="config.html#al_merge_config_into">al_merge_config_into</a>.</p>
+<p>The contents of this file are documented inside a prototypical <code>allegro5.cfg</code> that you can find in the root directory of the source distributions of Allegro. They are also reproduced below.</p>
+<p>Note that Allegro will not look into that file unless you make a copy of it and place it next to your executable!</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  Configuration file for the Allegro 5 library.</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  This file should be either in the same directory as your program.</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#  On Unix, this file may also be stored as ~/.allegro5rc or /etc/allegro5rc.</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#  If multiple files exist, they will be merged, with values from more specific</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">#  files overriding the less specific files.</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="kw">[graphics]</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Graphics driver.</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Can be &#39;default&#39;, &#39;opengl&#39; or &#39;direct3d&#39; (Windows only).</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="dt">driver</span><span class="ot">=</span><span class="kw">default</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Display configuration selection mode.</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Under Linux, it can be used to force the old GLX 1.2 way of choosing</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co"># display settings or the new FBConfig method introduced with GLX 1.3.</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Under Windows, when using the OpenGL driver, setting it to old will</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co"># use DescribePixelFormat and new will use wglGetPixelFormatAttribivARB</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co"># (provided by WGL_ARB_pixel_format extension).</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Can be &#39;old&#39; and &#39;new&#39;. Default is &#39;new&#39;.</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="dt">config_selection</span><span class="ot">=</span><span class="st">new</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="co"># What method to use to detect legacy cards for the Direct3D backend of the</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="co"># primitives addon. Can be &#39;default&#39;, which means it&#39;ll check that the pixel</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="co"># shader version supported is below some value. &#39;force_legacy&#39; will force it to</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="co"># detect as a legacy card. &#39;force_modern&#39; will force it to detect is as a modern</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="co"># card.</span></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="dt">prim_d3d_legacy_detection</span><span class="ot">=</span><span class="kw">default</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="co"># For compatibility reasons, video bitmaps smaller than this size are</span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a><span class="co"># backed by textures with this size. This is often no longer necessary</span></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="co"># on more modern systems, and should be set to &lt; 16 if you&#39;re creating</span></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="co"># bitmaps smaller than this size. Note that on Android, this is ignored</span></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a><span class="co"># if smaller than 32.</span></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a><span class="dt">min_bitmap_size</span><span class="ot">=</span><span class="dv">16</span></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a><span class="kw">[audio]</span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Driver can be &#39;default&#39;, &#39;openal&#39;, &#39;alsa&#39;, &#39;oss&#39;, &#39;pulseaudio&#39; or &#39;directsound&#39;</span></span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a><span class="co"># depending on platform.</span></span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a><span class="dt">driver</span><span class="ot">=</span><span class="kw">default</span></span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Mixer quality can be &#39;linear&#39; (default), &#39;cubic&#39; (best), or &#39;point&#39; (bad).</span></span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a><span class="co"># default_mixer_quality=linear</span></span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a><span class="co"># The frequency to use for the default voice/mixer. Default: 44100.</span></span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a><span class="co"># primary_voice_frequency=44100</span></span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a><span class="co"># primary_mixer_frequency=44100</span></span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Can be &#39;int16&#39;, otherwise defaults to float32.</span></span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a><span class="co"># primary_voice_depth=float32</span></span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a><span class="co"># primary_mixer_depth=float32</span></span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a><span class="kw">[oss]</span></span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a><span class="co"># You can skip probing for OSS4 driver by setting this option to &#39;yes&#39;.</span></span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Default is &#39;no&#39;.</span></span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a><span class="dt">force_ver3</span><span class="ot">=</span><span class="kw">no</span></span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a><span class="co"># When OSS3 is used, you can choose a sound device here.</span></span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Default is &#39;/dev/dsp&#39;.</span></span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a><span class="dt">device</span><span class="ot">=</span><span class="st">/dev/dsp</span></span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a><span class="kw">[alsa]</span></span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the ALSA sound device.</span></span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Default is &#39;default&#39;.</span></span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a><span class="dt">device</span><span class="ot">=</span><span class="kw">default</span></span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the ALSA capture device, e.g. hw:0,0</span></span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a><span class="co"># Default is &#39;default&#39;.</span></span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a><span class="dt">capture_device</span><span class="ot">=</span><span class="kw">default</span></span>
+<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the period size (in samples)</span></span>
+<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that this is erroneously called &#39;buffer_size&#39; for backwards</span></span>
+<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a><span class="co"># compatibility.</span></span>
+<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a><span class="dt">buffer_size</span><span class="ot">=</span><span class="dv">32</span></span>
+<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-84"><a href="#cb15-84" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the buffer size (in samples)</span></span>
+<span id="cb15-85"><a href="#cb15-85" aria-hidden="true" tabindex="-1"></a><span class="dt">buffer_size2</span><span class="ot">=</span><span class="dv">2048</span></span>
+<span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a><span class="kw">[pulseaudio]</span></span>
+<span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the buffer size (in samples)</span></span>
+<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a><span class="dt">buffer_size</span><span class="ot">=</span><span class="dv">1024</span></span>
+<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-92"><a href="#cb15-92" aria-hidden="true" tabindex="-1"></a><span class="kw">[directsound]</span></span>
+<span id="cb15-93"><a href="#cb15-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-94"><a href="#cb15-94" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the DirectSound buffer size (in samples)</span></span>
+<span id="cb15-95"><a href="#cb15-95" aria-hidden="true" tabindex="-1"></a><span class="dt">buffer_size </span><span class="ot">=</span><span class="st"> </span><span class="dv">8192</span></span>
+<span id="cb15-96"><a href="#cb15-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-97"><a href="#cb15-97" aria-hidden="true" tabindex="-1"></a><span class="co"># Which window to attach the device to. Can be &#39;desktop&#39;, or &#39;foreground&#39;. Try</span></span>
+<span id="cb15-98"><a href="#cb15-98" aria-hidden="true" tabindex="-1"></a><span class="co"># flipping this if there are issues initializing audio.</span></span>
+<span id="cb15-99"><a href="#cb15-99" aria-hidden="true" tabindex="-1"></a><span class="dt">window </span><span class="ot">=</span><span class="st"> desktop</span></span>
+<span id="cb15-100"><a href="#cb15-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-101"><a href="#cb15-101" aria-hidden="true" tabindex="-1"></a><span class="kw">[opengl]</span></span>
+<span id="cb15-102"><a href="#cb15-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-103"><a href="#cb15-103" aria-hidden="true" tabindex="-1"></a><span class="co"># If you want to support old OpenGL versions, you can make Allegro</span></span>
+<span id="cb15-104"><a href="#cb15-104" aria-hidden="true" tabindex="-1"></a><span class="co"># believe an older version than what you actually have is used with</span></span>
+<span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a><span class="co"># this key. This is only for testing/debugging purposes.</span></span>
+<span id="cb15-106"><a href="#cb15-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-107"><a href="#cb15-107" aria-hidden="true" tabindex="-1"></a><span class="co"># force_opengl_version = 1.2</span></span>
+<span id="cb15-108"><a href="#cb15-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-109"><a href="#cb15-109" aria-hidden="true" tabindex="-1"></a><span class="kw">[opengl_disabled_extensions]</span></span>
+<span id="cb15-110"><a href="#cb15-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-111"><a href="#cb15-111" aria-hidden="true" tabindex="-1"></a><span class="co"># Any OpenGL extensions can be listed here to make Allegro report them</span></span>
+<span id="cb15-112"><a href="#cb15-112" aria-hidden="true" tabindex="-1"></a><span class="co"># as not available. The extensions used by Allegro itself if available</span></span>
+<span id="cb15-113"><a href="#cb15-113" aria-hidden="true" tabindex="-1"></a><span class="co"># are shown below - uncommenting them would disable them:</span></span>
+<span id="cb15-114"><a href="#cb15-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-115"><a href="#cb15-115" aria-hidden="true" tabindex="-1"></a><span class="co"># GL_ARB_texture_non_power_of_two=0</span></span>
+<span id="cb15-116"><a href="#cb15-116" aria-hidden="true" tabindex="-1"></a><span class="co"># GL_EXT_framebuffer_object=0</span></span>
+<span id="cb15-117"><a href="#cb15-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-118"><a href="#cb15-118" aria-hidden="true" tabindex="-1"></a><span class="kw">[image]</span></span>
+<span id="cb15-119"><a href="#cb15-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-120"><a href="#cb15-120" aria-hidden="true" tabindex="-1"></a><span class="co"># Gamma handling of PNG files.</span></span>
+<span id="cb15-121"><a href="#cb15-121" aria-hidden="true" tabindex="-1"></a><span class="co"># A value of 0.0 means: Don&#39;t do any gamma correction.</span></span>
+<span id="cb15-122"><a href="#cb15-122" aria-hidden="true" tabindex="-1"></a><span class="co"># A value of -1.0 means: Use the value from the environment variable</span></span>
+<span id="cb15-123"><a href="#cb15-123" aria-hidden="true" tabindex="-1"></a><span class="co"># SCREEN_GAMMA (if available), otherwise fallback to a value of 2.2</span></span>
+<span id="cb15-124"><a href="#cb15-124" aria-hidden="true" tabindex="-1"></a><span class="co"># (a good guess for PC monitors, and the value for sRGB colourspace).</span></span>
+<span id="cb15-125"><a href="#cb15-125" aria-hidden="true" tabindex="-1"></a><span class="co"># Otherwise, the value is taken as-is.</span></span>
+<span id="cb15-126"><a href="#cb15-126" aria-hidden="true" tabindex="-1"></a><span class="dt">png_screen_gamma </span><span class="ot">=</span><span class="st"> -</span><span class="fl">1.0</span></span>
+<span id="cb15-127"><a href="#cb15-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-128"><a href="#cb15-128" aria-hidden="true" tabindex="-1"></a><span class="co"># Compression level for PNG files. Possible values: 0-9, &quot;best&quot;, &quot;fastest&quot;,</span></span>
+<span id="cb15-129"><a href="#cb15-129" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;none&quot; or &quot;default&quot; (a sane compromise between size and speed).</span></span>
+<span id="cb15-130"><a href="#cb15-130" aria-hidden="true" tabindex="-1"></a><span class="dt">png_compression_level </span><span class="ot">=</span><span class="st"> </span><span class="kw">default</span></span>
+<span id="cb15-131"><a href="#cb15-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-132"><a href="#cb15-132" aria-hidden="true" tabindex="-1"></a><span class="co"># Quality level for JPEG files. Possible values: 0-100</span></span>
+<span id="cb15-133"><a href="#cb15-133" aria-hidden="true" tabindex="-1"></a><span class="dt">jpeg_quality_level </span><span class="ot">=</span><span class="st"> </span><span class="dv">75</span></span>
+<span id="cb15-134"><a href="#cb15-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-135"><a href="#cb15-135" aria-hidden="true" tabindex="-1"></a><span class="co"># Quality level for WebP files. Possible values: 0-100 or &quot;lossless&quot;</span></span>
+<span id="cb15-136"><a href="#cb15-136" aria-hidden="true" tabindex="-1"></a><span class="dt">webp_quality_level </span><span class="ot">=</span><span class="st"> lossless</span></span>
+<span id="cb15-137"><a href="#cb15-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-138"><a href="#cb15-138" aria-hidden="true" tabindex="-1"></a><span class="kw">[joystick]</span></span>
+<span id="cb15-139"><a href="#cb15-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-140"><a href="#cb15-140" aria-hidden="true" tabindex="-1"></a><span class="co"># Linux: Allegro normally searches for joystick device N at /dev/input/jsN.</span></span>
+<span id="cb15-141"><a href="#cb15-141" aria-hidden="true" tabindex="-1"></a><span class="co"># You can override the device file path on a per-device basis, like this.</span></span>
+<span id="cb15-142"><a href="#cb15-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-143"><a href="#cb15-143" aria-hidden="true" tabindex="-1"></a><span class="co"># device0=/dev/input/by-id/usb-blahblah-joystick</span></span>
+<span id="cb15-144"><a href="#cb15-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-145"><a href="#cb15-145" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows: You can choose between the XINPUT or DIRECTINPUT driver for</span></span>
+<span id="cb15-146"><a href="#cb15-146" aria-hidden="true" tabindex="-1"></a><span class="co"># joysticks and force feedback joysticks. Xinput is the more modern </span></span>
+<span id="cb15-147"><a href="#cb15-147" aria-hidden="true" tabindex="-1"></a><span class="co"># system, but DirectInput has more force feedback capabilities for older </span></span>
+<span id="cb15-148"><a href="#cb15-148" aria-hidden="true" tabindex="-1"></a><span class="co"># joysticks.</span></span>
+<span id="cb15-149"><a href="#cb15-149" aria-hidden="true" tabindex="-1"></a><span class="dt">driver</span><span class="ot">=</span><span class="st">XINPUT</span></span>
+<span id="cb15-150"><a href="#cb15-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-151"><a href="#cb15-151" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows: Use this to force an XInput DLL version, example &quot;3&quot; forces</span></span>
+<span id="cb15-152"><a href="#cb15-152" aria-hidden="true" tabindex="-1"></a><span class="co"># xinput1_3.dll. By default, the latest version is used.</span></span>
+<span id="cb15-153"><a href="#cb15-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-154"><a href="#cb15-154" aria-hidden="true" tabindex="-1"></a><span class="co"># force_xinput_version = 3</span></span>
+<span id="cb15-155"><a href="#cb15-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-156"><a href="#cb15-156" aria-hidden="true" tabindex="-1"></a><span class="kw">[keyboard]</span></span>
+<span id="cb15-157"><a href="#cb15-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-158"><a href="#cb15-158" aria-hidden="true" tabindex="-1"></a><span class="co"># You can trap/untrap the mouse cursor within a window with a key combination</span></span>
+<span id="cb15-159"><a href="#cb15-159" aria-hidden="true" tabindex="-1"></a><span class="co"># of your choice, e.g. &quot;Ctrl-G&quot;, &quot;Shift-Ctrl-G&quot;, &quot;Ctrl-LShift&quot;, &quot;RWin&quot;.</span></span>
+<span id="cb15-160"><a href="#cb15-160" aria-hidden="true" tabindex="-1"></a><span class="co"># This feature currently only works on X11 and Windows.</span></span>
+<span id="cb15-161"><a href="#cb15-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-162"><a href="#cb15-162" aria-hidden="true" tabindex="-1"></a><span class="co"># toggle_mouse_grab_key = ScrollLock</span></span>
+<span id="cb15-163"><a href="#cb15-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-164"><a href="#cb15-164" aria-hidden="true" tabindex="-1"></a><span class="co"># By default, you can press Ctrl-Alt-Delete or Ctrl-Alt-End to quit Allegro</span></span>
+<span id="cb15-165"><a href="#cb15-165" aria-hidden="true" tabindex="-1"></a><span class="co"># programs. Set this to false to disable this feature. This only works on</span></span>
+<span id="cb15-166"><a href="#cb15-166" aria-hidden="true" tabindex="-1"></a><span class="co"># Linux.</span></span>
+<span id="cb15-167"><a href="#cb15-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-168"><a href="#cb15-168" aria-hidden="true" tabindex="-1"></a><span class="co"># enable_three_finger_exit = true</span></span>
+<span id="cb15-169"><a href="#cb15-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-170"><a href="#cb15-170" aria-hidden="true" tabindex="-1"></a><span class="co"># By default, pressing the LED toggling keys (e.g. CapsLock) will also toggle</span></span>
+<span id="cb15-171"><a href="#cb15-171" aria-hidden="true" tabindex="-1"></a><span class="co"># the LED on the keyboard. Setting this to false disable that connection.</span></span>
+<span id="cb15-172"><a href="#cb15-172" aria-hidden="true" tabindex="-1"></a><span class="co"># This can only be controled on non-X11 Linux.</span></span>
+<span id="cb15-173"><a href="#cb15-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-174"><a href="#cb15-174" aria-hidden="true" tabindex="-1"></a><span class="co"># enable_key_led_toggle = true</span></span>
+<span id="cb15-175"><a href="#cb15-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-176"><a href="#cb15-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-177"><a href="#cb15-177" aria-hidden="true" tabindex="-1"></a><span class="kw">[trace]</span></span>
+<span id="cb15-178"><a href="#cb15-178" aria-hidden="true" tabindex="-1"></a><span class="co"># Comma-separated list of channels to log. Default is &quot;all&quot; which</span></span>
+<span id="cb15-179"><a href="#cb15-179" aria-hidden="true" tabindex="-1"></a><span class="co"># disables channel filtering. Some possible channels are:</span></span>
+<span id="cb15-180"><a href="#cb15-180" aria-hidden="true" tabindex="-1"></a><span class="co"># system,display,keyboard,opengl</span></span>
+<span id="cb15-181"><a href="#cb15-181" aria-hidden="true" tabindex="-1"></a><span class="co"># Channel names can be prefixed with - to exclude only those channels.</span></span>
+<span id="cb15-182"><a href="#cb15-182" aria-hidden="true" tabindex="-1"></a><span class="co"># Each addon and source-file can define additional channels though so</span></span>
+<span id="cb15-183"><a href="#cb15-183" aria-hidden="true" tabindex="-1"></a><span class="co"># there are more.</span></span>
+<span id="cb15-184"><a href="#cb15-184" aria-hidden="true" tabindex="-1"></a><span class="dt">channels</span><span class="ot">=</span><span class="st">all</span></span>
+<span id="cb15-185"><a href="#cb15-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-186"><a href="#cb15-186" aria-hidden="true" tabindex="-1"></a><span class="co"># Log-level. Can be one of debug, info, warn, error, none or empty.</span></span>
+<span id="cb15-187"><a href="#cb15-187" aria-hidden="true" tabindex="-1"></a><span class="co"># In debug builds if it is empty or unset, then the level is set to debug.</span></span>
+<span id="cb15-188"><a href="#cb15-188" aria-hidden="true" tabindex="-1"></a><span class="co"># In release builds if it is empty or unset, then the level is set to none.</span></span>
+<span id="cb15-189"><a href="#cb15-189" aria-hidden="true" tabindex="-1"></a><span class="dt">level</span><span class="ot">=</span></span>
+<span id="cb15-190"><a href="#cb15-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-191"><a href="#cb15-191" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to 0 to disable line numbers in log files.</span></span>
+<span id="cb15-192"><a href="#cb15-192" aria-hidden="true" tabindex="-1"></a><span class="dt">lines</span><span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb15-193"><a href="#cb15-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-194"><a href="#cb15-194" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to 0 to disable timestamps in log files.</span></span>
+<span id="cb15-195"><a href="#cb15-195" aria-hidden="true" tabindex="-1"></a><span class="dt">timestamps</span><span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb15-196"><a href="#cb15-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-197"><a href="#cb15-197" aria-hidden="true" tabindex="-1"></a><span class="co"># Set to 0 to disable function names in log files.</span></span>
+<span id="cb15-198"><a href="#cb15-198" aria-hidden="true" tabindex="-1"></a><span class="dt">functions</span><span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb15-199"><a href="#cb15-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-200"><a href="#cb15-200" aria-hidden="true" tabindex="-1"></a><span class="kw">[x11]</span></span>
+<span id="cb15-201"><a href="#cb15-201" aria-hidden="true" tabindex="-1"></a><span class="co"># Can be fullscreen_only, always, never</span></span>
+<span id="cb15-202"><a href="#cb15-202" aria-hidden="true" tabindex="-1"></a><span class="dt">bypass_compositor </span><span class="ot">=</span><span class="st"> fullscreen_only</span></span>
+<span id="cb15-203"><a href="#cb15-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-204"><a href="#cb15-204" aria-hidden="true" tabindex="-1"></a><span class="kw">[xkeymap]</span></span>
+<span id="cb15-205"><a href="#cb15-205" aria-hidden="true" tabindex="-1"></a><span class="co"># Override X11 keycode. The below example maps X11 code 52 (Y) to Allegro</span></span>
+<span id="cb15-206"><a href="#cb15-206" aria-hidden="true" tabindex="-1"></a><span class="co"># code 26 (Z) and X11 code 29 (Z) to Allegro code 25 (Y).</span></span>
+<span id="cb15-207"><a href="#cb15-207" aria-hidden="true" tabindex="-1"></a><span class="co"># 52=26</span></span>
+<span id="cb15-208"><a href="#cb15-208" aria-hidden="true" tabindex="-1"></a><span class="co"># 29=25</span></span>
+<span id="cb15-209"><a href="#cb15-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-210"><a href="#cb15-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-211"><a href="#cb15-211" aria-hidden="true" tabindex="-1"></a><span class="kw">[shader]</span></span>
+<span id="cb15-212"><a href="#cb15-212" aria-hidden="true" tabindex="-1"></a><span class="co"># If you want to support override version of the d3dx9_xx.dll library</span></span>
+<span id="cb15-213"><a href="#cb15-213" aria-hidden="true" tabindex="-1"></a><span class="co"># define this value.</span></span>
+<span id="cb15-214"><a href="#cb15-214" aria-hidden="true" tabindex="-1"></a><span class="co"># By default, latest installed version is used.</span></span>
+<span id="cb15-215"><a href="#cb15-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-216"><a href="#cb15-216" aria-hidden="true" tabindex="-1"></a><span class="co"># force_d3dx9_version = 36</span></span>
+<span id="cb15-217"><a href="#cb15-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-218"><a href="#cb15-218" aria-hidden="true" tabindex="-1"></a><span class="kw">[ttf]</span></span>
+<span id="cb15-219"><a href="#cb15-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-220"><a href="#cb15-220" aria-hidden="true" tabindex="-1"></a><span class="co"># Set these to something other than 0 to override the default page sizes for TTF</span></span>
+<span id="cb15-221"><a href="#cb15-221" aria-hidden="true" tabindex="-1"></a><span class="co"># glyphs.</span></span>
+<span id="cb15-222"><a href="#cb15-222" aria-hidden="true" tabindex="-1"></a><span class="dt">min_page_size </span><span class="ot">=</span><span class="st"> </span><span class="dv">0</span></span>
+<span id="cb15-223"><a href="#cb15-223" aria-hidden="true" tabindex="-1"></a><span class="dt">max_page_size </span><span class="ot">=</span><span class="st"> </span><span class="dv">0</span></span>
+<span id="cb15-224"><a href="#cb15-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-225"><a href="#cb15-225" aria-hidden="true" tabindex="-1"></a><span class="co"># This entry contains characters that will be pre-catched during font loading.</span></span>
+<span id="cb15-226"><a href="#cb15-226" aria-hidden="true" tabindex="-1"></a><span class="co"># cache_text = a bcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</span></span>
+<span id="cb15-227"><a href="#cb15-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-228"><a href="#cb15-228" aria-hidden="true" tabindex="-1"></a><span class="co"># Uncomment if you want only the characters in the cache_text entry to ever be drawn</span></span>
+<span id="cb15-229"><a href="#cb15-229" aria-hidden="true" tabindex="-1"></a><span class="co"># skip_cache_misses = true</span></span>
+<span id="cb15-230"><a href="#cb15-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-231"><a href="#cb15-231" aria-hidden="true" tabindex="-1"></a><span class="kw">[compatibility]</span></span>
+<span id="cb15-232"><a href="#cb15-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-233"><a href="#cb15-233" aria-hidden="true" tabindex="-1"></a><span class="co"># Prior to 5.2.4 on Windows you had to manually resize the display when</span></span>
+<span id="cb15-234"><a href="#cb15-234" aria-hidden="true" tabindex="-1"></a><span class="co"># showing the menu using the dialog addon. After 5.2.4 this is done</span></span>
+<span id="cb15-235"><a href="#cb15-235" aria-hidden="true" tabindex="-1"></a><span class="co"># automatically, but may break old code that handled this eventuality.</span></span>
+<span id="cb15-236"><a href="#cb15-236" aria-hidden="true" tabindex="-1"></a><span class="co"># Set this to false for such code.</span></span>
+<span id="cb15-237"><a href="#cb15-237" aria-hidden="true" tabindex="-1"></a><span class="dt">automatic_menu_display_resize </span><span class="ot">=</span><span class="st"> </span><span class="kw">true</span></span></code></pre></div>
+<h1 id="al_get_system_id">al_get_system_id</h1>
+<div class="sourceCode" id="cb16"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_SYSTEM_ID al_get_system_id(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/system.c#L362">Source Code</a></p>
+<p>Returns the platform that Allegro is running on.</p>
+<p>Since: 5.2.5</p>
+<p>See also: <a href="system.html#allegro_system_id">ALLEGRO_SYSTEM_ID</a></p>
+<h1 id="al_register_assert_handler">al_register_assert_handler</h1>
+<div class="sourceCode" id="cb17"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_register_assert_handler(<span class="dt">void</span> (*handler)(<span class="dt">char</span> <span class="dt">const</span> *expr,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">char</span> <span class="dt">const</span> *file, <span class="dt">int</span> line, <span class="dt">char</span> <span class="dt">const</span> *func))</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/debug.c#L358">Source Code</a></p>
+<p>Register a function to be called when an internal Allegro assertion fails. Pass NULL to reset to the default behaviour, which is to do whatever the standard <code>assert()</code> macro does.</p>
+<p>Since: 5.0.6, 5.1.0</p>
+<h1 id="al_register_trace_handler">al_register_trace_handler</h1>
+<div class="sourceCode" id="cb18"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_register_trace_handler(<span class="dt">void</span> (*handler)(<span class="dt">char</span> <span class="dt">const</span> *))</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/debug.c#L367">Source Code</a></p>
+<p>Register a callback which is called whenever Allegro writes something to its log files. The default logging to allegro.log is disabled while this callback is active. Pass NULL to revert to the default logging.</p>
+<p>This function may be called prior to al_install_system.</p>
+<p>See the example allegro5.cfg for documentation on how to configure the used debug channels, logging levels and trace format.</p>
+<p>Since: 5.1.5</p>
+<h1 id="al_get_cpu_count">al_get_cpu_count</h1>
+<div class="sourceCode" id="cb19"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> al_get_cpu_count(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/cpu.c#L50">Source Code</a></p>
+<p>Returns the number of CPU cores that the system Allegro is running on has and which could be detected, or a negative number if detection failed. Even if a positive number is returned, it might be that it is not correct. For example, Allegro running on a virtual machine will return the amount of CPU’s of the VM, and not that of the underlying system.</p>
+<p>Furthermore even if the number is correct, this only gives you information about the total CPU cores of the system Allegro runs on. The amount of cores available to your program may be less due to circumstances such as programs that are currently running.</p>
+<p>Therefore, it’s best to use this for advisory purposes only. It is certainly a bad idea to make your program exclusive to systems for which this function returns a certain “desirable” number.</p>
+<p>This function may be called prior to <a href="system.html#al_install_system">al_install_system</a> or <a href="system.html#al_init">al_init</a>.</p>
+<p>Since: 5.1.12</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_cpu.c#L1">ex_cpu.c</a></li>
+</ul>
+<h1 id="al_get_ram_size">al_get_ram_size</h1>
+<div class="sourceCode" id="cb20"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> al_get_ram_size(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/cpu.c#L77">Source Code</a></p>
+<p>Returns the size in MB of the random access memory that the system Allegro is running on has and which could be detected, or a negative number if detection failed. Even if a positive number is returned, it might be that it is not correct. For example, Allegro running on a virtual machine will return the amount of RAM of the VM, and not that of the underlying system.</p>
+<p>Furthermore even if the number is correct, this only gives you information about the total physical memory of the system Allegro runs on. The memory available to your program may be less or more than what this function returns due to circumstances such as virtual memory, and other programs that are currently running.</p>
+<p>Therefore, it’s best to use this for advisory purposes only. It is certainly a bad idea to make your program exclusive to systems for which this function returns a certain “desirable” number.</p>
+<p>This function may be called prior to <a href="system.html#al_install_system">al_install_system</a> or <a href="system.html#al_init">al_init</a>.</p>
+<p>Since: 5.1.12</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_cpu.c#L1">ex_cpu.c</a></li>
+</ul>
+<h1 id="allegro_system_id">ALLEGRO_SYSTEM_ID</h1>
+<div class="sourceCode" id="cb21"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">enum</span> ALLEGRO_SYSTEM_ID {</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/include/allegro5/system.h#L15">Source Code</a></p>
+<p>The system Allegro is running on.</p>
+<ul>
+<li>ALLEGRO_SYSTEM_ID_UNKNOWN - Unknown system.</li>
+<li>ALLEGRO_SYSTEM_ID_XGLX - Xglx</li>
+<li>ALLEGRO_SYSTEM_ID_WINDOWS - Windows</li>
+<li>ALLEGRO_SYSTEM_ID_MACOSX - macOS</li>
+<li>ALLEGRO_SYSTEM_ID_ANDROID - Android</li>
+<li>ALLEGRO_SYSTEM_ID_IPHONE - iOS</li>
+<li>ALLEGRO_SYSTEM_ID_GP2XWIZ - GP2XWIZ</li>
+<li>ALLEGRO_SYSTEM_ID_RASPBERRYPI - Raspberry Pi</li>
+<li>ALLEGRO_SYSTEM_ID_SDL - SDL</li>
+</ul>
+<p>Since: 5.2.5</p>
+<p>See also: <a href="system.html#al_get_system_id">al_get_system_id</a></p>
+<p class="timestamp">
+Allegro version 5.2.7
+ - Last updated: 2021-03-08 01:00:41 UTC
+</p>
+</div>
+</body>
+</html>

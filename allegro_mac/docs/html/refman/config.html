@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Configuration files</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/javascript" src="autosuggest.js"></script>
+  <script type="text/javascript" src="search_index.js"></script>
+</head>
+<body>
+<div class="sidebar">
+<div>
+<ul>
+<li><a href="index.html"><strong>Contents</strong></a></li>
+<li><a href="config.html">Configuration files</a></li>
+<li><a href="display.html">Display</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="file.html">File I/O</a></li>
+<li><a href="fshook.html">Filesystem</a></li>
+<li><a href="fixed.html">Fixed point math</a></li>
+<li><a href="fullscreen_mode.html">Fullscreen modes</a></li>
+<li><a href="graphics.html">Graphics</a></li>
+<li><a href="haptic.html">Haptic</a></li>
+<li><a href="joystick.html">Joystick</a></li>
+<li><a href="keyboard.html">Keyboard</a></li>
+<li><a href="memory.html">Memory</a></li>
+<li><a href="monitor.html">Monitor</a></li>
+<li><a href="mouse.html">Mouse</a></li>
+<li><a href="path.html">Path</a></li>
+<li><a href="shader.html">Shader</a></li>
+<li><a href="state.html">State</a></li>
+<li><a href="system.html">System</a></li>
+<li><a href="threads.html">Threads</a></li>
+<li><a href="time.html">Time</a></li>
+<li><a href="timer.html">Timer</a></li>
+<li><a href="touch.html">Touch input</a></li>
+<li><a href="transformations.html">Transformations</a></li>
+<li><a href="utf8.html">UTF-8</a></li>
+<li><a href="misc.html">Miscellaneous</a></li>
+<li><a href="platform.html">Platform-specific</a></li>
+<li><a href="direct3d.html">Direct3D</a></li>
+<li><a href="opengl.html">OpenGL</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index.html#addons"><strong>Addons</strong></a></li>
+<li><a href="audio.html">Audio addon</a></li>
+<li><a href="acodec.html">Audio codecs</a></li>
+<li><a href="color.html">Color addon</a></li>
+<li><a href="font.html">Font addons</a></li>
+<li><a href="image.html">Image I/O addon</a></li>
+<li><a href="main.html">Main addon</a></li>
+<li><a href="memfile.html">Memfile addon</a></li>
+<li><a href="native_dialog.html">Native dialogs addon</a></li>
+<li><a href="physfs.html">PhysicsFS addon</a></li>
+<li><a href="primitives.html">Primitives addon</a></li>
+<li><a href="video.html">Video streaming addon</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index_all.html"><strong>Index</strong></a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div class="searchbox">
+<script type="text/javascript">
+function on_search(index, control) {
+    // Note to self: the less-than sign must NOT converted to an entity!
+    // SCRIPT elements are special.  The HTML validator gives bad advice.
+    for (i = 0; i < search_index.length; i++) {
+        if (search_index[i] == control.keywords[index]) {
+            break;
+        }
+    }
+    location.href = search_urls[i];
+}
+</script>
+Search<br/> <input type="text" name="q" id="q" size="15" autocomplete="off" placeholder="Press ‘S’ to search" /><br/>
+<script type="text/javascript"> new autosuggest("q", search_index, null, on_search); </script>
+</div>
+</div>
+<div class="content">
+
+
+<header id="title-block-header">
+<h1 class="title">Configuration files</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#allegro_config">ALLEGRO_CONFIG</a></li>
+<li><a href="#allegro_config_section">ALLEGRO_CONFIG_SECTION</a></li>
+<li><a href="#allegro_config_entry">ALLEGRO_CONFIG_ENTRY</a></li>
+<li><a href="#al_create_config">al_create_config</a></li>
+<li><a href="#al_destroy_config">al_destroy_config</a></li>
+<li><a href="#al_load_config_file">al_load_config_file</a></li>
+<li><a href="#al_load_config_file_f">al_load_config_file_f</a></li>
+<li><a href="#al_save_config_file">al_save_config_file</a></li>
+<li><a href="#al_save_config_file_f">al_save_config_file_f</a></li>
+<li><a href="#al_add_config_section">al_add_config_section</a></li>
+<li><a href="#al_remove_config_section">al_remove_config_section</a></li>
+<li><a href="#al_add_config_comment">al_add_config_comment</a></li>
+<li><a href="#al_get_config_value">al_get_config_value</a></li>
+<li><a href="#al_set_config_value">al_set_config_value</a></li>
+<li><a href="#al_remove_config_key">al_remove_config_key</a></li>
+<li><a href="#al_get_first_config_section">al_get_first_config_section</a></li>
+<li><a href="#al_get_next_config_section">al_get_next_config_section</a></li>
+<li><a href="#al_get_first_config_entry">al_get_first_config_entry</a></li>
+<li><a href="#al_get_next_config_entry">al_get_next_config_entry</a></li>
+<li><a href="#al_merge_config">al_merge_config</a></li>
+<li><a href="#al_merge_config_into">al_merge_config_into</a></li>
+</ul>
+</nav>
+<p>These functions are declared in the main Allegro header file:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a> <span class="pp">#include </span><span class="im">&lt;allegro5/allegro.h&gt;</span></span></code></pre></div>
+<p>Allegro supports reading and writing of configuration files with a simple, INI file-like format.</p>
+<p>A configuration file consists of key-value pairs separated by newlines. Keys are separated from values by an equals sign (<code>=</code>). All whitespace before the key, after the value and immediately adjacent to the equals sign is ignored. Keys and values may have whitespace characters within them. Keys do not need to be unique, but all but the last one are ignored.</p>
+<p>The hash (<code>#</code>) character is used a comment when it is the first non-whitespace character on the line. All characters following that character are ignored to the end of the line. The hash character anywhere else on the line has no special significance.</p>
+<p>Key-value pairs can be optionally grouped into sections, which are declared by surrounding a section name with square brackets (<code>[</code> and <code>]</code>) on a single line. Whitespace before the opening bracket is ignored. All characters after the trailing bracket are also ignored.</p>
+<p>All key-value pairs that follow a section declaration belong to the last declared section. Key-value pairs that don’t follow any section declarations belong to the global section. Sections do not nest.</p>
+<p>Here is an example configuration file:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  Monster description</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">monster name </span><span class="ot">=</span><span class="st"> Allegro Developer</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">[weapon 0]</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="dt">damage </span><span class="ot">=</span><span class="st"> </span><span class="dv">443</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">[weapon 1]</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="dt">damage </span><span class="ot">=</span><span class="st"> </span><span class="dv">503</span></span></code></pre></div>
+<p>It can then be accessed like this (make sure to check for errors in an actual program):</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_CONFIG* cfg = al_load_config_file(<span class="st">&quot;test.cfg&quot;</span>);</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>printf(<span class="st">&quot;%s</span><span class="sc">\n</span><span class="st">&quot;</span>, al_get_config_value(cfg, <span class="st">&quot;&quot;</span>, <span class="st">&quot;monster name&quot;</span>)); <span class="co">/* Prints: Allegro Developer */</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>printf(<span class="st">&quot;%s</span><span class="sc">\n</span><span class="st">&quot;</span>, al_get_config_value(cfg, <span class="st">&quot;weapon 0&quot;</span>, <span class="st">&quot;damage&quot;</span>)); <span class="co">/* Prints: 443 */</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>printf(<span class="st">&quot;%s</span><span class="sc">\n</span><span class="st">&quot;</span>, al_get_config_value(cfg, <span class="st">&quot;weapon 1&quot;</span>, <span class="st">&quot;damage&quot;</span>)); <span class="co">/* Prints: 503 */</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>al_destroy_config(cfg);</span></code></pre></div>
+<h1 id="allegro_config">ALLEGRO_CONFIG</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> ALLEGRO_CONFIG ALLEGRO_CONFIG;</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/include/allegro5/config.h#L12">Source Code</a></p>
+<p>An abstract configuration structure.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_config.c#L26">ex_config.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_vsync.c#L14">ex_vsync.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_stream_seek.c#L231">ex_stream_seek.c</a></li>
+</ul>
+<h1 id="allegro_config_section">ALLEGRO_CONFIG_SECTION</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> ALLEGRO_CONFIG_SECTION ALLEGRO_CONFIG_SECTION;</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/include/allegro5/config.h#L16">Source Code</a></p>
+<p>An opaque structure used for iterating across sections in a configuration structure.</p>
+<p>See also: <a href="config.html#al_get_first_config_section">al_get_first_config_section</a>, <a href="config.html#al_get_next_config_section">al_get_next_config_section</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_config.c#L28">ex_config.c</a></li>
+</ul>
+<h1 id="allegro_config_entry">ALLEGRO_CONFIG_ENTRY</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> ALLEGRO_CONFIG_ENTRY ALLEGRO_CONFIG_ENTRY;</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/include/allegro5/config.h#L20">Source Code</a></p>
+<p>An opaque structure used for iterating across entries in a configuration section.</p>
+<p>See also: <a href="config.html#al_get_first_config_entry">al_get_first_config_entry</a>, <a href="config.html#al_get_next_config_entry">al_get_next_config_entry</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_config.c#L29">ex_config.c</a></li>
+</ul>
+<h1 id="al_create_config">al_create_config</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_CONFIG *al_create_config(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L37">Source Code</a></p>
+<p>Create an empty configuration structure.</p>
+<p>See also: <a href="config.html#al_load_config_file">al_load_config_file</a>, <a href="config.html#al_destroy_config">al_destroy_config</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_vsync.c#L104">ex_vsync.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_draw.c#L302">ex_draw.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_logo.c#L425">ex_logo.c</a></li>
+</ul>
+<h1 id="al_destroy_config">al_destroy_config</h1>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_destroy_config(ALLEGRO_CONFIG *config)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L559">Source Code</a></p>
+<p>Free the resources used by a configuration structure. Does nothing if passed NULL.</p>
+<p>See also: <a href="config.html#al_create_config">al_create_config</a>, <a href="config.html#al_load_config_file">al_load_config_file</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_config.c#L112">ex_config.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_vsync.c#L122">ex_vsync.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_stream_seek.c#L262">ex_stream_seek.c</a></li>
+</ul>
+<h1 id="al_load_config_file">al_load_config_file</h1>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_CONFIG *al_load_config_file(<span class="dt">const</span> <span class="dt">char</span> *filename)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L311">Source Code</a></p>
+<p>Read a configuration file from disk. Returns NULL on error. The configuration structure should be destroyed with <a href="config.html#al_destroy_config">al_destroy_config</a>.</p>
+<p>See also: <a href="config.html#al_load_config_file_f">al_load_config_file_f</a>, <a href="config.html#al_save_config_file">al_save_config_file</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_config.c#L39">ex_config.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_vsync.c#L102">ex_vsync.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_stream_seek.c#L246">ex_stream_seek.c</a></li>
+</ul>
+<h1 id="al_load_config_file_f">al_load_config_file_f</h1>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_CONFIG *al_load_config_file_f(ALLEGRO_FILE *file)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L328">Source Code</a></p>
+<p>Read a configuration file from an already open file.</p>
+<p>Returns NULL on error. The configuration structure should be destroyed with <a href="config.html#al_destroy_config">al_destroy_config</a>. The file remains open afterwards.</p>
+<p>See also: <a href="config.html#al_load_config_file">al_load_config_file</a></p>
+<h1 id="al_save_config_file">al_save_config_file</h1>
+<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_save_config_file(<span class="dt">const</span> <span class="dt">char</span> *filename, <span class="dt">const</span> ALLEGRO_CONFIG *config)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L432">Source Code</a></p>
+<p>Write out a configuration file to disk. Returns true on success, false on error.</p>
+<p>See also: <a href="config.html#al_save_config_file_f">al_save_config_file_f</a>, <a href="config.html#al_load_config_file">al_load_config_file</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_config.c#L108">ex_config.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_vsync.c#L120">ex_vsync.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_draw.c#L308">ex_draw.c</a></li>
+</ul>
+<h1 id="al_save_config_file_f">al_save_config_file_f</h1>
+<div class="sourceCode" id="cb12"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_save_config_file_f(ALLEGRO_FILE *file, <span class="dt">const</span> ALLEGRO_CONFIG *config)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L449">Source Code</a></p>
+<p>Write out a configuration file to an already open file.</p>
+<p>Returns true on success, false on error. The file remains open afterwards.</p>
+<p>See also: <a href="config.html#al_save_config_file">al_save_config_file</a></p>
+<h1 id="al_add_config_section">al_add_config_section</h1>
+<div class="sourceCode" id="cb13"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_add_config_section(ALLEGRO_CONFIG *config, <span class="dt">const</span> <span class="dt">char</span> *name)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L110">Source Code</a></p>
+<p>Add a section to a configuration structure with the given name. If the section already exists then nothing happens.</p>
+<h1 id="al_remove_config_section">al_remove_config_section</h1>
+<div class="sourceCode" id="cb14"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_remove_config_section(ALLEGRO_CONFIG *config, <span class="dt">char</span> <span class="dt">const</span> *section)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L658">Source Code</a></p>
+<p>Remove a section of a configuration.</p>
+<p>Returns true if the section was removed, or false if the section did not exist.</p>
+<p>Since: 5.1.5</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_config.c#L58">ex_config.c</a></li>
+</ul>
+<h1 id="al_add_config_comment">al_add_config_comment</h1>
+<div class="sourceCode" id="cb15"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_add_config_comment(ALLEGRO_CONFIG *config,</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">const</span> <span class="dt">char</span> *section, <span class="dt">const</span> <span class="dt">char</span> *comment)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L225">Source Code</a></p>
+<p>Add a comment in a section of a configuration. If the section doesn’t yet exist, it will be created. The section can be NULL or "" for the global section.</p>
+<p>The comment may or may not begin with a hash character. Any newlines in the comment string will be replaced by space characters.</p>
+<p>See also: <a href="config.html#al_add_config_section">al_add_config_section</a></p>
+<h1 id="al_get_config_value">al_get_config_value</h1>
+<div class="sourceCode" id="cb16"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="dt">const</span> <span class="dt">char</span> *al_get_config_value(<span class="dt">const</span> ALLEGRO_CONFIG *config,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">const</span> <span class="dt">char</span> *section, <span class="dt">const</span> <span class="dt">char</span> *key)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L268">Source Code</a></p>
+<p>Gets a pointer to an internal character buffer that will only remain valid as long as the ALLEGRO_CONFIG structure is not destroyed. Copy the value if you need a copy. The section can be NULL or "" for the global section. Returns NULL if the section or key do not exist.</p>
+<p>See also: <a href="config.html#al_set_config_value">al_set_config_value</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_config.c#L44">ex_config.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_vsync.c#L18">ex_vsync.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_stream_seek.c#L248">ex_stream_seek.c</a></li>
+</ul>
+<h1 id="al_set_config_value">al_set_config_value</h1>
+<div class="sourceCode" id="cb17"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_set_config_value(ALLEGRO_CONFIG *config,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">const</span> <span class="dt">char</span> *section, <span class="dt">const</span> <span class="dt">char</span> *key, <span class="dt">const</span> <span class="dt">char</span> *value)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L164">Source Code</a></p>
+<p>Set a value in a section of a configuration. If the section doesn’t yet exist, it will be created. If a value already existed for the given key, it will be overwritten. The section can be NULL or "" for the global section.</p>
+<p>For consistency with the on-disk format of config files, any leading and trailing whitespace will be stripped from the value. If you have significant whitespace you wish to preserve, you should add your own quote characters and remove them when reading the values back in.</p>
+<p>See also: <a href="config.html#al_get_config_value">al_get_config_value</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_config.c#L54">ex_config.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_vsync.c#L22">ex_vsync.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_draw.c#L307">ex_draw.c</a></li>
+</ul>
+<h1 id="al_remove_config_key">al_remove_config_key</h1>
+<div class="sourceCode" id="cb18"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_remove_config_key(ALLEGRO_CONFIG *config, <span class="dt">char</span> <span class="dt">const</span> *section,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">char</span> <span class="dt">const</span> *key)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L700">Source Code</a></p>
+<p>Remove a key and its associated value in a section of a configuration.</p>
+<p>Returns true if the entry was removed, or false if the entry did not exist.</p>
+<p>Since: 5.1.5</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_config.c#L55">ex_config.c</a></li>
+</ul>
+<h1 id="al_get_first_config_section">al_get_first_config_section</h1>
+<div class="sourceCode" id="cb19"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> <span class="dt">const</span> *al_get_first_config_section(ALLEGRO_CONFIG <span class="dt">const</span> *config,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>   ALLEGRO_CONFIG_SECTION **iterator)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L581">Source Code</a></p>
+<p>Returns the name of the first section in the given config file. Usually this will return an empty string for the global section, even it contains no values. The <code>iterator</code> parameter will receive an opaque iterator which is used by <a href="config.html#al_get_next_config_section">al_get_next_config_section</a> to iterate over the remaining sections.</p>
+<p>The returned string and the iterator are only valid as long as no change is made to the passed ALLEGRO_CONFIG.</p>
+<p>See also: <a href="config.html#al_get_next_config_section">al_get_next_config_section</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_config.c#L64">ex_config.c</a></li>
+</ul>
+<h1 id="al_get_next_config_section">al_get_next_config_section</h1>
+<div class="sourceCode" id="cb20"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> <span class="dt">const</span> *al_get_next_config_section(ALLEGRO_CONFIG_SECTION **iterator)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L596">Source Code</a></p>
+<p>Returns the name of the next section in the given config file or NULL if there are no more sections. The <code>iterator</code> must have been obtained with <a href="config.html#al_get_first_config_section">al_get_first_config_section</a> first.</p>
+<p>See also: <a href="config.html#al_get_first_config_section">al_get_first_config_section</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_config.c#L76">ex_config.c</a></li>
+</ul>
+<h1 id="al_get_first_config_entry">al_get_first_config_entry</h1>
+<div class="sourceCode" id="cb21"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> <span class="dt">const</span> *al_get_first_config_entry(ALLEGRO_CONFIG <span class="dt">const</span> *config,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">char</span> <span class="dt">const</span> *section, ALLEGRO_CONFIG_ENTRY **iterator)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L612">Source Code</a></p>
+<p>Returns the name of the first key in the given section in the given config or NULL if the section is empty. The <code>iterator</code> works like the one for <a href="config.html#al_get_first_config_section">al_get_first_config_section</a>.</p>
+<p>The returned string and the iterator are only valid as long as no change is made to the passed <a href="config.html#allegro_config">ALLEGRO_CONFIG</a>.</p>
+<p>See also: <a href="config.html#al_get_next_config_entry">al_get_next_config_entry</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_config.c#L67">ex_config.c</a></li>
+</ul>
+<h1 id="al_get_next_config_entry">al_get_next_config_entry</h1>
+<div class="sourceCode" id="cb22"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> <span class="dt">const</span> *al_get_next_config_entry(ALLEGRO_CONFIG_ENTRY **iterator)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L640">Source Code</a></p>
+<p>Returns the next key for the iterator obtained by <a href="config.html#al_get_first_config_entry">al_get_first_config_entry</a>. The <code>iterator</code> works like the one for <a href="config.html#al_get_next_config_section">al_get_next_config_section</a>.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_config.c#L70">ex_config.c</a></li>
+</ul>
+<h1 id="al_merge_config">al_merge_config</h1>
+<div class="sourceCode" id="cb23"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_CONFIG *al_merge_config(<span class="dt">const</span> ALLEGRO_CONFIG *cfg1,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">const</span> ALLEGRO_CONFIG *cfg2)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L523">Source Code</a></p>
+<p>Merge two configuration structures, and return the result as a new configuration. Values in configuration ‘cfg2’ override those in ‘cfg1’. Neither of the input configuration structures are modified. Comments from ‘cfg2’ are not retained.</p>
+<p>See also: <a href="config.html#al_merge_config_into">al_merge_config_into</a></p>
+<h1 id="al_merge_config_into">al_merge_config_into</h1>
+<div class="sourceCode" id="cb24"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_merge_config_into(ALLEGRO_CONFIG *master, <span class="dt">const</span> ALLEGRO_CONFIG *add)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/config.c#L515">Source Code</a></p>
+<p>Merge one configuration structure into another. Values in configuration ‘add’ override those in ‘master’. ‘master’ is modified. Comments from ‘add’ are not retained.</p>
+<p>See also: <a href="config.html#al_merge_config">al_merge_config</a></p>
+<p class="timestamp">
+Allegro version 5.2.7
+ - Last updated: 2021-03-08 01:00:40 UTC
+</p>
+</div>
+</body>
+</html>

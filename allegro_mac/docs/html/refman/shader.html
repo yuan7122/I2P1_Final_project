@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Shader routines</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/javascript" src="autosuggest.js"></script>
+  <script type="text/javascript" src="search_index.js"></script>
+</head>
+<body>
+<div class="sidebar">
+<div>
+<ul>
+<li><a href="index.html"><strong>Contents</strong></a></li>
+<li><a href="config.html">Configuration files</a></li>
+<li><a href="display.html">Display</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="file.html">File I/O</a></li>
+<li><a href="fshook.html">Filesystem</a></li>
+<li><a href="fixed.html">Fixed point math</a></li>
+<li><a href="fullscreen_mode.html">Fullscreen modes</a></li>
+<li><a href="graphics.html">Graphics</a></li>
+<li><a href="haptic.html">Haptic</a></li>
+<li><a href="joystick.html">Joystick</a></li>
+<li><a href="keyboard.html">Keyboard</a></li>
+<li><a href="memory.html">Memory</a></li>
+<li><a href="monitor.html">Monitor</a></li>
+<li><a href="mouse.html">Mouse</a></li>
+<li><a href="path.html">Path</a></li>
+<li><a href="shader.html">Shader</a></li>
+<li><a href="state.html">State</a></li>
+<li><a href="system.html">System</a></li>
+<li><a href="threads.html">Threads</a></li>
+<li><a href="time.html">Time</a></li>
+<li><a href="timer.html">Timer</a></li>
+<li><a href="touch.html">Touch input</a></li>
+<li><a href="transformations.html">Transformations</a></li>
+<li><a href="utf8.html">UTF-8</a></li>
+<li><a href="misc.html">Miscellaneous</a></li>
+<li><a href="platform.html">Platform-specific</a></li>
+<li><a href="direct3d.html">Direct3D</a></li>
+<li><a href="opengl.html">OpenGL</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index.html#addons"><strong>Addons</strong></a></li>
+<li><a href="audio.html">Audio addon</a></li>
+<li><a href="acodec.html">Audio codecs</a></li>
+<li><a href="color.html">Color addon</a></li>
+<li><a href="font.html">Font addons</a></li>
+<li><a href="image.html">Image I/O addon</a></li>
+<li><a href="main.html">Main addon</a></li>
+<li><a href="memfile.html">Memfile addon</a></li>
+<li><a href="native_dialog.html">Native dialogs addon</a></li>
+<li><a href="physfs.html">PhysicsFS addon</a></li>
+<li><a href="primitives.html">Primitives addon</a></li>
+<li><a href="video.html">Video streaming addon</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index_all.html"><strong>Index</strong></a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div class="searchbox">
+<script type="text/javascript">
+function on_search(index, control) {
+    // Note to self: the less-than sign must NOT converted to an entity!
+    // SCRIPT elements are special.  The HTML validator gives bad advice.
+    for (i = 0; i < search_index.length; i++) {
+        if (search_index[i] == control.keywords[index]) {
+            break;
+        }
+    }
+    location.href = search_urls[i];
+}
+</script>
+Search<br/> <input type="text" name="q" id="q" size="15" autocomplete="off" placeholder="Press ‘S’ to search" /><br/>
+<script type="text/javascript"> new autosuggest("q", search_index, null, on_search); </script>
+</div>
+</div>
+<div class="content">
+
+
+<header id="title-block-header">
+<h1 class="title">Shader routines</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#allegro_shader">ALLEGRO_SHADER</a></li>
+<li><a href="#allegro_shader_type">ALLEGRO_SHADER_TYPE</a></li>
+<li><a href="#allegro_shader_platform">ALLEGRO_SHADER_PLATFORM</a></li>
+<li><a href="#al_create_shader">al_create_shader</a></li>
+<li><a href="#al_attach_shader_source">al_attach_shader_source</a></li>
+<li><a href="#al_attach_shader_source_file">al_attach_shader_source_file</a></li>
+<li><a href="#al_build_shader">al_build_shader</a></li>
+<li><a href="#al_get_shader_log">al_get_shader_log</a></li>
+<li><a href="#al_get_shader_platform">al_get_shader_platform</a></li>
+<li><a href="#al_use_shader">al_use_shader</a></li>
+<li><a href="#al_destroy_shader">al_destroy_shader</a></li>
+<li><a href="#al_set_shader_sampler">al_set_shader_sampler</a></li>
+<li><a href="#al_set_shader_matrix">al_set_shader_matrix</a></li>
+<li><a href="#al_set_shader_int">al_set_shader_int</a></li>
+<li><a href="#al_set_shader_float">al_set_shader_float</a></li>
+<li><a href="#al_set_shader_bool">al_set_shader_bool</a></li>
+<li><a href="#al_set_shader_int_vector">al_set_shader_int_vector</a></li>
+<li><a href="#al_set_shader_float_vector">al_set_shader_float_vector</a></li>
+<li><a href="#al_get_default_shader_source">al_get_default_shader_source</a></li>
+</ul>
+</nav>
+<p>These functions are declared in the main Allegro header file:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a> <span class="pp">#include </span><span class="im">&lt;allegro5/allegro.h&gt;</span></span></code></pre></div>
+<h1 id="allegro_shader">ALLEGRO_SHADER</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> ALLEGRO_SHADER ALLEGRO_SHADER;</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/include/allegro5/shader.h#L14">Source Code</a></p>
+<p>An <a href="shader.html#allegro_shader">ALLEGRO_SHADER</a> is a program that runs on the GPU. It combines both a vertex and a pixel shader. (In OpenGL terms, an <a href="shader.html#allegro_shader">ALLEGRO_SHADER</a> is actually a <em>program</em> which has one or more <em>shaders</em> attached. This can be confusing.)</p>
+<p>The source code for the underlying vertex or pixel shader can be provided either as GLSL or HLSL, depending on the value of <a href="shader.html#allegro_shader_platform">ALLEGRO_SHADER_PLATFORM</a> used when creating it.</p>
+<p>Since: 5.1.0</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader.cpp#L39">ex_shader.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader_target.c#L22">ex_shader_target.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_prim_shader.c#L60">ex_prim_shader.c</a></li>
+</ul>
+<h1 id="allegro_shader_type">ALLEGRO_SHADER_TYPE</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">enum</span> ALLEGRO_SHADER_TYPE ALLEGRO_SHADER_TYPE;</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/include/allegro5/shader.h#L23">Source Code</a></p>
+<p>Used with <a href="shader.html#al_attach_shader_source">al_attach_shader_source</a> and <a href="shader.html#al_attach_shader_source_file">al_attach_shader_source_file</a> to specify how to interpret the attached source.</p>
+<dl>
+<dt>ALLEGRO_VERTEX_SHADER</dt>
+<dd><p>A vertex shader is executed for each vertex it is used with. The program will output exactly one vertex at a time.</p>
+<p>When Allegro’s graphics are being used then in addition to all vertices of primitives from the primitives addon, each drawn bitmap also consists of four vertices.</p>
+</dd>
+<dt>ALLEGRO_PIXEL_SHADER</dt>
+<dd><p>A pixel shader is executed for each pixel it is used with. The program will output exactly one pixel at a time - either in the backbuffer or in the current target bitmap.</p>
+<p>With Allegro’s builtin graphics this means the shader is for example called for each destination pixel of the output of an <a href="graphics.html#al_draw_bitmap">al_draw_bitmap</a> call.</p>
+<p>A more accurate term for pixel shader would be fragment shader since one final pixel in the target bitmap is not necessarily composed of only a single output but of multiple fragments (for example when multi-sampling is being used).</p>
+</dd>
+</dl>
+<p>Since: 5.1.0</p>
+<h1 id="allegro_shader_platform">ALLEGRO_SHADER_PLATFORM</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">enum</span> ALLEGRO_SHADER_PLATFORM ALLEGRO_SHADER_PLATFORM;</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/include/allegro5/shader.h#L33">Source Code</a></p>
+<p>The underlying platform which the <a href="shader.html#allegro_shader">ALLEGRO_SHADER</a> is built on top of, which dictates the language used to program the shader.</p>
+<ul>
+<li>ALLEGRO_SHADER_AUTO</li>
+<li>ALLEGRO_SHADER_GLSL - OpenGL Shading Language</li>
+<li>ALLEGRO_SHADER_HLSL - High Level Shader Language (for Direct3D)</li>
+</ul>
+<p>Since: 5.1.0</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader.cpp#L42">ex_shader.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader_target.c#L22">ex_shader_target.c</a></li>
+</ul>
+<h1 id="al_create_shader">al_create_shader</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_SHADER *al_create_shader(ALLEGRO_SHADER_PLATFORM platform)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/shader.c#L50">Source Code</a></p>
+<p>Create a shader object.</p>
+<p>The platform argument is one of the <a href="shader.html#allegro_shader_platform">ALLEGRO_SHADER_PLATFORM</a> values, and specifies the type of shader object to create, and which language is used to program the shader.</p>
+<p>The shader platform must be compatible with the type of display that you will use the shader with. For example, you cannot create and use a HLSL shader on an OpenGL display, nor a GLSL shader on a Direct3D display.</p>
+<p>The ALLEGRO_SHADER_AUTO value automatically chooses the appropriate platform for the display currently targeted by the calling thread; there must be such a display. It will create a GLSL shader for an OpenGL display, and a HLSL shader for a Direct3D display.</p>
+<p>Returns the shader object on success. Otherwise, returns NULL.</p>
+<p>Since: 5.1.0</p>
+<p>See also: <a href="shader.html#al_attach_shader_source">al_attach_shader_source</a>, <a href="shader.html#al_attach_shader_source_file">al_attach_shader_source_file</a>, <a href="shader.html#al_build_shader">al_build_shader</a>, <a href="shader.html#al_use_shader">al_use_shader</a>, <a href="shader.html#al_destroy_shader">al_destroy_shader</a>, <a href="shader.html#al_get_shader_platform">al_get_shader_platform</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader.cpp#L87">ex_shader.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader_target.c#L86">ex_shader_target.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_prim_shader.c#L117">ex_prim_shader.c</a></li>
+</ul>
+<h1 id="al_attach_shader_source">al_attach_shader_source</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_attach_shader_source(ALLEGRO_SHADER *shader, ALLEGRO_SHADER_TYPE type,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">const</span> <span class="dt">char</span> *source)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/shader.c#L83">Source Code</a></p>
+<p>Attaches the shader’s source code to the shader object and compiles it. Passing NULL deletes the underlying (OpenGL or DirectX) shader. See also <a href="shader.html#al_attach_shader_source_file">al_attach_shader_source_file</a> if you prefer to obtain your shader source from an external file.</p>
+<p>If you do not use ALLEGRO_PROGRAMMABLE_PIPELINE Allegro’s graphics functions will not use any shader specific functions themselves. In case of a system with no fixed function pipeline (like OpenGL ES 2 or OpenGL 3 or 4) this means Allegro’s drawing functions cannot be used.</p>
+<p>TODO: Is ALLEGRO_PROGRAMMABLE_PIPELINE set automatically in this case?</p>
+<p>When ALLEGRO_PROGRAMMABLE_PIPELINE is used the following shader uniforms are provided by Allegro and can be accessed in your shaders:</p>
+<dl>
+<dt>al_projview_matrix</dt>
+<dd>matrix for Allegro’s orthographic projection multiplied by the <a href="transformations.html#al_use_transform">al_use_transform</a> matrix. The type is <code>mat4</code> in GLSL, and <code>float4x4</code> in HLSL.
+</dd>
+<dt>al_use_tex</dt>
+<dd>whether or not to use the bound texture. The type is <code>bool</code> in both GLSL and HLSL.
+</dd>
+<dt>al_tex</dt>
+<dd>the texture if one is bound. The type is <code>sampler2D</code> in GLSL and <code>texture</code> in HLSL.
+</dd>
+<dt>al_use_tex_matrix</dt>
+<dd>whether or not to use a texture matrix (used by the primitives addon). The type is <code>bool</code> in both GLSL and HLSL.
+</dd>
+<dt>al_tex_matrix</dt>
+<dd>the texture matrix (used by the primitives addon). Your shader should multiply the texture coordinates by this matrix. The type is <code>mat4</code> in GLSL, and <code>float4x4</code> in HLSL.
+</dd>
+</dl>
+<p>With GLSL alpha testing is done in the shader and uses these additional uniforms:</p>
+<dl>
+<dt>al_alpha_test</dt>
+<dd>Whether to do any alpha testing. If false, the shader should render the pixel, otherwise it should interpret the values of <code>al_alpha_func</code> and <code>al_alpha_test_val</code>.
+</dd>
+<dt>al_alpha_func</dt>
+<dd>The alpha testing function used. One of the <a href="graphics.html#allegro_render_function">ALLEGRO_RENDER_FUNCTION</a> values. The default is ALLEGRO_RENDER_ALWAYS which means all pixels (even completely transparent ones) are rendered. The type is <code>int</code>. See <a href="graphics.html#allegro_render_state">ALLEGRO_RENDER_STATE</a>.
+</dd>
+<dt>al_alpha_test_val</dt>
+<dd>If alpha testing is not ALLEGRO_RENDER_NEVER or ALLEGRO_RENDER_ALWAYS the alpha value to compare to for alpha testing. The type is <code>float</code>.
+</dd>
+</dl>
+<p>For GLSL shaders the vertex attributes are passed using the following variables:</p>
+<dl>
+<dt>al_pos</dt>
+<dd>vertex position attribute. Type is <code>vec4</code>.
+</dd>
+<dt>al_texcoord</dt>
+<dd>vertex texture coordinate attribute. Type is <code>vec2</code>.
+</dd>
+<dt>al_color</dt>
+<dd>vertex color attribute. Type is <code>vec4</code>.
+</dd>
+<dt>al_user_attr_0</dt>
+<dd>The vertex attribute declared as ALLEGRO_PRIM_USER_ATTR
+</dd>
+<dt>al_user_attr_1, …, al_user_attr_9</dt>
+<dd>The vertex attribute declared as ALLEGRO_PRIM_USER_ATTR + X where X is an integer from 1 to 9
+</dd>
+</dl>
+<p>For HLSL shaders the vertex attributes are passed using the following semantics:</p>
+<dl>
+<dt>POSITION0</dt>
+<dd>vertex position attribute. Type is <code>float4</code>.
+</dd>
+<dt>TEXCOORD0</dt>
+<dd>vertex texture coordinate attribute. Type is <code>float2</code>.
+</dd>
+<dt>TEXCOORD1</dt>
+<dd>vertex color attribute. Type is <code>float4</code>.
+</dd>
+</dl>
+<p>Also, each shader variable has a corresponding macro name that can be used when defining the shaders using string literals. Don’t use these macros with the other shader functions as that will lead to undefined behavior.</p>
+<ul>
+<li>ALLEGRO_SHADER_VAR_PROJVIEW_MATRIX for “al_projview_matrix”</li>
+<li>ALLEGRO_SHADER_VAR_POS for “al_pos”</li>
+<li>ALLEGRO_SHADER_VAR_COLOR for “al_color”</li>
+<li>ALLEGRO_SHADER_VAR_TEXCOORD for “al_texcoord”</li>
+<li>ALLEGRO_SHADER_VAR_USE_TEX for “al_use_tex”</li>
+<li>ALLEGRO_SHADER_VAR_TEX for “al_tex”</li>
+<li>ALLEGRO_SHADER_VAR_USE_TEX_MATRIX for “al_use_tex_matrix”</li>
+<li>ALLEGRO_SHADER_VAR_TEX_MATRIX for “al_tex_matrix”</li>
+<li>ALLEGRO_SHADER_VAR_ALPHA_FUNCTION for “al_alpha_func”</li>
+<li>ALLEGRO_SHADER_VAR_ALPHA_TEST_VALUE for “al_alpha_test_val”</li>
+</ul>
+<p>Examine the output of <a href="shader.html#al_get_default_shader_source">al_get_default_shader_source</a> for an example of how to use the above uniforms and attributes.</p>
+<p>Returns true on success and false on error, in which case the error log is updated. The error log can be retrieved with <a href="shader.html#al_get_shader_log">al_get_shader_log</a>.</p>
+<p>Since: 5.1.0</p>
+<p>See also: <a href="shader.html#al_attach_shader_source_file">al_attach_shader_source_file</a>, <a href="shader.html#al_build_shader">al_build_shader</a>, <a href="shader.html#al_get_default_shader_source">al_get_default_shader_source</a>, <a href="shader.html#al_get_shader_log">al_get_shader_log</a>, <a href="primitives.html#allegro_prim_attr">ALLEGRO_PRIM_ATTR</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader.cpp#L97">ex_shader.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader_target.c#L94">ex_shader_target.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_prim_shader.c#L132">ex_prim_shader.c</a></li>
+</ul>
+<h1 id="al_attach_shader_source_file">al_attach_shader_source_file</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_attach_shader_source_file(ALLEGRO_SHADER *shader,</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>   ALLEGRO_SHADER_TYPE type, <span class="dt">const</span> <span class="dt">char</span> *filename)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/shader.c#L92">Source Code</a></p>
+<p>Like <a href="shader.html#al_attach_shader_source">al_attach_shader_source</a> but reads the source code for the shader from the named file.</p>
+<p>Returns true on success and false on error, in which case the error log is updated. The error log can be retrieved with <a href="shader.html#al_get_shader_log">al_get_shader_log</a>.</p>
+<p>Since: 5.1.0</p>
+<p>See also: <a href="shader.html#al_attach_shader_source">al_attach_shader_source</a>, <a href="shader.html#al_build_shader">al_build_shader</a>, <a href="shader.html#al_get_shader_log">al_get_shader_log</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader.cpp#L97">ex_shader.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader_target.c#L94">ex_shader_target.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_prim_shader.c#L132">ex_prim_shader.c</a></li>
+</ul>
+<h1 id="al_build_shader">al_build_shader</h1>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_build_shader(ALLEGRO_SHADER *shader)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/shader.c#L125">Source Code</a></p>
+<p>This is required before the shader can be used with <a href="shader.html#al_use_shader">al_use_shader</a>. It should be called after successfully attaching the pixel and/or vertex shaders with <a href="shader.html#al_attach_shader_source">al_attach_shader_source</a> or <a href="shader.html#al_attach_shader_source_file">al_attach_shader_source_file</a>.</p>
+<p>Returns true on success and false on error, in which case the error log is updated. The error log can be retrieved with <a href="shader.html#al_get_shader_log">al_get_shader_log</a>.</p>
+<blockquote>
+<p><em>Note:</em> If you are using the ALLEGRO_PROGRAMMABLE_PIPELINE flag, then you must specify both a pixel and a vertex shader sources for anything to be rendered.</p>
+</blockquote>
+<p>Since: 5.1.6</p>
+<p>See also: <a href="shader.html#al_use_shader">al_use_shader</a>, <a href="shader.html#al_get_shader_log">al_get_shader_log</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader.cpp#L106">ex_shader.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader_target.c#L102">ex_shader_target.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_prim_shader.c#L141">ex_prim_shader.c</a></li>
+</ul>
+<h1 id="al_get_shader_log">al_get_shader_log</h1>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">const</span> <span class="dt">char</span> *al_get_shader_log(ALLEGRO_SHADER *shader)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/shader.c#L133">Source Code</a></p>
+<p>Return a read-only string containing the information log for a shader program. The log is updated by certain functions, such as <a href="shader.html#al_attach_shader_source">al_attach_shader_source</a> or <a href="shader.html#al_build_shader">al_build_shader</a> when there is an error.</p>
+<p>This function never returns NULL.</p>
+<p>Since: 5.1.0</p>
+<p>See also: <a href="shader.html#al_attach_shader_source">al_attach_shader_source</a>, <a href="shader.html#al_attach_shader_source_file">al_attach_shader_source_file</a>, <a href="shader.html#al_build_shader">al_build_shader</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader.cpp#L99">ex_shader.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader_target.c#L96">ex_shader_target.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_prim_shader.c#L134">ex_prim_shader.c</a></li>
+</ul>
+<h1 id="al_get_shader_platform">al_get_shader_platform</h1>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_SHADER_PLATFORM al_get_shader_platform(ALLEGRO_SHADER *shader)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/shader.c#L142">Source Code</a></p>
+<p>Returns the platform the shader was created with (either ALLEGRO_SHADER_HLSL or ALLEGRO_SHADER_GLSL).</p>
+<p>Since: 5.1.6</p>
+<p>See also: <a href="shader.html#al_create_shader">al_create_shader</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader.cpp#L42">ex_shader.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader_target.c#L90">ex_shader_target.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_prim_shader.c#L123">ex_prim_shader.c</a></li>
+</ul>
+<h1 id="al_use_shader">al_use_shader</h1>
+<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_use_shader(ALLEGRO_SHADER *shader)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/shader.c#L150">Source Code</a></p>
+<p>Uses the shader for subsequent drawing operations on the current target bitmap. Pass NULL to stop using any shader on the current target bitmap.</p>
+<p>Returns true on success. Otherwise returns false, e.g. because the shader is incompatible with the target bitmap.</p>
+<p>Since: 5.1.6</p>
+<p>See also: <a href="shader.html#al_destroy_shader">al_destroy_shader</a>, <a href="shader.html#al_set_shader_sampler">al_set_shader_sampler</a>, <a href="shader.html#al_set_shader_matrix">al_set_shader_matrix</a>, <a href="shader.html#al_set_shader_int">al_set_shader_int</a>, <a href="shader.html#al_set_shader_float">al_set_shader_float</a>, <a href="shader.html#al_set_shader_bool">al_set_shader_bool</a>, <a href="shader.html#al_set_shader_int_vector">al_set_shader_int_vector</a>, <a href="shader.html#al_set_shader_float_vector">al_set_shader_float_vector</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader.cpp#L110">ex_shader.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader_target.c#L46">ex_shader_target.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_prim_shader.c#L145">ex_prim_shader.c</a></li>
+</ul>
+<h1 id="al_destroy_shader">al_destroy_shader</h1>
+<div class="sourceCode" id="cb12"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_destroy_shader(ALLEGRO_SHADER *shader)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/shader.c#L197">Source Code</a></p>
+<p>Destroy a shader. Any bitmaps which currently use the shader will implicitly stop using the shader. In multi-threaded programs, be careful that no such bitmaps are being accessed by other threads at the time.</p>
+<p>As a convenience, if the target bitmap of the calling thread is using the shader then the shader is implicitly unused before being destroyed.</p>
+<p>This function does nothing if the shader argument is NULL.</p>
+<p>Since: 5.1.0</p>
+<p>See also: <a href="shader.html#al_create_shader">al_create_shader</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader.cpp#L152">ex_shader.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader_target.c#L148">ex_shader_target.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_prim_shader.c#L195">ex_prim_shader.c</a></li>
+</ul>
+<h1 id="al_set_shader_sampler">al_set_shader_sampler</h1>
+<div class="sourceCode" id="cb13"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_set_shader_sampler(<span class="dt">const</span> <span class="dt">char</span> *name,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>   ALLEGRO_BITMAP *bitmap, <span class="dt">int</span> unit)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/shader.c#L237">Source Code</a></p>
+<p>Sets a texture sampler uniform and texture unit of the current target bitmap’s shader. The given bitmap must be a video bitmap.</p>
+<p>Different samplers should use different units. The bitmap passed to Allegro’s drawing functions uses the 0th unit, so if you’re planning on using the <code>al_tex</code> variable in your pixel shader as well as another sampler, set the other sampler to use a unit different from 0. With the primitives addon, it is possible to free up the 0th unit by passing <code>NULL</code> as the texture argument to the relevant drawing functions. In this case, you may set a sampler to use the 0th unit and thus not use <code>al_tex</code> (the <code>al_use_tex</code> variable will be set to <code>false</code>).</p>
+<p>Returns true on success. Otherwise returns false, e.g. if the uniform by that name does not exist in the shader.</p>
+<p>Since: 5.1.0</p>
+<p>See also: <a href="shader.html#al_use_shader">al_use_shader</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader_multitex.c#L123">ex_shader_multitex.c</a></li>
+</ul>
+<h1 id="al_set_shader_matrix">al_set_shader_matrix</h1>
+<div class="sourceCode" id="cb14"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_set_shader_matrix(<span class="dt">const</span> <span class="dt">char</span> *name,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">const</span> ALLEGRO_TRANSFORM *matrix)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/shader.c#L258">Source Code</a></p>
+<p>Sets a matrix uniform of the current target bitmap’s shader.</p>
+<p>Returns true on success. Otherwise returns false, e.g. if the uniform by that name does not exist in the shader.</p>
+<p>Since: 5.1.0</p>
+<p>See also: <a href="shader.html#al_use_shader">al_use_shader</a></p>
+<h1 id="al_set_shader_int">al_set_shader_int</h1>
+<div class="sourceCode" id="cb15"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_set_shader_int(<span class="dt">const</span> <span class="dt">char</span> *name, <span class="dt">int</span> i)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/shader.c#L279">Source Code</a></p>
+<p>Sets an integer uniform of the current target bitmap’s shader.</p>
+<p>Returns true on success. Otherwise returns false, e.g. if the uniform by that name does not exist in the shader.</p>
+<p>Since: 5.1.0</p>
+<p>See also: <a href="shader.html#al_use_shader">al_use_shader</a></p>
+<h1 id="al_set_shader_float">al_set_shader_float</h1>
+<div class="sourceCode" id="cb16"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_set_shader_float(<span class="dt">const</span> <span class="dt">char</span> *name, <span class="dt">float</span> f)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/shader.c#L299">Source Code</a></p>
+<p>Sets a float uniform of the target bitmap’s shader.</p>
+<p>Returns true on success. Otherwise returns false, e.g. if the uniform by that name does not exist in the shader.</p>
+<p>Since: 5.1.0</p>
+<p>See also: <a href="shader.html#al_use_shader">al_use_shader</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader.cpp#L127">ex_shader.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader_target.c#L135">ex_shader_target.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_prim_shader.c#L146">ex_prim_shader.c</a></li>
+</ul>
+<h1 id="al_set_shader_bool">al_set_shader_bool</h1>
+<div class="sourceCode" id="cb17"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_set_shader_bool(<span class="dt">const</span> <span class="dt">char</span> *name, <span class="dt">bool</span> b)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/shader.c#L361">Source Code</a></p>
+<p>Sets a boolean uniform of the target bitmap’s shader.</p>
+<p>Returns true on success. Otherwise returns false, e.g. if the uniform by that name does not exist in the shader.</p>
+<p>Since: 5.1.6</p>
+<p>See also: <a href="shader.html#al_use_shader">al_use_shader</a></p>
+<h1 id="al_set_shader_int_vector">al_set_shader_int_vector</h1>
+<div class="sourceCode" id="cb18"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_set_shader_int_vector(<span class="dt">const</span> <span class="dt">char</span> *name,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">int</span> num_components, <span class="dt">const</span> <span class="dt">int</span> *i, <span class="dt">int</span> num_elems)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/shader.c#L319">Source Code</a></p>
+<p>Sets an integer vector array uniform of the current target bitmap’s shader. The ‘num_components’ parameter can take one of the values 1, 2, 3 or 4. If it is 1 then an array of ‘num_elems’ integer elements is added. Otherwise each added array element is assumed to be a vector with 2, 3 or 4 components in it.</p>
+<p>For example, if you have a GLSL uniform declared as <code>uniform ivec3 flowers[4]</code> or an HLSL uniform declared as <code>uniform int3 flowers[4]</code>, then you’d use this function from your code like so:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> flowers[<span class="dv">4</span>][<span class="dv">3</span>] =</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>   {<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>},</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>   {<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>},</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>   {<span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>},</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>   {<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">7</span>}</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>};</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>al_set_shader_int_vector(<span class="st">&quot;flowers&quot;</span>, <span class="dv">3</span>, (<span class="dt">int</span>*)flowers, <span class="dv">4</span>);</span></code></pre></div>
+<p>Returns true on success. Otherwise returns false, e.g. if the uniform by that name does not exist in the shader.</p>
+<p>Since: 5.1.0</p>
+<p>See also: <a href="shader.html#al_set_shader_float_vector">al_set_shader_float_vector</a>, <a href="shader.html#al_use_shader">al_use_shader</a></p>
+<h1 id="al_set_shader_float_vector">al_set_shader_float_vector</h1>
+<div class="sourceCode" id="cb20"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_set_shader_float_vector(<span class="dt">const</span> <span class="dt">char</span> *name,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">int</span> num_components, <span class="dt">const</span> <span class="dt">float</span> *f, <span class="dt">int</span> num_elems)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/shader.c#L340">Source Code</a></p>
+<p>Same as <a href="shader.html#al_set_shader_int_vector">al_set_shader_int_vector</a> except all values are float instead of int.</p>
+<p>Since: 5.1.0</p>
+<p>See also: <a href="shader.html#al_set_shader_int_vector">al_set_shader_int_vector</a>, <a href="shader.html#al_use_shader">al_use_shader</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader.cpp#L127">ex_shader.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader_target.c#L135">ex_shader_target.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_prim_shader.c#L146">ex_prim_shader.c</a></li>
+</ul>
+<h1 id="al_get_default_shader_source">al_get_default_shader_source</h1>
+<div class="sourceCode" id="cb21"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> <span class="dt">const</span> *al_get_default_shader_source(ALLEGRO_SHADER_PLATFORM platform,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>   ALLEGRO_SHADER_TYPE type)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/shader.c#L381">Source Code</a></p>
+<p>Returns a string containing the source code to Allegro’s default vertex or pixel shader appropriate for the passed platform. The ALLEGRO_SHADER_AUTO value means GLSL is used if OpenGL is being used otherwise HLSL. ALLEGRO_SHADER_AUTO requires that there is a current display set on the calling thread. This function can return NULL if Allegro was built without support for shaders of the selected platform.</p>
+<p>Since: 5.1.6</p>
+<p>See also: <a href="shader.html#al_attach_shader_source">al_attach_shader_source</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_shader_multitex.c#L73">ex_shader_multitex.c</a></li>
+</ul>
+<p class="timestamp">
+Allegro version 5.2.7
+ - Last updated: 2021-03-08 01:00:44 UTC
+</p>
+</div>
+</body>
+</html>

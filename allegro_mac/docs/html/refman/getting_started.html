@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Getting started guide</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/javascript" src="autosuggest.js"></script>
+  <script type="text/javascript" src="search_index.js"></script>
+</head>
+<body>
+<div class="sidebar">
+<div>
+<ul>
+<li><a href="index.html"><strong>Contents</strong></a></li>
+<li><a href="config.html">Configuration files</a></li>
+<li><a href="display.html">Display</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="file.html">File I/O</a></li>
+<li><a href="fshook.html">Filesystem</a></li>
+<li><a href="fixed.html">Fixed point math</a></li>
+<li><a href="fullscreen_mode.html">Fullscreen modes</a></li>
+<li><a href="graphics.html">Graphics</a></li>
+<li><a href="haptic.html">Haptic</a></li>
+<li><a href="joystick.html">Joystick</a></li>
+<li><a href="keyboard.html">Keyboard</a></li>
+<li><a href="memory.html">Memory</a></li>
+<li><a href="monitor.html">Monitor</a></li>
+<li><a href="mouse.html">Mouse</a></li>
+<li><a href="path.html">Path</a></li>
+<li><a href="shader.html">Shader</a></li>
+<li><a href="state.html">State</a></li>
+<li><a href="system.html">System</a></li>
+<li><a href="threads.html">Threads</a></li>
+<li><a href="time.html">Time</a></li>
+<li><a href="timer.html">Timer</a></li>
+<li><a href="touch.html">Touch input</a></li>
+<li><a href="transformations.html">Transformations</a></li>
+<li><a href="utf8.html">UTF-8</a></li>
+<li><a href="misc.html">Miscellaneous</a></li>
+<li><a href="platform.html">Platform-specific</a></li>
+<li><a href="direct3d.html">Direct3D</a></li>
+<li><a href="opengl.html">OpenGL</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index.html#addons"><strong>Addons</strong></a></li>
+<li><a href="audio.html">Audio addon</a></li>
+<li><a href="acodec.html">Audio codecs</a></li>
+<li><a href="color.html">Color addon</a></li>
+<li><a href="font.html">Font addons</a></li>
+<li><a href="image.html">Image I/O addon</a></li>
+<li><a href="main.html">Main addon</a></li>
+<li><a href="memfile.html">Memfile addon</a></li>
+<li><a href="native_dialog.html">Native dialogs addon</a></li>
+<li><a href="physfs.html">PhysicsFS addon</a></li>
+<li><a href="primitives.html">Primitives addon</a></li>
+<li><a href="video.html">Video streaming addon</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index_all.html"><strong>Index</strong></a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div class="searchbox">
+<script type="text/javascript">
+function on_search(index, control) {
+    // Note to self: the less-than sign must NOT converted to an entity!
+    // SCRIPT elements are special.  The HTML validator gives bad advice.
+    for (i = 0; i < search_index.length; i++) {
+        if (search_index[i] == control.keywords[index]) {
+            break;
+        }
+    }
+    location.href = search_urls[i];
+}
+</script>
+Search<br/> <input type="text" name="q" id="q" size="15" autocomplete="off" placeholder="Press ‘S’ to search" /><br/>
+<script type="text/javascript"> new autosuggest("q", search_index, null, on_search); </script>
+</div>
+</div>
+<div class="content">
+
+
+<header id="title-block-header">
+<h1 class="title">Getting started guide</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#structure-of-the-library-and-its-addons">Structure of the library and its addons</a></li>
+<li><a href="#the-main-function">The main function</a></li>
+<li><a href="#initialisation">Initialisation</a></li>
+<li><a href="#opening-a-window">Opening a window</a></li>
+<li><a href="#display-an-image">Display an image</a></li>
+<li><a href="#changing-the-drawing-target">Changing the drawing target</a></li>
+<li><a href="#event-queues-and-input">Event queues and input</a></li>
+<li><a href="#displaying-some-text">Displaying some text</a></li>
+<li><a href="#drawing-primitives">Drawing primitives</a></li>
+<li><a href="#blending">Blending</a></li>
+<li><a href="#sound">Sound</a></li>
+<li><a href="#unstable-api">Unstable API</a></li>
+<li><a href="#not-the-end">Not the end</a></li>
+</ul>
+</nav>
+<h1 id="introduction">Introduction</h1>
+<p>Welcome to Allegro 5!</p>
+<p>This short guide should point you at the parts of the API that you’ll want to know about first. It’s not a tutorial, as there isn’t much discussion, only links into the manual. The rest you’ll have to discover for yourself. Read the examples, and ask questions at <a href="http://www.allegro.cc/forums/">Allegro.cc</a>.</p>
+<p>There is an unofficial tutorial at <a href="http://wiki.allegro.cc/">the wiki</a>. Be aware that, being on the wiki, it may be a little out of date, but the changes should be minor. Hopefully more will sprout when things stabilise, as they did for earlier versions of Allegro.</p>
+<h1 id="structure-of-the-library-and-its-addons">Structure of the library and its addons</h1>
+<p>Allegro 5.0 is divided into a core library and multiple addons. The addons are bundled together and built at the same time as the core, but they are distinct and kept in separate libraries. The core doesn’t depend on anything in the addons, but addons may depend on the core and other addons and additional third party libraries.</p>
+<p>Here are the addons and their dependencies:</p>
+<pre><code>allegro_main -&gt; allegro
+
+allegro_image -&gt; allegro
+allegro_primitives -&gt; allegro
+allegro_color -&gt; allegro
+
+allegro_font -&gt; allegro
+allegro_ttf -&gt; allegro_font -&gt; allegro
+
+allegro_audio -&gt; allegro
+allegro_acodec -&gt; allegro_audio -&gt; allegro
+allegro_video -&gt; allegro_audio -&gt; allegro
+
+allegro_memfile -&gt; allegro
+allegro_physfs -&gt; allegro
+
+allegro_native_dialog -&gt; allegro</code></pre>
+<p>The header file for the core library is <code>allegro5/allegro.h</code>. The header files for the addons are named <code>allegro5/allegro_image.h</code>, <code>allegro5/allegro_font.h</code>, etc. The allegro_main addon does not have a header file.</p>
+<h1 id="the-main-function">The main function</h1>
+<p>For the purposes of cross-platform compatibility Allegro puts some requirements on your main function. First, you must include the core header (<code>allegro5/allegro.h</code>) in the same file as your main function. Second, if your main function is inside a C++ file, then it must have this signature: <code>int main(int argc, char **argv)</code>. Third, if you’re using C/C++ then you need to link with the allegro_main addon when building your program.</p>
+<h1 id="initialisation">Initialisation</h1>
+<p>Before using Allegro you must call <a href="system.html#al_init">al_init</a>. Some addons have their own initialisation, e.g. <a href="image.html#al_init_image_addon">al_init_image_addon</a>, <a href="font.html#al_init_font_addon">al_init_font_addon</a>, <a href="font.html#al_init_ttf_addon">al_init_ttf_addon</a>.</p>
+<p>To receive input, you need to initialise some subsystems like <a href="keyboard.html#al_install_keyboard">al_install_keyboard</a>, <a href="mouse.html#al_install_mouse">al_install_mouse</a>, <a href="joystick.html#al_install_joystick">al_install_joystick</a>.</p>
+<h1 id="opening-a-window">Opening a window</h1>
+<p><a href="display.html#al_create_display">al_create_display</a> will open a window and return an <a href="display.html#allegro_display">ALLEGRO_DISPLAY</a>.</p>
+<p>To clear the display, call <a href="graphics.html#al_clear_to_color">al_clear_to_color</a>. Use <a href="graphics.html#al_map_rgba">al_map_rgba</a> or <a href="graphics.html#al_map_rgba_f">al_map_rgba_f</a> to obtain an <a href="graphics.html#allegro_color">ALLEGRO_COLOR</a> parameter.</p>
+<p>Drawing operations are performed on a backbuffer. To make the operations visible, call <a href="display.html#al_flip_display">al_flip_display</a>.</p>
+<h1 id="display-an-image">Display an image</h1>
+<p>To load an image from disk, you need to have initialised the image I/O addon with <a href="image.html#al_init_image_addon">al_init_image_addon</a>. Then use <a href="graphics.html#al_load_bitmap">al_load_bitmap</a>, which returns an <a href="graphics.html#allegro_bitmap">ALLEGRO_BITMAP</a>.</p>
+<p>Use <a href="graphics.html#al_draw_bitmap">al_draw_bitmap</a>, <a href="graphics.html#al_draw_scaled_bitmap">al_draw_scaled_bitmap</a> or <a href="graphics.html#al_draw_scaled_rotated_bitmap">al_draw_scaled_rotated_bitmap</a> to draw the image to the backbuffer. Remember to call <a href="display.html#al_flip_display">al_flip_display</a>.</p>
+<h1 id="changing-the-drawing-target">Changing the drawing target</h1>
+<p>Notice that <a href="graphics.html#al_clear_to_color">al_clear_to_color</a> and <a href="graphics.html#al_draw_bitmap">al_draw_bitmap</a> didn’t take destination parameters: the destination is implicit. Allegro remembers the current “target bitmap” for the current thread. To change the target bitmap, call <a href="graphics.html#al_set_target_bitmap">al_set_target_bitmap</a>.</p>
+<p>The backbuffer of the display is also a bitmap. You can get it with <a href="display.html#al_get_backbuffer">al_get_backbuffer</a> and then restore it as the target bitmap.</p>
+<p>Other bitmaps can be created with <a href="graphics.html#al_create_bitmap">al_create_bitmap</a>, with options which can be adjusted with <a href="graphics.html#al_set_new_bitmap_flags">al_set_new_bitmap_flags</a> and <a href="graphics.html#al_set_new_bitmap_format">al_set_new_bitmap_format</a>.</p>
+<h1 id="event-queues-and-input">Event queues and input</h1>
+<p>Input comes from multiple sources: keyboard, mouse, joystick, timers, etc. Event queues aggregate events from all these sources, then you can query the queue for events.</p>
+<p>Create an event queue with <a href="events.html#al_create_event_queue">al_create_event_queue</a>, then tell input sources to place new events into that queue using <a href="events.html#al_register_event_source">al_register_event_source</a>. The usual input event sources can be retrieved with <a href="keyboard.html#al_get_keyboard_event_source">al_get_keyboard_event_source</a>, <a href="mouse.html#al_get_mouse_event_source">al_get_mouse_event_source</a> and <a href="joystick.html#al_get_joystick_event_source">al_get_joystick_event_source</a>.</p>
+<p>Events can be retrieved with <a href="events.html#al_wait_for_event">al_wait_for_event</a> or <a href="events.html#al_get_next_event">al_get_next_event</a>. Check the event type and other fields of <a href="events.html#allegro_event">ALLEGRO_EVENT</a> to react to the input.</p>
+<p>Displays are also event sources, which emit events when they are resized. You’ll need to set the ALLEGRO_RESIZABLE flag with <a href="display.html#al_set_new_display_flags">al_set_new_display_flags</a> before creating the display, then register the display with an event queue. When you get a resize event, call <a href="display.html#al_acknowledge_resize">al_acknowledge_resize</a>.</p>
+<p>Timers are event sources which “tick” periodically, causing an event to be inserted into the queues that the timer is registered with. Create some with <a href="timer.html#al_create_timer">al_create_timer</a>.</p>
+<p><a href="time.html#al_get_time">al_get_time</a> and <a href="time.html#al_rest">al_rest</a> are more direct ways to deal with time.</p>
+<h1 id="displaying-some-text">Displaying some text</h1>
+<p>To display some text, initialise the image and font addons with <a href="image.html#al_init_image_addon">al_init_image_addon</a> and <a href="font.html#al_init_font_addon">al_init_font_addon</a>, then load a bitmap font with <a href="font.html#al_load_font">al_load_font</a>. Use <a href="font.html#al_draw_text">al_draw_text</a> or <a href="font.html#al_draw_textf">al_draw_textf</a>.</p>
+<p>For TrueType fonts, you’ll need to initialise the TTF font addon with <a href="font.html#al_init_ttf_addon">al_init_ttf_addon</a> and load a TTF font with <a href="font.html#al_load_ttf_font">al_load_ttf_font</a>.</p>
+<h1 id="drawing-primitives">Drawing primitives</h1>
+<p>The primitives addon provides some handy routines to draw lines (<a href="primitives.html#al_draw_line">al_draw_line</a>), rectangles (<a href="primitives.html#al_draw_rectangle">al_draw_rectangle</a>), circles (<a href="primitives.html#al_draw_circle">al_draw_circle</a>), etc.</p>
+<h1 id="blending">Blending</h1>
+<p>To draw translucent or tinted images or primitives, change the blender state with <a href="graphics.html#al_set_blender">al_set_blender</a>.</p>
+<p>As with <a href="graphics.html#al_set_target_bitmap">al_set_target_bitmap</a>, this changes Allegro’s internal state (for the current thread). Often you’ll want to save some part of the state and restore it later. The functions <a href="state.html#al_store_state">al_store_state</a> and <a href="state.html#al_restore_state">al_restore_state</a> provide a convenient way to do that.</p>
+<h1 id="sound">Sound</h1>
+<p>Use <a href="audio.html#al_install_audio">al_install_audio</a> to initialize sound. To load any sample formats, you will need to initialise the acodec addon with <a href="acodec.html#al_init_acodec_addon">al_init_acodec_addon</a>.</p>
+<p>After that, you can simply use <a href="audio.html#al_reserve_samples">al_reserve_samples</a> and pass the number of sound effects typically playing at the same time. Then load your sound effects with <a href="audio.html#al_load_sample">al_load_sample</a> and play them with <a href="audio.html#al_play_sample">al_play_sample</a>. To stream large pieces of music from disk, you can use <a href="audio.html#al_load_audio_stream">al_load_audio_stream</a> so the whole piece will not have to be pre-loaded into memory.</p>
+<p>If the above sounds too simple and you can’t help but think about clipping and latency issues, don’t worry. Allegro gives you full control over how much or little you want its sound system to do. The <a href="audio.html#al_reserve_samples">al_reserve_samples</a> function mentioned above only sets up a default mixer and a number of sample instances but you don’t need to use it.</p>
+<p>Instead, to get a “direct connection” to the sound system you would use an <a href="audio.html#allegro_voice">ALLEGRO_VOICE</a> (but depending on the platform only one such voice is guaranteed to be available and it might require a specific format of audio data). Therefore all sound can be first routed through an <a href="audio.html#allegro_mixer">ALLEGRO_MIXER</a> which is connected to such a voice (or another mixer) and will mix together all sample data fed to it.</p>
+<p>You can then directly stream real-time sample data to a mixer or a voice using an <a href="audio.html#allegro_audio_stream">ALLEGRO_AUDIO_STREAM</a> or play complete sounds using an <a href="audio.html#allegro_sample_instance">ALLEGRO_SAMPLE_INSTANCE</a>. The latter simply points to an <a href="audio.html#allegro_sample">ALLEGRO_SAMPLE</a> and will stream it for you.</p>
+<h1 id="unstable-api">Unstable API</h1>
+<p>Some of Allegro’s API is marked as unstable, which means that in future versions of Allegro it may change or even be removed entirely! If you want to experiment with the unstable API, define <code>ALLEGRO_UNSTABLE</code> macro before including Allegro’s headers.</p>
+<p>Note that when you define that macro, the version check performed by <a href="system.html#al_install_system">al_install_system</a> and <a href="system.html#al_init">al_init</a> becomes more scrict. See documentation of those functions for details.</p>
+<h1 id="not-the-end">Not the end</h1>
+<p>There’s a heap of stuff we haven’t even mentioned yet.</p>
+<p>Enjoy!</p>
+<p class="timestamp">
+Allegro version 5.2.7
+ - Last updated: 2021-03-08 01:00:40 UTC
+</p>
+</div>
+</body>
+</html>

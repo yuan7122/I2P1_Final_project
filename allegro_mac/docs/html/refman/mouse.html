@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Mouse routines</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/javascript" src="autosuggest.js"></script>
+  <script type="text/javascript" src="search_index.js"></script>
+</head>
+<body>
+<div class="sidebar">
+<div>
+<ul>
+<li><a href="index.html"><strong>Contents</strong></a></li>
+<li><a href="config.html">Configuration files</a></li>
+<li><a href="display.html">Display</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="file.html">File I/O</a></li>
+<li><a href="fshook.html">Filesystem</a></li>
+<li><a href="fixed.html">Fixed point math</a></li>
+<li><a href="fullscreen_mode.html">Fullscreen modes</a></li>
+<li><a href="graphics.html">Graphics</a></li>
+<li><a href="haptic.html">Haptic</a></li>
+<li><a href="joystick.html">Joystick</a></li>
+<li><a href="keyboard.html">Keyboard</a></li>
+<li><a href="memory.html">Memory</a></li>
+<li><a href="monitor.html">Monitor</a></li>
+<li><a href="mouse.html">Mouse</a></li>
+<li><a href="path.html">Path</a></li>
+<li><a href="shader.html">Shader</a></li>
+<li><a href="state.html">State</a></li>
+<li><a href="system.html">System</a></li>
+<li><a href="threads.html">Threads</a></li>
+<li><a href="time.html">Time</a></li>
+<li><a href="timer.html">Timer</a></li>
+<li><a href="touch.html">Touch input</a></li>
+<li><a href="transformations.html">Transformations</a></li>
+<li><a href="utf8.html">UTF-8</a></li>
+<li><a href="misc.html">Miscellaneous</a></li>
+<li><a href="platform.html">Platform-specific</a></li>
+<li><a href="direct3d.html">Direct3D</a></li>
+<li><a href="opengl.html">OpenGL</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index.html#addons"><strong>Addons</strong></a></li>
+<li><a href="audio.html">Audio addon</a></li>
+<li><a href="acodec.html">Audio codecs</a></li>
+<li><a href="color.html">Color addon</a></li>
+<li><a href="font.html">Font addons</a></li>
+<li><a href="image.html">Image I/O addon</a></li>
+<li><a href="main.html">Main addon</a></li>
+<li><a href="memfile.html">Memfile addon</a></li>
+<li><a href="native_dialog.html">Native dialogs addon</a></li>
+<li><a href="physfs.html">PhysicsFS addon</a></li>
+<li><a href="primitives.html">Primitives addon</a></li>
+<li><a href="video.html">Video streaming addon</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index_all.html"><strong>Index</strong></a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div class="searchbox">
+<script type="text/javascript">
+function on_search(index, control) {
+    // Note to self: the less-than sign must NOT converted to an entity!
+    // SCRIPT elements are special.  The HTML validator gives bad advice.
+    for (i = 0; i < search_index.length; i++) {
+        if (search_index[i] == control.keywords[index]) {
+            break;
+        }
+    }
+    location.href = search_urls[i];
+}
+</script>
+Search<br/> <input type="text" name="q" id="q" size="15" autocomplete="off" placeholder="Press ‘S’ to search" /><br/>
+<script type="text/javascript"> new autosuggest("q", search_index, null, on_search); </script>
+</div>
+</div>
+<div class="content">
+
+
+<header id="title-block-header">
+<h1 class="title">Mouse routines</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#allegro_mouse_state">ALLEGRO_MOUSE_STATE</a></li>
+<li><a href="#al_install_mouse">al_install_mouse</a></li>
+<li><a href="#al_is_mouse_installed">al_is_mouse_installed</a></li>
+<li><a href="#al_uninstall_mouse">al_uninstall_mouse</a></li>
+<li><a href="#al_get_mouse_num_axes">al_get_mouse_num_axes</a></li>
+<li><a href="#al_get_mouse_num_buttons">al_get_mouse_num_buttons</a></li>
+<li><a href="#al_get_mouse_state">al_get_mouse_state</a></li>
+<li><a href="#al_get_mouse_state_axis">al_get_mouse_state_axis</a></li>
+<li><a href="#al_mouse_button_down">al_mouse_button_down</a></li>
+<li><a href="#al_set_mouse_xy">al_set_mouse_xy</a></li>
+<li><a href="#al_set_mouse_z">al_set_mouse_z</a></li>
+<li><a href="#al_set_mouse_w">al_set_mouse_w</a></li>
+<li><a href="#al_set_mouse_axis">al_set_mouse_axis</a></li>
+<li><a href="#al_get_mouse_event_source">al_get_mouse_event_source</a></li>
+<li><a href="#al_set_mouse_wheel_precision">al_set_mouse_wheel_precision</a></li>
+<li><a href="#al_get_mouse_wheel_precision">al_get_mouse_wheel_precision</a></li>
+<li><a href="#mouse-cursors">Mouse cursors</a>
+<ul>
+<li><a href="#al_create_mouse_cursor">al_create_mouse_cursor</a></li>
+<li><a href="#al_destroy_mouse_cursor">al_destroy_mouse_cursor</a></li>
+<li><a href="#al_set_mouse_cursor">al_set_mouse_cursor</a></li>
+<li><a href="#al_set_system_mouse_cursor">al_set_system_mouse_cursor</a></li>
+<li><a href="#al_get_mouse_cursor_position">al_get_mouse_cursor_position</a></li>
+<li><a href="#al_hide_mouse_cursor">al_hide_mouse_cursor</a></li>
+<li><a href="#al_show_mouse_cursor">al_show_mouse_cursor</a></li>
+<li><a href="#al_grab_mouse">al_grab_mouse</a></li>
+<li><a href="#al_ungrab_mouse">al_ungrab_mouse</a></li>
+</ul></li>
+</ul>
+</nav>
+<p>These functions are declared in the main Allegro header file:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a> <span class="pp">#include </span><span class="im">&lt;allegro5/allegro.h&gt;</span></span></code></pre></div>
+<h1 id="allegro_mouse_state">ALLEGRO_MOUSE_STATE</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> ALLEGRO_MOUSE_STATE ALLEGRO_MOUSE_STATE;</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/include/allegro5/mouse.h#L35">Source Code</a></p>
+<p>Public fields (read only):</p>
+<ul>
+<li><p>x - mouse x position</p></li>
+<li><p>y - mouse y position</p></li>
+<li><p>w, z - mouse wheel position (2D ‘ball’)</p></li>
+<li><p>buttons - mouse buttons bitfield</p>
+<p>The zeroth bit is set if the primary mouse button is held down, the first bit is set if the secondary mouse button is held down, and so on.</p></li>
+<li><p>pressure - pressure, ranging from <code>0.0</code> to <code>1.0</code></p></li>
+</ul>
+<p>See also: <a href="mouse.html#al_get_mouse_state">al_get_mouse_state</a>, <a href="mouse.html#al_get_mouse_state_axis">al_get_mouse_state_axis</a>, <a href="mouse.html#al_mouse_button_down">al_mouse_button_down</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse_focus.c#L4">ex_mouse_focus.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse.c#L34">ex_mouse.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/nihgui.cpp#L160">nihgui.cpp</a></li>
+</ul>
+<h1 id="al_install_mouse">al_install_mouse</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_install_mouse(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L49">Source Code</a></p>
+<p>Install a mouse driver.</p>
+<p>Returns true if successful. If a driver was already installed, nothing happens and true is returned.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse_focus.c#L41">ex_mouse_focus.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse.c#L46">ex_mouse.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_font_justify.cpp#L101">ex_font_justify.cpp</a></li>
+</ul>
+<h1 id="al_is_mouse_installed">al_is_mouse_installed</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_is_mouse_installed(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L40">Source Code</a></p>
+<p>Returns true if <a href="mouse.html#al_install_mouse">al_install_mouse</a> was called successfully.</p>
+<h1 id="al_uninstall_mouse">al_uninstall_mouse</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_uninstall_mouse(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L104">Source Code</a></p>
+<p>Uninstalls the active mouse driver, if any. This will automatically unregister the mouse event source with any event queues.</p>
+<p>This function is automatically called when Allegro is shut down.</p>
+<h1 id="al_get_mouse_num_axes">al_get_mouse_num_axes</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">unsigned</span> <span class="dt">int</span> al_get_mouse_num_axes(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L145">Source Code</a></p>
+<p>Return the number of axes on the mouse. The first axis is 0.</p>
+<p>See also: <a href="mouse.html#al_get_mouse_num_buttons">al_get_mouse_num_buttons</a></p>
+<h1 id="al_get_mouse_num_buttons">al_get_mouse_num_buttons</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">unsigned</span> <span class="dt">int</span> al_get_mouse_num_buttons(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L134">Source Code</a></p>
+<p>Return the number of buttons on the mouse. The first button is 1.</p>
+<p>See also: <a href="mouse.html#al_get_mouse_num_axes">al_get_mouse_num_axes</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse_events.c#L68">ex_mouse_events.c</a></li>
+</ul>
+<h1 id="al_get_mouse_state">al_get_mouse_state</h1>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_get_mouse_state(ALLEGRO_MOUSE_STATE *ret_state)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L209">Source Code</a></p>
+<p>Save the state of the mouse specified at the time the function is called into the given structure.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_MOUSE_STATE state;</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>al_get_mouse_state(&amp;state);</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (state.buttons &amp; <span class="dv">1</span>) {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Primary (e.g. left) mouse button is held. */</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    printf(<span class="st">&quot;Mouse position: (%d, %d)</span><span class="sc">\n</span><span class="st">&quot;</span>, state.x, state.y);</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (state.buttons &amp; <span class="dv">2</span>) {</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Secondary (e.g. right) mouse button is held. */</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (state.buttons &amp; <span class="dv">4</span>) {</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Tertiary (e.g. middle) mouse button is held. */</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>See also: <a href="mouse.html#allegro_mouse_state">ALLEGRO_MOUSE_STATE</a>, <a href="mouse.html#al_get_mouse_state_axis">al_get_mouse_state_axis</a>, <a href="mouse.html#al_mouse_button_down">al_mouse_button_down</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse_focus.c#L65">ex_mouse_focus.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse.c#L64">ex_mouse.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/nihgui.cpp#L161">nihgui.cpp</a></li>
+</ul>
+<h1 id="al_get_mouse_state_axis">al_get_mouse_state_axis</h1>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> al_get_mouse_state_axis(<span class="dt">const</span> ALLEGRO_MOUSE_STATE *state, <span class="dt">int</span> axis)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L221">Source Code</a></p>
+<p>Extract the mouse axis value from the saved state. The axes are numbered from 0, in this order: x-axis, y-axis, z-axis, w-axis.</p>
+<p>See also: <a href="mouse.html#allegro_mouse_state">ALLEGRO_MOUSE_STATE</a>, <a href="mouse.html#al_get_mouse_state">al_get_mouse_state</a>, <a href="mouse.html#al_mouse_button_down">al_mouse_button_down</a></p>
+<h1 id="al_mouse_button_down">al_mouse_button_down</h1>
+<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_mouse_button_down(<span class="dt">const</span> ALLEGRO_MOUSE_STATE *state, <span class="dt">int</span> button)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L245">Source Code</a></p>
+<p>Return true if the mouse button specified was held down in the state specified. Unlike most things, the first mouse button is numbered 1.</p>
+<p>See also: <a href="mouse.html#allegro_mouse_state">ALLEGRO_MOUSE_STATE</a>, <a href="mouse.html#al_get_mouse_state">al_get_mouse_state</a>, <a href="mouse.html#al_get_mouse_state_axis">al_get_mouse_state_axis</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse.c#L69">ex_mouse.c</a></li>
+</ul>
+<h1 id="al_set_mouse_xy">al_set_mouse_xy</h1>
+<div class="sourceCode" id="cb12"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_set_mouse_xy(ALLEGRO_DISPLAY *display, <span class="dt">int</span> x, <span class="dt">int</span> y)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L156">Source Code</a></p>
+<p>Try to position the mouse at the given coordinates on the given display. The mouse movement resulting from a successful move will generate an <a href="events.html#allegro_event_mouse_warped">ALLEGRO_EVENT_MOUSE_WARPED</a> event.</p>
+<p>Returns true on success, false on failure.</p>
+<p>See also: <a href="mouse.html#al_set_mouse_z">al_set_mouse_z</a>, <a href="mouse.html#al_set_mouse_w">al_set_mouse_w</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse_warp.c#L92">ex_mouse_warp.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_ogre3d.cpp#L337">ex_ogre3d.cpp</a></li>
+</ul>
+<h1 id="al_set_mouse_z">al_set_mouse_z</h1>
+<div class="sourceCode" id="cb13"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_set_mouse_z(<span class="dt">int</span> z)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L168">Source Code</a></p>
+<p>Set the mouse wheel position to the given value.</p>
+<p>Returns true on success, false on failure.</p>
+<p>See also: <a href="mouse.html#al_set_mouse_w">al_set_mouse_w</a></p>
+<h1 id="al_set_mouse_w">al_set_mouse_w</h1>
+<div class="sourceCode" id="cb14"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_set_mouse_w(<span class="dt">int</span> w)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L180">Source Code</a></p>
+<p>Set the second mouse wheel position to the given value.</p>
+<p>Returns true on success, false on failure.</p>
+<p>See also: <a href="mouse.html#al_set_mouse_z">al_set_mouse_z</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse_events.c#L160">ex_mouse_events.c</a></li>
+</ul>
+<h1 id="al_set_mouse_axis">al_set_mouse_axis</h1>
+<div class="sourceCode" id="cb15"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_set_mouse_axis(<span class="dt">int</span> which, <span class="dt">int</span> value)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L192">Source Code</a></p>
+<p>Set the given mouse axis to the given value.</p>
+<p>The axis number must not be 0 or 1, which are the X and Y axes. Use <a href="mouse.html#al_set_mouse_xy">al_set_mouse_xy</a> for that.</p>
+<p>Returns true on success, false on failure.</p>
+<p>See also: <a href="mouse.html#al_set_mouse_xy">al_set_mouse_xy</a>, <a href="mouse.html#al_set_mouse_z">al_set_mouse_z</a>, <a href="mouse.html#al_set_mouse_w">al_set_mouse_w</a></p>
+<h1 id="al_get_mouse_event_source">al_get_mouse_event_source</h1>
+<div class="sourceCode" id="cb16"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_EVENT_SOURCE *al_get_mouse_event_source(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L305">Source Code</a></p>
+<p>Retrieve the mouse event source. All <a href="events.html#allegro_event_mouse_axes">mouse events</a> are generated by this event source.</p>
+<p>Returns NULL if the mouse subsystem was not installed.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_display_events.c#L58">ex_display_events.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse_warp.c#L46">ex_mouse_warp.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_noframe.c#L44">ex_noframe.c</a></li>
+</ul>
+<h1 id="al_set_mouse_wheel_precision">al_set_mouse_wheel_precision</h1>
+<div class="sourceCode" id="cb17"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_set_mouse_wheel_precision(<span class="dt">int</span> precision)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L316">Source Code</a></p>
+<p>Sets the precision of the mouse wheel (the z and w coordinates). This precision manifests itself as a multiplier on the <code>dz</code> and <code>dw</code> fields in mouse events. It also affects the <code>z</code> and <code>w</code> fields of events and <a href="mouse.html#allegro_mouse_state">ALLEGRO_MOUSE_STATE</a>, but not in a simple way if you alter the precision often, so it is suggested to reset those axes to 0 when you change precision. Setting this to a high value allows you to detect small changes in those two axes for some high precision mice. A flexible way of using this precision is to set it to a high value (120 is likely sufficient for most, if not all, mice) and use a floating point <code>dz</code> and <code>dw</code> like so:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>al_set_mouse_wheel_precision(<span class="dv">120</span>);</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>ALLEGRO_EVENT event;</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>al_wait_for_event(event_queue, &amp;event);</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (event.type == ALLEGRO_EVENT_MOUSE_AXES) {</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">double</span> dz = (<span class="dt">double</span>)event.mouse.dz / al_get_mouse_wheel_precision();</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">/* Use dz in some way... */</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Precision is set to 1 by default. It is impossible to set it to a lower precision than that.</p>
+<p>Since: 5.1.10</p>
+<p>See also: <a href="mouse.html#al_get_mouse_wheel_precision">al_get_mouse_wheel_precision</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse_events.c#L160">ex_mouse_events.c</a></li>
+</ul>
+<h1 id="al_get_mouse_wheel_precision">al_get_mouse_wheel_precision</h1>
+<div class="sourceCode" id="cb19"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> al_get_mouse_wheel_precision(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L329">Source Code</a></p>
+<p>Gets the precision of the mouse wheel (the z and w coordinates).</p>
+<p>Since: 5.1.10</p>
+<p>See also: <a href="mouse.html#al_set_mouse_wheel_precision">al_set_mouse_wheel_precision</a></p>
+<h1 id="mouse-cursors">Mouse cursors</h1>
+<h2 id="al_create_mouse_cursor">al_create_mouse_cursor</h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_MOUSE_CURSOR *al_create_mouse_cursor(ALLEGRO_BITMAP *bmp,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">int</span> x_focus, <span class="dt">int</span> y_focus)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mouse_cursor.c#L24">Source Code</a></p>
+<p>Create a mouse cursor from the bitmap provided. <code>x_focus</code> and <code>y_focus</code> describe the bit of the cursor that will represent the actual mouse position.</p>
+<p>Returns a pointer to the cursor on success, or NULL on failure.</p>
+<p>See also: <a href="mouse.html#al_set_mouse_cursor">al_set_mouse_cursor</a>, <a href="mouse.html#al_destroy_mouse_cursor">al_destroy_mouse_cursor</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse_cursor.c#L149">ex_mouse_cursor.c</a></li>
+</ul>
+<h2 id="al_destroy_mouse_cursor">al_destroy_mouse_cursor</h2>
+<div class="sourceCode" id="cb21"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_destroy_mouse_cursor(ALLEGRO_MOUSE_CURSOR *cursor)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mouse_cursor.c#L37">Source Code</a></p>
+<p>Free the memory used by the given cursor.</p>
+<p>Has no effect if <code>cursor</code> is NULL.</p>
+<p>See also: <a href="mouse.html#al_create_mouse_cursor">al_create_mouse_cursor</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse_cursor.c#L219">ex_mouse_cursor.c</a></li>
+</ul>
+<h2 id="al_set_mouse_cursor">al_set_mouse_cursor</h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_set_mouse_cursor(ALLEGRO_DISPLAY *display, ALLEGRO_MOUSE_CURSOR *cursor)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mouse_cursor.c#L54">Source Code</a></p>
+<p>Set the given mouse cursor to be the current mouse cursor for the given display.</p>
+<p>If the cursor is currently ‘shown’ (as opposed to ‘hidden’) the change is immediately visible.</p>
+<p>Returns true on success, false on failure.</p>
+<p>See also: <a href="mouse.html#al_set_system_mouse_cursor">al_set_system_mouse_cursor</a>, <a href="mouse.html#al_show_mouse_cursor">al_show_mouse_cursor</a>, <a href="mouse.html#al_hide_mouse_cursor">al_hide_mouse_cursor</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse_cursor.c#L210">ex_mouse_cursor.c</a></li>
+</ul>
+<h2 id="al_set_system_mouse_cursor">al_set_system_mouse_cursor</h2>
+<div class="sourceCode" id="cb23"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_set_system_mouse_cursor(ALLEGRO_DISPLAY *display,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>   ALLEGRO_SYSTEM_MOUSE_CURSOR cursor_id)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mouse_cursor.c#L71">Source Code</a></p>
+<p>Set the given system mouse cursor to be the current mouse cursor for the given display. If the cursor is currently ‘shown’ (as opposed to ‘hidden’) the change is immediately visible.</p>
+<p>If the cursor doesn’t exist on the current platform another cursor will be silently be substituted.</p>
+<p>The cursors are:</p>
+<ul>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_ARROW</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_BUSY</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_QUESTION</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_EDIT</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_MOVE</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_RESIZE_N</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_RESIZE_W</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_RESIZE_S</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_RESIZE_E</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_RESIZE_NW</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_RESIZE_SW</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_RESIZE_SE</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_RESIZE_NE</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_PROGRESS</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_PRECISION</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_LINK</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_ALT_SELECT</li>
+<li>ALLEGRO_SYSTEM_MOUSE_CURSOR_UNAVAILABLE</li>
+</ul>
+<p>Returns true on success, false on failure.</p>
+<p>See also: <a href="mouse.html#al_set_mouse_cursor">al_set_mouse_cursor</a>, <a href="mouse.html#al_show_mouse_cursor">al_show_mouse_cursor</a>, <a href="mouse.html#al_hide_mouse_cursor">al_hide_mouse_cursor</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse_cursor.c#L206">ex_mouse_cursor.c</a></li>
+</ul>
+<h2 id="al_get_mouse_cursor_position">al_get_mouse_cursor_position</h2>
+<div class="sourceCode" id="cb24"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_get_mouse_cursor_position(<span class="dt">int</span> *ret_x, <span class="dt">int</span> *ret_y)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L257">Source Code</a></p>
+<p>On platforms where this information is available, this function returns the global location of the mouse cursor, relative to the desktop. You should not normally use this function, as the information is not useful except for special scenarios as moving a window.</p>
+<p>Returns true on success, false on failure.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_noframe.c#L75">ex_noframe.c</a></li>
+</ul>
+<h2 id="al_hide_mouse_cursor">al_hide_mouse_cursor</h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_hide_mouse_cursor(ALLEGRO_DISPLAY *display)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mouse_cursor.c#L109">Source Code</a></p>
+<p>Hide the mouse cursor in the given display. This has no effect on what the current mouse cursor looks like; it just makes it disappear.</p>
+<p>Returns true on success (or if the cursor already was hidden), false otherwise.</p>
+<p>See also: <a href="mouse.html#al_show_mouse_cursor">al_show_mouse_cursor</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse.c#L56">ex_mouse.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_ogre3d.cpp#L336">ex_ogre3d.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse_events.c#L78">ex_mouse_events.c</a></li>
+</ul>
+<h2 id="al_show_mouse_cursor">al_show_mouse_cursor</h2>
+<div class="sourceCode" id="cb26"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_show_mouse_cursor(ALLEGRO_DISPLAY *display)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mouse_cursor.c#L96">Source Code</a></p>
+<p>Make a mouse cursor visible in the given display.</p>
+<p>Returns true if a mouse cursor is shown as a result of the call (or one already was visible), false otherwise.</p>
+<p>See also: <a href="mouse.html#al_hide_mouse_cursor">al_hide_mouse_cursor</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_ogre3d.cpp#L323">ex_ogre3d.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_mouse_cursor.c#L194">ex_mouse_cursor.c</a></li>
+</ul>
+<h2 id="al_grab_mouse">al_grab_mouse</h2>
+<div class="sourceCode" id="cb27"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_grab_mouse(ALLEGRO_DISPLAY *display)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L277">Source Code</a></p>
+<p>Confine the mouse cursor to the given display. The mouse cursor can only be confined to one display at a time.</p>
+<p>Returns true if successful, otherwise returns false. Do not assume that the cursor will remain confined until you call <a href="mouse.html#al_ungrab_mouse">al_ungrab_mouse</a>. It may lose the confined status at any time for other reasons.</p>
+<blockquote>
+<p><em>Note:</em> not yet implemented on Mac OS X.</p>
+</blockquote>
+<p>See also: <a href="mouse.html#al_ungrab_mouse">al_ungrab_mouse</a></p>
+<h2 id="al_ungrab_mouse">al_ungrab_mouse</h2>
+<div class="sourceCode" id="cb28"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_ungrab_mouse(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/mousenu.c#L291">Source Code</a></p>
+<p>Stop confining the mouse cursor to any display belonging to the program.</p>
+<blockquote>
+<p><em>Note:</em> not yet implemented on Mac OS X.</p>
+</blockquote>
+<p>See also: <a href="mouse.html#al_grab_mouse">al_grab_mouse</a></p>
+<p class="timestamp">
+Allegro version 5.2.7
+ - Last updated: 2021-03-08 01:00:41 UTC
+</p>
+</div>
+</body>
+</html>

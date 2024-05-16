@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Threads</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/javascript" src="autosuggest.js"></script>
+  <script type="text/javascript" src="search_index.js"></script>
+</head>
+<body>
+<div class="sidebar">
+<div>
+<ul>
+<li><a href="index.html"><strong>Contents</strong></a></li>
+<li><a href="config.html">Configuration files</a></li>
+<li><a href="display.html">Display</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="file.html">File I/O</a></li>
+<li><a href="fshook.html">Filesystem</a></li>
+<li><a href="fixed.html">Fixed point math</a></li>
+<li><a href="fullscreen_mode.html">Fullscreen modes</a></li>
+<li><a href="graphics.html">Graphics</a></li>
+<li><a href="haptic.html">Haptic</a></li>
+<li><a href="joystick.html">Joystick</a></li>
+<li><a href="keyboard.html">Keyboard</a></li>
+<li><a href="memory.html">Memory</a></li>
+<li><a href="monitor.html">Monitor</a></li>
+<li><a href="mouse.html">Mouse</a></li>
+<li><a href="path.html">Path</a></li>
+<li><a href="shader.html">Shader</a></li>
+<li><a href="state.html">State</a></li>
+<li><a href="system.html">System</a></li>
+<li><a href="threads.html">Threads</a></li>
+<li><a href="time.html">Time</a></li>
+<li><a href="timer.html">Timer</a></li>
+<li><a href="touch.html">Touch input</a></li>
+<li><a href="transformations.html">Transformations</a></li>
+<li><a href="utf8.html">UTF-8</a></li>
+<li><a href="misc.html">Miscellaneous</a></li>
+<li><a href="platform.html">Platform-specific</a></li>
+<li><a href="direct3d.html">Direct3D</a></li>
+<li><a href="opengl.html">OpenGL</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index.html#addons"><strong>Addons</strong></a></li>
+<li><a href="audio.html">Audio addon</a></li>
+<li><a href="acodec.html">Audio codecs</a></li>
+<li><a href="color.html">Color addon</a></li>
+<li><a href="font.html">Font addons</a></li>
+<li><a href="image.html">Image I/O addon</a></li>
+<li><a href="main.html">Main addon</a></li>
+<li><a href="memfile.html">Memfile addon</a></li>
+<li><a href="native_dialog.html">Native dialogs addon</a></li>
+<li><a href="physfs.html">PhysicsFS addon</a></li>
+<li><a href="primitives.html">Primitives addon</a></li>
+<li><a href="video.html">Video streaming addon</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index_all.html"><strong>Index</strong></a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div class="searchbox">
+<script type="text/javascript">
+function on_search(index, control) {
+    // Note to self: the less-than sign must NOT converted to an entity!
+    // SCRIPT elements are special.  The HTML validator gives bad advice.
+    for (i = 0; i < search_index.length; i++) {
+        if (search_index[i] == control.keywords[index]) {
+            break;
+        }
+    }
+    location.href = search_urls[i];
+}
+</script>
+Search<br/> <input type="text" name="q" id="q" size="15" autocomplete="off" placeholder="Press ‘S’ to search" /><br/>
+<script type="text/javascript"> new autosuggest("q", search_index, null, on_search); </script>
+</div>
+</div>
+<div class="content">
+
+
+<header id="title-block-header">
+<h1 class="title">Threads</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#allegro_thread">ALLEGRO_THREAD</a></li>
+<li><a href="#allegro_mutex">ALLEGRO_MUTEX</a></li>
+<li><a href="#allegro_cond">ALLEGRO_COND</a></li>
+<li><a href="#al_create_thread">al_create_thread</a></li>
+<li><a href="#al_create_thread_with_stacksize">al_create_thread_with_stacksize</a></li>
+<li><a href="#al_start_thread">al_start_thread</a></li>
+<li><a href="#al_join_thread">al_join_thread</a></li>
+<li><a href="#al_set_thread_should_stop">al_set_thread_should_stop</a></li>
+<li><a href="#al_get_thread_should_stop">al_get_thread_should_stop</a></li>
+<li><a href="#al_destroy_thread">al_destroy_thread</a></li>
+<li><a href="#al_run_detached_thread">al_run_detached_thread</a></li>
+<li><a href="#al_create_mutex">al_create_mutex</a></li>
+<li><a href="#al_create_mutex_recursive">al_create_mutex_recursive</a></li>
+<li><a href="#al_lock_mutex">al_lock_mutex</a></li>
+<li><a href="#al_unlock_mutex">al_unlock_mutex</a></li>
+<li><a href="#al_destroy_mutex">al_destroy_mutex</a></li>
+<li><a href="#al_create_cond">al_create_cond</a></li>
+<li><a href="#al_destroy_cond">al_destroy_cond</a></li>
+<li><a href="#al_wait_cond">al_wait_cond</a></li>
+<li><a href="#al_wait_cond_until">al_wait_cond_until</a></li>
+<li><a href="#al_broadcast_cond">al_broadcast_cond</a></li>
+<li><a href="#al_signal_cond">al_signal_cond</a></li>
+</ul>
+</nav>
+<p>Allegro includes a simple cross-platform threading interface. It is a thin layer on top of two threading APIs: Windows threads and POSIX Threads (pthreads). Enforcing a consistent semantics on all platforms would be difficult at best, hence the behaviour of the following functions will differ subtly on different platforms (more so than usual). Your best bet is to be aware of this and code to the intersection of the semantics and avoid edge cases.</p>
+<p>These functions are declared in the main Allegro header file:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a> <span class="pp">#include </span><span class="im">&lt;allegro5/allegro.h&gt;</span></span></code></pre></div>
+<h1 id="allegro_thread">ALLEGRO_THREAD</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> ALLEGRO_THREAD ALLEGRO_THREAD;</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/include/allegro5/threads.h#L27">Source Code</a></p>
+<p>An opaque structure representing a thread.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads.c#L97">ex_threads.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads2.c#L150">ex_threads2.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_loading_thread.c#L16">ex_loading_thread.c</a></li>
+</ul>
+<h1 id="allegro_mutex">ALLEGRO_MUTEX</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> ALLEGRO_MUTEX ALLEGRO_MUTEX;</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/include/allegro5/threads.h#L31">Source Code</a></p>
+<p>An opaque structure representing a mutex.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads2.c#L27">ex_threads2.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_loading_thread.c#L14">ex_loading_thread.c</a></li>
+</ul>
+<h1 id="allegro_cond">ALLEGRO_COND</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> ALLEGRO_COND ALLEGRO_COND;</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/include/allegro5/threads.h#L35">Source Code</a></p>
+<p>An opaque structure representing a condition variable.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads2.c#L28">ex_threads2.c</a></li>
+</ul>
+<h1 id="al_create_thread">al_create_thread</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_THREAD *al_create_thread(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">void</span> *(*proc)(ALLEGRO_THREAD *thread, <span class="dt">void</span> *arg), <span class="dt">void</span> *arg)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L115">Source Code</a></p>
+<p>Spawn a new thread which begins executing <code>proc</code>. The new thread is passed its own thread handle and the value <code>arg</code>.</p>
+<p>Returns a pointer to the thread on success. Otherwise, returns NULL if there was an error.</p>
+<p>See also: <a href="threads.html#al_start_thread">al_start_thread</a>, <a href="threads.html#al_join_thread">al_join_thread</a>.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads.c#L233">ex_threads.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads2.c#L313">ex_threads2.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_loading_thread.c#L158">ex_loading_thread.c</a></li>
+</ul>
+<h1 id="al_create_thread_with_stacksize">al_create_thread_with_stacksize</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_THREAD *al_create_thread_with_stacksize(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">void</span> *(*proc)(ALLEGRO_THREAD *thread, <span class="dt">void</span> *arg), <span class="dt">void</span> *arg, <span class="dt">size_t</span> stacksize)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L131">Source Code</a></p>
+<p>Spawn a new thread with the give stacksize in bytes which begins executing <code>proc</code>. The new thread is passed its own thread handle and the value <code>arg</code>.</p>
+<p>Returns a pointer to the thread on success. Otherwise, returns NULL if there was an error.</p>
+<p>Since: 5.2.5</p>
+<blockquote>
+<p><em><a href="getting_started.html#unstable-api">Unstable API</a>:</em> New API, may want a better way to specify thread options.</p>
+</blockquote>
+<p>See also: <a href="threads.html#al_start_thread">al_start_thread</a>, <a href="threads.html#al_join_thread">al_join_thread</a>.</p>
+<h1 id="al_start_thread">al_start_thread</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_start_thread(ALLEGRO_THREAD *thread)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L160">Source Code</a></p>
+<p>When a thread is created, it is initially in a suspended state. Calling <a href="threads.html#al_start_thread">al_start_thread</a> will start its actual execution.</p>
+<p>Starting a thread which has already been started does nothing.</p>
+<p>See also: <a href="threads.html#al_create_thread">al_create_thread</a>.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads.c#L237">ex_threads.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads2.c#L329">ex_threads2.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_loading_thread.c#L159">ex_loading_thread.c</a></li>
+</ul>
+<h1 id="al_join_thread">al_join_thread</h1>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_join_thread(ALLEGRO_THREAD *thread, <span class="dt">void</span> **ret_value)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L194">Source Code</a></p>
+<p>Wait for the thread to finish executing. This implicitly calls <a href="threads.html#al_set_thread_should_stop">al_set_thread_should_stop</a> first.</p>
+<p>If <code>ret_value</code> is non-<code>NULL</code>, the value returned by the thread function will be stored at the location pointed to by <code>ret_value</code>.</p>
+<p>See also: <a href="threads.html#al_set_thread_should_stop">al_set_thread_should_stop</a>, <a href="threads.html#al_get_thread_should_stop">al_get_thread_should_stop</a>, <a href="threads.html#al_destroy_thread">al_destroy_thread</a>.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads.c#L240">ex_threads.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads2.c#L383">ex_threads2.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_loading_thread.c#L227">ex_loading_thread.c</a></li>
+</ul>
+<h1 id="al_set_thread_should_stop">al_set_thread_should_stop</h1>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_set_thread_should_stop(ALLEGRO_THREAD *thread)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L244">Source Code</a></p>
+<p>Set the flag to indicate <code>thread</code> should stop. Returns immediately.</p>
+<p>See also: <a href="threads.html#al_join_thread">al_join_thread</a>, <a href="threads.html#al_get_thread_should_stop">al_get_thread_should_stop</a>.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads2.c#L375">ex_threads2.c</a></li>
+</ul>
+<h1 id="al_get_thread_should_stop">al_get_thread_should_stop</h1>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_get_thread_should_stop(ALLEGRO_THREAD *thread)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L253">Source Code</a></p>
+<p>Check if another thread is waiting for <code>thread</code> to stop. Threads which run in a loop should check this periodically and act on it when convenient.</p>
+<p>Returns true if another thread has called <a href="threads.html#al_join_thread">al_join_thread</a> or <a href="threads.html#al_set_thread_should_stop">al_set_thread_should_stop</a> on this thread.</p>
+<p>See also: <a href="threads.html#al_join_thread">al_join_thread</a>, <a href="threads.html#al_set_thread_should_stop">al_set_thread_should_stop</a>.</p>
+<blockquote>
+<p><em>Note:</em> We don’t support forceful killing of threads.</p>
+</blockquote>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads2.c#L168">ex_threads2.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_loading_thread.c#L38">ex_loading_thread.c</a></li>
+</ul>
+<h1 id="al_destroy_thread">al_destroy_thread</h1>
+<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_destroy_thread(ALLEGRO_THREAD *thread)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L262">Source Code</a></p>
+<p>Free the resources used by a thread. Implicitly performs <a href="threads.html#al_join_thread">al_join_thread</a> on the thread if it hasn’t been done already.</p>
+<p>Does nothing if <code>thread</code> is NULL.</p>
+<p>See also: <a href="threads.html#al_join_thread">al_join_thread</a>.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads.c#L241">ex_threads.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads2.c#L380">ex_threads2.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_native_filechooser.c#L130">ex_native_filechooser.c</a></li>
+</ul>
+<h1 id="al_run_detached_thread">al_run_detached_thread</h1>
+<div class="sourceCode" id="cb12"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_run_detached_thread(<span class="dt">void</span> *(*proc)(<span class="dt">void</span> *arg), <span class="dt">void</span> *arg)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L147">Source Code</a></p>
+<p>Runs the passed function in its own thread, with <code>arg</code> passed to it as only parameter. This is similar to calling <a href="threads.html#al_create_thread">al_create_thread</a>, <a href="threads.html#al_start_thread">al_start_thread</a> and (after the thread has finished) <a href="threads.html#al_destroy_thread">al_destroy_thread</a> - but you don’t have the possibility of ever calling <a href="threads.html#al_join_thread">al_join_thread</a> on the thread.</p>
+<h1 id="al_create_mutex">al_create_mutex</h1>
+<div class="sourceCode" id="cb13"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_MUTEX *al_create_mutex(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L296">Source Code</a></p>
+<p>Create the mutex object (a mutual exclusion device). The mutex may or may not support “recursive” locking.</p>
+<p>Returns the mutex on success or <code>NULL</code> on error.</p>
+<p>See also: <a href="threads.html#al_create_mutex_recursive">al_create_mutex_recursive</a>.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads2.c#L303">ex_threads2.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_loading_thread.c#L157">ex_loading_thread.c</a></li>
+</ul>
+<h1 id="al_create_mutex_recursive">al_create_mutex_recursive</h1>
+<div class="sourceCode" id="cb14"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_MUTEX *al_create_mutex_recursive(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L309">Source Code</a></p>
+<p>Create the mutex object (a mutual exclusion device), with support for “recursive” locking. That is, the mutex will count the number of times it has been locked by the same thread. If the caller tries to acquire a lock on the mutex when it already holds the lock then the count is incremented. The mutex is only unlocked when the thread releases the lock on the mutex an equal number of times, i.e. the count drops down to zero.</p>
+<p>See also: <a href="threads.html#al_create_mutex">al_create_mutex</a>.</p>
+<h1 id="al_lock_mutex">al_lock_mutex</h1>
+<div class="sourceCode" id="cb15"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_lock_mutex(ALLEGRO_MUTEX *mutex)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L322">Source Code</a></p>
+<p>Acquire the lock on <code>mutex</code>. If the mutex is already locked by another thread, the call will block until the mutex becomes available and locked.</p>
+<p>If the mutex is already locked by the calling thread, then the behaviour depends on whether the mutex was created with <a href="threads.html#al_create_mutex">al_create_mutex</a> or <a href="threads.html#al_create_mutex_recursive">al_create_mutex_recursive</a>. In the former case, the behaviour is undefined; the most likely behaviour is deadlock. In the latter case, the count in the mutex will be incremented and the call will return immediately.</p>
+<p>See also: <a href="threads.html#al_unlock_mutex">al_unlock_mutex</a>.</p>
+<p><strong>We don’t yet have al_mutex_trylock.</strong></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads2.c#L169">ex_threads2.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_loading_thread.c#L50">ex_loading_thread.c</a></li>
+</ul>
+<h1 id="al_unlock_mutex">al_unlock_mutex</h1>
+<div class="sourceCode" id="cb16"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_unlock_mutex(ALLEGRO_MUTEX *mutex)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L332">Source Code</a></p>
+<p>Release the lock on <code>mutex</code> if the calling thread holds the lock on it.</p>
+<p>If the calling thread doesn’t hold the lock, or if the mutex is not locked, undefined behaviour results.</p>
+<p>See also: <a href="threads.html#al_lock_mutex">al_lock_mutex</a>.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads2.c#L199">ex_threads2.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_loading_thread.c#L53">ex_loading_thread.c</a></li>
+</ul>
+<h1 id="al_destroy_mutex">al_destroy_mutex</h1>
+<div class="sourceCode" id="cb17"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_destroy_mutex(ALLEGRO_MUTEX *mutex)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L341">Source Code</a></p>
+<p>Free the resources used by the mutex. The mutex should be unlocked. Destroying a locked mutex results in undefined behaviour.</p>
+<p>Does nothing if <code>mutex</code> is <code>NULL</code>.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_loading_thread.c#L228">ex_loading_thread.c</a></li>
+</ul>
+<h1 id="al_create_cond">al_create_cond</h1>
+<div class="sourceCode" id="cb18"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_COND *al_create_cond(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L352">Source Code</a></p>
+<p>Create a condition variable.</p>
+<p>Returns the condition value on success or <code>NULL</code> on error.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads2.c#L307">ex_threads2.c</a></li>
+</ul>
+<h1 id="al_destroy_cond">al_destroy_cond</h1>
+<div class="sourceCode" id="cb19"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_destroy_cond(ALLEGRO_COND *cond)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L364">Source Code</a></p>
+<p>Destroy a condition variable.</p>
+<p>Destroying a condition variable which has threads block on it results in undefined behaviour.</p>
+<p>Does nothing if <code>cond</code> is <code>NULL</code>.</p>
+<h1 id="al_wait_cond">al_wait_cond</h1>
+<div class="sourceCode" id="cb20"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_wait_cond(ALLEGRO_COND *cond, ALLEGRO_MUTEX *mutex)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L375">Source Code</a></p>
+<p>On entering this function, <code>mutex</code> must be locked by the calling thread. The function will atomically release <code>mutex</code> and block on <code>cond</code>. The function will return when <code>cond</code> is “signalled”, acquiring the lock on the mutex in the process.</p>
+<p>Example of proper use:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>al_lock_mutex(mutex);</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (something_not_true) {</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>   al_wait_cond(cond, mutex);</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>do_something();</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>al_unlock_mutex(mutex);</span></code></pre></div>
+<p>The mutex should be locked before checking the condition, and should be rechecked <a href="threads.html#al_wait_cond">al_wait_cond</a> returns. <a href="threads.html#al_wait_cond">al_wait_cond</a> can return for other reasons than the condition becoming true (e.g. the process was signalled). If multiple threads are blocked on the condition variable, the condition may no longer be true by the time the second and later threads are unblocked. Remember not to unlock the mutex prematurely.</p>
+<p>See also: <a href="threads.html#al_wait_cond_until">al_wait_cond_until</a>, <a href="threads.html#al_broadcast_cond">al_broadcast_cond</a>, <a href="threads.html#al_signal_cond">al_signal_cond</a>.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads2.c#L172">ex_threads2.c</a></li>
+</ul>
+<h1 id="al_wait_cond_until">al_wait_cond_until</h1>
+<div class="sourceCode" id="cb22"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> al_wait_cond_until(ALLEGRO_COND *cond, ALLEGRO_MUTEX *mutex,</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">const</span> ALLEGRO_TIMEOUT *timeout)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L386">Source Code</a></p>
+<p>Like <a href="threads.html#al_wait_cond">al_wait_cond</a> but the call can return if the absolute time passes <code>timeout</code> before the condition is signalled.</p>
+<p>Returns zero on success, non-zero if the call timed out.</p>
+<p>See also: <a href="threads.html#al_wait_cond">al_wait_cond</a></p>
+<h1 id="al_broadcast_cond">al_broadcast_cond</h1>
+<div class="sourceCode" id="cb23"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_broadcast_cond(ALLEGRO_COND *cond)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L399">Source Code</a></p>
+<p>Unblock all threads currently waiting on a condition variable. That is, broadcast that some condition which those threads were waiting for has become true.</p>
+<p>See also: <a href="threads.html#al_signal_cond">al_signal_cond</a>.</p>
+<blockquote>
+<p><em>Note:</em> The pthreads spec says to lock the mutex associated with <code>cond</code> before signalling for predictable scheduling behaviour.</p>
+</blockquote>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_threads2.c#L243">ex_threads2.c</a></li>
+</ul>
+<h1 id="al_signal_cond">al_signal_cond</h1>
+<div class="sourceCode" id="cb24"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_signal_cond(ALLEGRO_COND *cond)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/threads.c#L409">Source Code</a></p>
+<p>Unblock at least one thread waiting on a condition variable.</p>
+<p>Generally you should use <a href="threads.html#al_broadcast_cond">al_broadcast_cond</a> but <a href="threads.html#al_signal_cond">al_signal_cond</a> may be more efficient when it’s applicable.</p>
+<p>See also: <a href="threads.html#al_broadcast_cond">al_broadcast_cond</a>.</p>
+<p class="timestamp">
+Allegro version 5.2.7
+ - Last updated: 2021-03-08 01:00:42 UTC
+</p>
+</div>
+</body>
+</html>

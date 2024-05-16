@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>OpenGL integration</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/javascript" src="autosuggest.js"></script>
+  <script type="text/javascript" src="search_index.js"></script>
+</head>
+<body>
+<div class="sidebar">
+<div>
+<ul>
+<li><a href="index.html"><strong>Contents</strong></a></li>
+<li><a href="config.html">Configuration files</a></li>
+<li><a href="display.html">Display</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="file.html">File I/O</a></li>
+<li><a href="fshook.html">Filesystem</a></li>
+<li><a href="fixed.html">Fixed point math</a></li>
+<li><a href="fullscreen_mode.html">Fullscreen modes</a></li>
+<li><a href="graphics.html">Graphics</a></li>
+<li><a href="haptic.html">Haptic</a></li>
+<li><a href="joystick.html">Joystick</a></li>
+<li><a href="keyboard.html">Keyboard</a></li>
+<li><a href="memory.html">Memory</a></li>
+<li><a href="monitor.html">Monitor</a></li>
+<li><a href="mouse.html">Mouse</a></li>
+<li><a href="path.html">Path</a></li>
+<li><a href="shader.html">Shader</a></li>
+<li><a href="state.html">State</a></li>
+<li><a href="system.html">System</a></li>
+<li><a href="threads.html">Threads</a></li>
+<li><a href="time.html">Time</a></li>
+<li><a href="timer.html">Timer</a></li>
+<li><a href="touch.html">Touch input</a></li>
+<li><a href="transformations.html">Transformations</a></li>
+<li><a href="utf8.html">UTF-8</a></li>
+<li><a href="misc.html">Miscellaneous</a></li>
+<li><a href="platform.html">Platform-specific</a></li>
+<li><a href="direct3d.html">Direct3D</a></li>
+<li><a href="opengl.html">OpenGL</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index.html#addons"><strong>Addons</strong></a></li>
+<li><a href="audio.html">Audio addon</a></li>
+<li><a href="acodec.html">Audio codecs</a></li>
+<li><a href="color.html">Color addon</a></li>
+<li><a href="font.html">Font addons</a></li>
+<li><a href="image.html">Image I/O addon</a></li>
+<li><a href="main.html">Main addon</a></li>
+<li><a href="memfile.html">Memfile addon</a></li>
+<li><a href="native_dialog.html">Native dialogs addon</a></li>
+<li><a href="physfs.html">PhysicsFS addon</a></li>
+<li><a href="primitives.html">Primitives addon</a></li>
+<li><a href="video.html">Video streaming addon</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index_all.html"><strong>Index</strong></a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div class="searchbox">
+<script type="text/javascript">
+function on_search(index, control) {
+    // Note to self: the less-than sign must NOT converted to an entity!
+    // SCRIPT elements are special.  The HTML validator gives bad advice.
+    for (i = 0; i < search_index.length; i++) {
+        if (search_index[i] == control.keywords[index]) {
+            break;
+        }
+    }
+    location.href = search_urls[i];
+}
+</script>
+Search<br/> <input type="text" name="q" id="q" size="15" autocomplete="off" placeholder="Press ‘S’ to search" /><br/>
+<script type="text/javascript"> new autosuggest("q", search_index, null, on_search); </script>
+</div>
+</div>
+<div class="content">
+
+
+<header id="title-block-header">
+<h1 class="title">OpenGL integration</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#al_get_opengl_extension_list">al_get_opengl_extension_list</a></li>
+<li><a href="#al_get_opengl_proc_address">al_get_opengl_proc_address</a></li>
+<li><a href="#al_get_opengl_texture">al_get_opengl_texture</a></li>
+<li><a href="#al_get_opengl_texture_size">al_get_opengl_texture_size</a></li>
+<li><a href="#al_get_opengl_texture_position">al_get_opengl_texture_position</a></li>
+<li><a href="#al_get_opengl_program_object">al_get_opengl_program_object</a></li>
+<li><a href="#al_get_opengl_fbo">al_get_opengl_fbo</a></li>
+<li><a href="#al_remove_opengl_fbo">al_remove_opengl_fbo</a></li>
+<li><a href="#al_have_opengl_extension">al_have_opengl_extension</a></li>
+<li><a href="#al_get_opengl_version">al_get_opengl_version</a></li>
+<li><a href="#al_get_opengl_variant">al_get_opengl_variant</a></li>
+<li><a href="#al_set_current_opengl_context">al_set_current_opengl_context</a></li>
+<li><a href="#opengl-configuration">OpenGL configuration</a></li>
+</ul>
+</nav>
+<p>These functions are declared in the following header file:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a> <span class="pp">#include </span><span class="im">&lt;allegro5/allegro_opengl.h&gt;</span></span></code></pre></div>
+<h1 id="al_get_opengl_extension_list">al_get_opengl_extension_list</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ALLEGRO_OGL_EXT_LIST *al_get_opengl_extension_list(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/opengl/extensions.c#L917">Source Code</a></p>
+<p>Returns the list of OpenGL extensions supported by Allegro, for the given display.</p>
+<p>Allegro will keep information about all extensions it knows about in a structure returned by <code>al_get_opengl_extension_list</code>.</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (al_get_opengl_extension_list()-&gt;ALLEGRO_GL_ARB_multitexture) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>   <span class="co">//use it</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>The extension will be set to true if available for the given display and false otherwise. This means to use the definitions and functions from an OpenGL extension, all you need to do is to check for it as above at run time, after acquiring the OpenGL display from Allegro.</p>
+<p>Under Windows, this will also work with WGL extensions, and under Unix with GLX extensions.</p>
+<p>In case you want to manually check for extensions and load function pointers yourself (say, in case the Allegro developers did not include it yet), you can use the <a href="opengl.html#al_have_opengl_extension">al_have_opengl_extension</a> and <a href="opengl.html#al_get_opengl_proc_address">al_get_opengl_proc_address</a> functions instead.</p>
+<blockquote>
+<p><em>Note:</em> the exact extensions exposed depend on how Allegro was compiled. It is recommended to use <a href="opengl.html#al_have_opengl_extension">al_have_opengl_extension</a> and <a href="opengl.html#al_get_opengl_proc_address">al_get_opengl_proc_address</a> for the most stable experience.</p>
+</blockquote>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_opengl.c#L52">ex_opengl.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_glext.c#L245">ex_glext.c</a></li>
+</ul>
+<h1 id="al_get_opengl_proc_address">al_get_opengl_proc_address</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> *al_get_opengl_proc_address(<span class="dt">const</span> <span class="dt">char</span> *name)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/opengl/extensions.c#L578">Source Code</a></p>
+<p>Helper to get the address of an OpenGL symbol</p>
+<p>Example:</p>
+<p>How to get the function <em>glMultiTexCoord3fARB</em> that comes with ARB’s Multitexture extension:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// define the type of the function</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ALLEGRO_DEFINE_PROC_TYPE(<span class="dt">void</span>, MULTI_TEX_FUNC,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                         (GLenum, GLfloat, GLfloat, GLfloat));</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">// declare the function pointer</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>MULTI_TEX_FUNC glMultiTexCoord3fARB;</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">// get the address of the function</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>glMultiTexCoord3fARB = (MULTI_TEX_FUNC) al_get_opengl_proc_address(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                                                        <span class="st">&quot;glMultiTexCoord3fARB&quot;</span>);</span></code></pre></div>
+<p>If <em>glMultiTexCoord3fARB</em> is not NULL then it can be used as if it has been defined in the OpenGL core library.</p>
+<blockquote>
+<p><em>Note:</em> Under Windows, OpenGL functions may need a special calling convention, so it’s best to always use the ALLEGRO_DEFINE_PROC_TYPE macro when declaring function pointer types for OpenGL functions.</p>
+</blockquote>
+<p>Parameters:</p>
+<p>name - The name of the symbol you want to link to.</p>
+<p><em>Return value:</em></p>
+<p>A pointer to the symbol if available or NULL otherwise.</p>
+<h1 id="al_get_opengl_texture">al_get_opengl_texture</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>GLuint al_get_opengl_texture(ALLEGRO_BITMAP *bitmap)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/opengl/ogl_bitmap.c#L1142">Source Code</a></p>
+<p>Returns the OpenGL texture id internally used by the given bitmap if it uses one, else 0.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>bitmap = al_load_bitmap(<span class="st">&quot;my_texture.png&quot;</span>);</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>texture = al_get_opengl_texture(bitmap);</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (texture != <span class="dv">0</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    glBindTexture(GL_TEXTURE_2D, texture);</span></code></pre></div>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_opengl_pixel_shader.c#L81">ex_opengl_pixel_shader.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_gldepth.c#L174">ex_gldepth.c</a></li>
+</ul>
+<h1 id="al_get_opengl_texture_size">al_get_opengl_texture_size</h1>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_get_opengl_texture_size(ALLEGRO_BITMAP *bitmap, <span class="dt">int</span> *w, <span class="dt">int</span> *h)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/opengl/ogl_bitmap.c#L1208">Source Code</a></p>
+<p>Retrieves the size of the texture used for the bitmap. This can be different from the bitmap size if OpenGL only supports power-of-two sizes or if it is a sub-bitmap.</p>
+<p>Returns true on success, false on failure. Zero width and height are returned if the bitmap is not an OpenGL bitmap.</p>
+<p>See also: <a href="opengl.html#al_get_opengl_texture_position">al_get_opengl_texture_position</a></p>
+<h1 id="al_get_opengl_texture_position">al_get_opengl_texture_position</h1>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_get_opengl_texture_position(ALLEGRO_BITMAP *bitmap, <span class="dt">int</span> *u, <span class="dt">int</span> *v)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/opengl/ogl_bitmap.c#L1232">Source Code</a></p>
+<p>Returns the u/v coordinates for the top/left corner of the bitmap within the used texture, in pixels.</p>
+<p>See also: <a href="opengl.html#al_get_opengl_texture_size">al_get_opengl_texture_size</a></p>
+<h1 id="al_get_opengl_program_object">al_get_opengl_program_object</h1>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>GLuint al_get_opengl_program_object(ALLEGRO_SHADER *shader)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/opengl/ogl_shader.c#L511">Source Code</a></p>
+<p>Returns the OpenGL program object associated with this shader, if the platform is <code>ALLEGRO_SHADER_GLSL</code>. Otherwise, returns 0.</p>
+<h1 id="al_get_opengl_fbo">al_get_opengl_fbo</h1>
+<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>GLuint al_get_opengl_fbo(ALLEGRO_BITMAP *bitmap)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/opengl/ogl_bitmap.c#L1182">Source Code</a></p>
+<p>Returns the OpenGL FBO id internally used by the given bitmap if it uses one, otherwise returns zero. No attempt will be made to create an FBO if the bitmap is not owned by the current display.</p>
+<p>The FBO returned by this function will only be freed when the bitmap is destroyed, or if you call <a href="opengl.html#al_remove_opengl_fbo">al_remove_opengl_fbo</a> on the bitmap.</p>
+<blockquote>
+<p><em>Note:</em> In Allegro 5.0.0 this function only returned an FBO which had previously been created by calling <a href="graphics.html#al_set_target_bitmap">al_set_target_bitmap</a>. It would not attempt to create an FBO itself. This has since been changed.</p>
+</blockquote>
+<p>See also: <a href="opengl.html#al_remove_opengl_fbo">al_remove_opengl_fbo</a>, <a href="graphics.html#al_set_target_bitmap">al_set_target_bitmap</a></p>
+<h1 id="al_remove_opengl_fbo">al_remove_opengl_fbo</h1>
+<div class="sourceCode" id="cb12"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_remove_opengl_fbo(ALLEGRO_BITMAP *bitmap)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/opengl/ogl_bitmap.c#L1155">Source Code</a></p>
+<p>Explicitly free an OpenGL FBO created for a bitmap, if it has one. Usually you do not need to worry about freeing FBOs, unless you use <a href="opengl.html#al_get_opengl_fbo">al_get_opengl_fbo</a>.</p>
+<p>See also: <a href="opengl.html#al_get_opengl_fbo">al_get_opengl_fbo</a>, <a href="graphics.html#al_set_target_bitmap">al_set_target_bitmap</a></p>
+<h1 id="al_have_opengl_extension">al_have_opengl_extension</h1>
+<div class="sourceCode" id="cb13"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> al_have_opengl_extension(<span class="dt">const</span> <span class="dt">char</span> *extension)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/opengl/extensions.c#L560">Source Code</a></p>
+<p>This function is a helper to determine whether an OpenGL extension is available on the given display or not.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> packedpixels = al_have_opengl_extension(<span class="st">&quot;GL_EXT_packed_pixels&quot;</span>);</span></code></pre></div>
+<p>If <em>packedpixels</em> is true then you can safely use the constants related to the packed pixels extension.</p>
+<p>Returns true if the extension is available; false otherwise.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_opengl_pixel_shader.c#L68">ex_opengl_pixel_shader.c</a></li>
+</ul>
+<h1 id="al_get_opengl_version">al_get_opengl_version</h1>
+<div class="sourceCode" id="cb15"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dt">uint32_t</span> al_get_opengl_version(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/opengl/extensions.c#L216">Source Code</a></p>
+<p>Returns the OpenGL or OpenGL ES version number of the client (the computer the program is running on), for the current display. “1.0” is returned as 0x01000000, “1.2.1” is returned as 0x01020100, and “1.2.2” as 0x01020200, etc.</p>
+<p>A valid OpenGL context must exist for this function to work, which means you may <em>not</em> call it before <a href="display.html#al_create_display">al_create_display</a>.</p>
+<p>See also: <a href="opengl.html#al_get_opengl_variant">al_get_opengl_variant</a></p>
+<h1 id="al_get_opengl_variant">al_get_opengl_variant</h1>
+<div class="sourceCode" id="cb16"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> al_get_opengl_variant(<span class="dt">void</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/opengl/extensions.c#L234">Source Code</a></p>
+<p>Returns the variant or type of OpenGL used on the running platform. This function can be called before creating a display or setting properties for new displays. Possible values are:</p>
+<dl>
+<dt>ALLEGRO_DESKTOP_OPENGL</dt>
+<dd>Regular OpenGL as seen on desktop/laptop computers.
+</dd>
+<dt>ALLEGRO_OPENGL_ES</dt>
+<dd>Trimmed down version of OpenGL used on many small consumer electronic devices such as handheld (and sometimes full size) consoles.
+</dd>
+</dl>
+<p>See also: <a href="opengl.html#al_get_opengl_version">al_get_opengl_version</a></p>
+<h1 id="al_set_current_opengl_context">al_set_current_opengl_context</h1>
+<div class="sourceCode" id="cb17"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_set_current_opengl_context(ALLEGRO_DISPLAY *display)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/opengl/ogl_display.c#L90">Source Code</a></p>
+<p>Make the OpenGL context associated with the given display current for the calling thread. If there is a current target bitmap which belongs to a different OpenGL context, the target bitmap will be changed to NULL.</p>
+<p>Normally you do not need to use this function, as the context will be made current when you call <a href="graphics.html#al_set_target_bitmap">al_set_target_bitmap</a> or <a href="graphics.html#al_set_target_backbuffer">al_set_target_backbuffer</a>. You might need it if you created an OpenGL “forward compatible” context. Then <a href="display.html#al_get_backbuffer">al_get_backbuffer</a> only returns NULL, so it would not work to pass that to <a href="graphics.html#al_set_target_bitmap">al_set_target_bitmap</a>.</p>
+<h1 id="opengl-configuration">OpenGL configuration</h1>
+<p>You can disable the detection of any OpenGL extension by Allegro with a section like this in allegro5.cfg:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[opengl_disabled_extensions]</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="dt">GL_ARB_texture_non_power_of_two</span><span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="dt">GL_EXT_framebuffer_object</span><span class="ot">=</span><span class="dv">0</span></span></code></pre></div>
+<p>Any extension which appears in the section is treated as not available (it does not matter if you set it to 0 or any other value).</p>
+<p class="timestamp">
+Allegro version 5.2.7
+ - Last updated: 2021-03-08 01:00:42 UTC
+</p>
+</div>
+</body>
+</html>

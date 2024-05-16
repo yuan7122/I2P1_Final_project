@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>State</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <script type="text/javascript" src="autosuggest.js"></script>
+  <script type="text/javascript" src="search_index.js"></script>
+</head>
+<body>
+<div class="sidebar">
+<div>
+<ul>
+<li><a href="index.html"><strong>Contents</strong></a></li>
+<li><a href="config.html">Configuration files</a></li>
+<li><a href="display.html">Display</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="file.html">File I/O</a></li>
+<li><a href="fshook.html">Filesystem</a></li>
+<li><a href="fixed.html">Fixed point math</a></li>
+<li><a href="fullscreen_mode.html">Fullscreen modes</a></li>
+<li><a href="graphics.html">Graphics</a></li>
+<li><a href="haptic.html">Haptic</a></li>
+<li><a href="joystick.html">Joystick</a></li>
+<li><a href="keyboard.html">Keyboard</a></li>
+<li><a href="memory.html">Memory</a></li>
+<li><a href="monitor.html">Monitor</a></li>
+<li><a href="mouse.html">Mouse</a></li>
+<li><a href="path.html">Path</a></li>
+<li><a href="shader.html">Shader</a></li>
+<li><a href="state.html">State</a></li>
+<li><a href="system.html">System</a></li>
+<li><a href="threads.html">Threads</a></li>
+<li><a href="time.html">Time</a></li>
+<li><a href="timer.html">Timer</a></li>
+<li><a href="touch.html">Touch input</a></li>
+<li><a href="transformations.html">Transformations</a></li>
+<li><a href="utf8.html">UTF-8</a></li>
+<li><a href="misc.html">Miscellaneous</a></li>
+<li><a href="platform.html">Platform-specific</a></li>
+<li><a href="direct3d.html">Direct3D</a></li>
+<li><a href="opengl.html">OpenGL</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index.html#addons"><strong>Addons</strong></a></li>
+<li><a href="audio.html">Audio addon</a></li>
+<li><a href="acodec.html">Audio codecs</a></li>
+<li><a href="color.html">Color addon</a></li>
+<li><a href="font.html">Font addons</a></li>
+<li><a href="image.html">Image I/O addon</a></li>
+<li><a href="main.html">Main addon</a></li>
+<li><a href="memfile.html">Memfile addon</a></li>
+<li><a href="native_dialog.html">Native dialogs addon</a></li>
+<li><a href="physfs.html">PhysicsFS addon</a></li>
+<li><a href="primitives.html">Primitives addon</a></li>
+<li><a href="video.html">Video streaming addon</a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div>
+<ul>
+<li><a href="index_all.html"><strong>Index</strong></a></li>
+</ul>
+<!-- The preceding blank line forces pandoc to terminate the list -->
+</div>
+<div class="searchbox">
+<script type="text/javascript">
+function on_search(index, control) {
+    // Note to self: the less-than sign must NOT converted to an entity!
+    // SCRIPT elements are special.  The HTML validator gives bad advice.
+    for (i = 0; i < search_index.length; i++) {
+        if (search_index[i] == control.keywords[index]) {
+            break;
+        }
+    }
+    location.href = search_urls[i];
+}
+</script>
+Search<br/> <input type="text" name="q" id="q" size="15" autocomplete="off" placeholder="Press ‘S’ to search" /><br/>
+<script type="text/javascript"> new autosuggest("q", search_index, null, on_search); </script>
+</div>
+</div>
+<div class="content">
+
+
+<header id="title-block-header">
+<h1 class="title">State</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#allegro_state">ALLEGRO_STATE</a></li>
+<li><a href="#allegro_state_flags">ALLEGRO_STATE_FLAGS</a></li>
+<li><a href="#al_restore_state">al_restore_state</a></li>
+<li><a href="#al_store_state">al_store_state</a></li>
+<li><a href="#al_get_errno">al_get_errno</a></li>
+<li><a href="#al_set_errno">al_set_errno</a></li>
+</ul>
+</nav>
+<p>These functions are declared in the main Allegro header file:</p>
+<pre><code> #include &lt;allegro5/allegro.h&gt;</code></pre>
+<h1 id="allegro_state">ALLEGRO_STATE</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">struct</span> ALLEGRO_STATE ALLEGRO_STATE;</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/include/allegro5/tls.h#L49">Source Code</a></p>
+<p>Opaque type which is passed to <a href="state.html#al_store_state">al_store_state</a>/<a href="state.html#al_restore_state">al_restore_state</a>.</p>
+<p>The various state kept internally by Allegro can be displayed like this:</p>
+<pre><code>  global
+      active system driver
+          current config
+  per thread
+      new bitmap params
+      new display params
+      active file interface
+      errno
+      current blending mode
+      current display
+          deferred drawing
+      current target bitmap
+          current transformation
+          current projection transformation
+          current clipping rectangle
+          bitmap locking
+          current shader</code></pre>
+<p>In general, the only real global state is the active system driver. All other global state is per-thread, so if your application has multiple separate threads they never will interfere with each other. (Except if there are objects accessed by multiple threads of course. Usually you want to minimize that though and for the remaining cases use synchronization primitives described in the threads section or events described in the events section to control inter-thread communication.)</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_blend_bench.c#L65">ex_blend_bench.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_blend2.cpp#L298">ex_blend2.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/nihgui.cpp#L24">nihgui.cpp</a></li>
+</ul>
+<h1 id="allegro_state_flags">ALLEGRO_STATE_FLAGS</h1>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">enum</span> ALLEGRO_STATE_FLAGS</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/include/allegro5/tls.h#L28">Source Code</a></p>
+<p>Flags which can be passed to <a href="state.html#al_store_state">al_store_state</a>/<a href="state.html#al_restore_state">al_restore_state</a> as bit combinations. See <a href="state.html#al_store_state">al_store_state</a> for the list of flags.</p>
+<h1 id="al_restore_state">al_restore_state</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_restore_state(ALLEGRO_STATE <span class="dt">const</span> *state)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/tls.c#L764">Source Code</a></p>
+<p>Restores part of the state of the current thread from the given <a href="state.html#allegro_state">ALLEGRO_STATE</a> object.</p>
+<p>See also: <a href="state.html#al_store_state">al_store_state</a>, <a href="state.html#allegro_state_flags">ALLEGRO_STATE_FLAGS</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_blend_bench.c#L96">ex_blend_bench.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_blend2.cpp#L316">ex_blend2.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/nihgui.cpp#L33">nihgui.cpp</a></li>
+</ul>
+<h1 id="al_store_state">al_store_state</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_store_state(ALLEGRO_STATE *state, <span class="dt">int</span> flags)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/tls.c#L696">Source Code</a></p>
+<p>Stores part of the state of the current thread in the given <a href="state.html#allegro_state">ALLEGRO_STATE</a> object. The flags parameter can take any bit-combination of these flags:</p>
+<ul>
+<li>ALLEGRO_STATE_NEW_DISPLAY_PARAMETERS - new_display_format, new_display_refresh_rate, new_display_flags</li>
+<li>ALLEGRO_STATE_NEW_BITMAP_PARAMETERS - new_bitmap_format, new_bitmap_flags</li>
+<li>ALLEGRO_STATE_DISPLAY - current_display</li>
+<li>ALLEGRO_STATE_TARGET_BITMAP - target_bitmap</li>
+<li>ALLEGRO_STATE_BLENDER - blender</li>
+<li>ALLEGRO_STATE_TRANSFORM - current_transformation</li>
+<li>ALLEGRO_STATE_PROJECTION_TRANSFORM - current_projection_transformation</li>
+<li>ALLEGRO_STATE_NEW_FILE_INTERFACE - new_file_interface</li>
+<li>ALLEGRO_STATE_BITMAP - same as ALLEGRO_STATE_NEW_BITMAP_PARAMETERS and ALLEGRO_STATE_TARGET_BITMAP</li>
+<li>ALLEGRO_STATE_ALL - all of the above</li>
+</ul>
+<p>See also: <a href="state.html#al_restore_state">al_restore_state</a>, <a href="state.html#allegro_state">ALLEGRO_STATE</a></p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_blend_bench.c#L91">ex_blend_bench.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_blend2.cpp#L299">ex_blend2.cpp</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/nihgui.cpp#L29">nihgui.cpp</a></li>
+</ul>
+<h1 id="al_get_errno">al_get_errno</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> al_get_errno(<span class="dt">void</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>GETTER(allegro_errno, <span class="dv">0</span>)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/tls.c#L928">Source Code</a></p>
+<p>Some Allegro functions will set an error number as well as returning an error code. Call this function to retrieve the last error number set for the calling thread.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_utf8.c#L477">ex_utf8.c</a></li>
+</ul>
+<h1 id="al_set_errno">al_set_errno</h1>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> al_set_errno(<span class="dt">int</span> errnum)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>SETTER(allegro_errno, errnum)</span></code></pre></div>
+<p><a href="https://github.com/liballeg/allegro5/blob/master/src/tls.c#L933">Source Code</a></p>
+<p>Set the error number for the calling thread.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_curl.c#L250">ex_curl.c</a></li>
+<li><a href="https://github.com/liballeg/allegro5/blob/master/examples/ex_utf8.c#L475">ex_utf8.c</a></li>
+</ul>
+<p class="timestamp">
+Allegro version 5.2.7
+ - Last updated: 2021-03-08 01:00:41 UTC
+</p>
+</div>
+</body>
+</html>
