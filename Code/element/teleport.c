@@ -1,4 +1,5 @@
 #include "teleport.h"
+#include <stdbool.h>
 /*
    [teleport function]
 */
@@ -23,9 +24,9 @@ Elements *New_Teleport(int label)
     pObj->Destroy = Teleport_destory;
     return pObj;
 }
-void Teleport_update(Elements *const ele)
+void Teleport_update(Elements *self)
 {
-    Teleport *Obj = ((Teleport *)(ele->pDerivedObj));
+    Teleport *Obj = ((Teleport *)(self->pDerivedObj));
     if (key_state[ALLEGRO_KEY_W])
     {
         Obj->activate = true;
@@ -35,27 +36,29 @@ void Teleport_update(Elements *const ele)
         Obj->activate = false;
     }
 }
-void Teleport_interact(Elements *const self_ele, Elements *const ele)
+void Teleport_interact(Elements *self, Elements *tar)
 {
-    if (ele->label == Character_L)
+    if (tar->label == Character_L)
     {
-        Character *chara = (Character *)(ele->pDerivedObj);
-        Teleport *Obj = (Teleport *)(self_ele->pDerivedObj);
+        Character *chara = (Character *)(tar->pDerivedObj);
+        Teleport *Obj = (Teleport *)(self->pDerivedObj);
         if (chara->x >= Obj->x &&
             chara->x <= Obj->x + Obj->width &&
             Obj->activate)
-            chara->x = 0;
+        {
+            _Character_update_position(tar, 0 - chara->x, 0);
+        }
     }
 }
-void Teleport_draw(Elements *const ele)
+void Teleport_draw(Elements *self)
 {
-    Teleport *Obj = ((Teleport *)(ele->pDerivedObj));
+    Teleport *Obj = ((Teleport *)(self->pDerivedObj));
     al_draw_bitmap(Obj->img, Obj->x, Obj->y, 0);
 }
-void Teleport_destory(Elements *const ele)
+void Teleport_destory(Elements *self)
 {
-    Teleport *Obj = ((Teleport *)(ele->pDerivedObj));
+    Teleport *Obj = ((Teleport *)(self->pDerivedObj));
     al_destroy_bitmap(Obj->img);
     free(Obj);
-    free(ele);
+    free(self);
 }

@@ -44,47 +44,47 @@ bool checkOverlap_cc(Circle *c1, Circle *c2)
 	return ((d * d) >= Point_dist2((Point *)(New_Point(c1->x, c1->y)->pDerivedObj), (Point *)(New_Point(c2->x, c2->y)->pDerivedObj)));
 }
 
-bool Point_overlap(Shape *const self, Shape *const s)
+bool Point_overlap(Shape *self, Shape *tar)
 {
 	Point *Self = (Point *)self->pDerivedObj;
-	switch (s->getType())
+	switch (tar->getType())
 	{
 	case POINT:
-		return checkOverlap_pp(Self, (Point *)s->pDerivedObj);
+		return checkOverlap_pp(Self, (Point *)tar->pDerivedObj);
 	case RECTANGLE:
-		return checkOverlap_pr(Self, (Rectangle *)s->pDerivedObj);
+		return checkOverlap_pr(Self, (Rectangle *)tar->pDerivedObj);
 	case CIRCLE:
-		return checkOverlap_pc(Self, (Circle *)s->pDerivedObj);
+		return checkOverlap_pc(Self, (Circle *)tar->pDerivedObj);
 	}
 	GAME_ASSERT(false, "Unknown ShapeType.");
 }
 
-bool Rectangle_overlap(Shape *const self, Shape *const s)
+bool Rectangle_overlap(Shape *self, Shape *tar)
 {
 	Rectangle *Self = (Rectangle *)self->pDerivedObj;
-	switch (s->getType())
+	switch (tar->getType())
 	{
 	case POINT:
-		return checkOverlap_pr((Point *)s->pDerivedObj, Self);
+		return checkOverlap_pr((Point *)tar->pDerivedObj, Self);
 	case RECTANGLE:
-		return checkOverlap_rr(Self, (Rectangle *)s->pDerivedObj);
+		return checkOverlap_rr(Self, (Rectangle *)tar->pDerivedObj);
 	case CIRCLE:
-		return checkOverlap_rc(Self, (Circle *)s->pDerivedObj);
+		return checkOverlap_rc(Self, (Circle *)tar->pDerivedObj);
 	}
 	GAME_ASSERT(false, "Unknown ShapeType.");
 }
 
-bool Circle_overlap(Shape *const self, Shape *const s)
+bool Circle_overlap(Shape *self, Shape *tar)
 {
 	Circle *Self = (Circle *)self->pDerivedObj;
-	switch (s->getType())
+	switch (tar->getType())
 	{
 	case POINT:
-		return checkOverlap_pc((Point *)s->pDerivedObj, Self);
+		return checkOverlap_pc((Point *)tar->pDerivedObj, Self);
 	case RECTANGLE:
-		return checkOverlap_rc((Rectangle *)s->pDerivedObj, Self);
+		return checkOverlap_rc((Rectangle *)tar->pDerivedObj, Self);
 	case CIRCLE:
-		return checkOverlap_cc(Self, (Circle *)s->pDerivedObj);
+		return checkOverlap_cc(Self, (Circle *)tar->pDerivedObj);
 	}
 	GAME_ASSERT(false, "Unknown ShapeType.");
 }

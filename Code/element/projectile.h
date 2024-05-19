@@ -15,9 +15,9 @@ typedef struct _Projectile
     Shape *hitbox; // the hitbox of object
 } Projectile;
 Elements *New_Projectile(int label, int x, int y, int v);
-void Projectile_update(Elements *const ele);
-void Projectile_interact(Elements *const, Elements *const);
-void Projectile_draw(Elements *const ele);
-void Projectile_destory(Elements *const ele);
-void _Projectile_update_position(Elements *const self, int dx, int dy);
+void Projectile_update(Elements *self);
+void Projectile_interact(Elements *self, Elements *tar);
+void Projectile_draw(Elements *self);
+void Projectile_destory(Elements *self);
+void _Projectile_update_position(Elements *self, int dx, int dy);
 #endif

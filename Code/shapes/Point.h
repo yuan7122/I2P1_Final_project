@@ -3,6 +3,7 @@
 
 #include "Shape.h"
 #include <math.h>
+#include <stdbool.h>
 
 /**
  * @see Shape.c
@@ -12,11 +13,11 @@ typedef struct _Point
     double x, y;
 } Point;
 Point *Point_Self(Shape *self);
-bool Point_overlap(Shape *const, Shape *const);
-double Point_center_x(Shape *const self);
-double Point_center_y(Shape *const self);
-void Point_update_center_x(Shape *const self, int x);
-void Point_update_center_y(Shape *const self, int y);
+bool Point_overlap(Shape *self, Shape *tar);
+double Point_center_x(Shape *self);
+double Point_center_y(Shape *self);
+void Point_update_center_x(Shape *self, int x);
+void Point_update_center_y(Shape *self, int y);
 ShapeType Point_getType();
 Shape *New_Point(double x, double y);
 double Point_dist2(Point *p1, Point *p2);

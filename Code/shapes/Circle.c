@@ -24,19 +24,19 @@ Shape *New_Circle(double x, double y, double r)
     pObj->pDerivedObj = pDerivedObj;
     return pObj;
 }
-double Circle_center_x(Shape *const self)
+double Circle_center_x(Shape *self)
 {
     return Circle_Self(self)->x;
 }
-double Circle_center_y(Shape *const self)
+double Circle_center_y(Shape *self)
 {
     return Circle_Self(self)->y;
 }
-void Circle_update_center_x(Shape *const self, int x)
+void Circle_update_center_x(Shape *self, int x)
 {
     Circle_Self(self)->x += x;
 }
-void Circle_update_center_y(Shape *const self, int y)
+void Circle_update_center_y(Shape *self, int y)
 {
     Circle_Self(self)->y += y;
 }

@@ -1,4 +1,5 @@
 #include "element.h"
+#include <stdbool.h>
 /*
    [Element function]
 */

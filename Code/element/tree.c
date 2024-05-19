@@ -25,18 +25,18 @@ Elements *New_Tree(int label)
     pObj->Destroy = Tree_destory;
     return pObj;
 }
-void Tree_update(Elements *const ele) {}
-void Tree_interact(Elements *const self_ele, Elements *const ele) {}
-void Tree_draw(Elements *const ele)
+void Tree_update(Elements *self) {}
+void Tree_interact(Elements *self, Elements *tar) {}
+void Tree_draw(Elements *self)
 {
-    Tree *Obj = ((Tree *)(ele->pDerivedObj));
+    Tree *Obj = ((Tree *)(self->pDerivedObj));
     al_draw_bitmap(Obj->img, Obj->x, Obj->y, 0);
 }
-void Tree_destory(Elements *const ele)
+void Tree_destory(Elements *self)
 {
-    Tree *Obj = ((Tree *)(ele->pDerivedObj));
+    Tree *Obj = ((Tree *)(self->pDerivedObj));
     al_destroy_bitmap(Obj->img);
     free(Obj->hitbox);
     free(Obj);
-    free(ele);
+    free(self);
 }

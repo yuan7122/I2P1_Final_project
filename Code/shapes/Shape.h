@@ -17,11 +17,11 @@ typedef enum ShapeType
  */
 
 typedef struct _Shape Shape;
-typedef bool (*fptrOverlap)(Shape *const, Shape *const);
-typedef double (*fptrCenterX)(Shape *const);
-typedef double (*fptrCenterY)(Shape *const);
-typedef void (*fptrUpdateCenterX)(Shape *const, int);
-typedef void (*fptrUpdateCenterY)(Shape *const, int);
+typedef bool (*fptrOverlap)(Shape *, Shape *);
+typedef double (*fptrCenterX)(Shape *);
+typedef double (*fptrCenterY)(Shape *);
+typedef void (*fptrUpdateCenterX)(Shape *, int);
+typedef void (*fptrUpdateCenterY)(Shape *, int);
 typedef ShapeType (*fptrGetType)();
 struct _Shape
 {

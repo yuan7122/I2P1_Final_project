@@ -23,19 +23,19 @@ Shape *New_Point(double x, double y)
     pObj->pDerivedObj = pDerivedObj;
     return pObj;
 }
-double Point_center_x(Shape *const self)
+double Point_center_x(Shape *self)
 {
     return Point_Self(self)->x;
 }
-double Point_center_y(Shape *const self)
+double Point_center_y(Shape *self)
 {
     return Point_Self(self)->y;
 }
-void Point_update_center_x(Shape *const self, int x)
+void Point_update_center_x(Shape *self, int x)
 {
     Point_Self(self)->x += x;
 }
-void Point_update_center_y(Shape *const self, int y)
+void Point_update_center_y(Shape *self, int y)
 {
     Point_Self(self)->y += y;
 }

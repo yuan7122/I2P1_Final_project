@@ -16,8 +16,8 @@ typedef struct _Menu
     int title_x, title_y;
 } Menu;
 Scene *New_Menu(int label);
-void menu_update(Scene *const pMenuObj);
-void menu_draw(Scene *const pMenuObj);
-void menu_destroy(Scene *const pMenuObj);
+void menu_update(Scene *self);
+void menu_draw(Scene *self);
+void menu_destroy(Scene *self);
 
 #endif

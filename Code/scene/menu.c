@@ -1,5 +1,6 @@
 #include <allegro5/allegro_primitives.h>
 #include "menu.h"
+#include <stdbool.h>
 /*
    [Menu function]
 */
@@ -28,28 +29,28 @@ Scene *New_Menu(int label)
     pObj->Destroy = menu_destroy;
     return pObj;
 }
-void menu_update(Scene *const pMenuObj)
+void menu_update(Scene *self)
 {
     if (key_state[ALLEGRO_KEY_ENTER])
     {
-        pMenuObj->scene_end = true;
+        self->scene_end = true;
         window = 1;
     }
     return;
 }
-void menu_draw(Scene *const pMenuObj)
+void menu_draw(Scene *self)
 {
-    Menu *Obj = ((Menu *)(pMenuObj->pDerivedObj));
+    Menu *Obj = ((Menu *)(self->pDerivedObj));
     al_draw_text(Obj->font, al_map_rgb(255, 255, 255), Obj->title_x, Obj->title_y, ALLEGRO_ALIGN_CENTRE, "Press 'Enter' to start");
     al_draw_rectangle(Obj->title_x - 150, Obj->title_y - 30, Obj->title_x + 150, Obj->title_y + 30, al_map_rgb(255, 255, 255), 0);
     al_play_sample_instance(Obj->sample_instance);
 }
-void menu_destroy(Scene *const pMenuObj)
+void menu_destroy(Scene *self)
 {
-    Menu *Obj = ((Menu *)(pMenuObj->pDerivedObj));
+    Menu *Obj = ((Menu *)(self->pDerivedObj));
     al_destroy_font(Obj->font);
     al_destroy_sample(Obj->song);
     al_destroy_sample_instance(Obj->sample_instance);
     free(Obj);
-    free(pMenuObj);
+    free(self);
 }

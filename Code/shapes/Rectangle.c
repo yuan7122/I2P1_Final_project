@@ -23,20 +23,20 @@ Shape *New_Rectangle(double x1, double y1, double x2, double y2)
 	pObj->pDerivedObj = pDerivedObj;
 	return pObj;
 }
-double Rectangle_center_x(Shape *const self)
+double Rectangle_center_x(Shape *self)
 {
 	return (Rectangle_Self(self)->x1 + Rectangle_Self(self)->x2) / 2;
 }
-double Rectangle_center_y(Shape *const self)
+double Rectangle_center_y(Shape *self)
 {
 	return (Rectangle_Self(self)->y1 + Rectangle_Self(self)->y2) / 2;
 }
-void Rectangle_update_center_x(Shape *const self, int x)
+void Rectangle_update_center_x(Shape *self, int x)
 {
 	Rectangle_Self(self)->x1 += x;
 	Rectangle_Self(self)->x2 += x;
 }
-void Rectangle_update_center_y(Shape *const self, int y)
+void Rectangle_update_center_y(Shape *self, int y)
 {
 	Rectangle_Self(self)->y1 += y;
 	Rectangle_Self(self)->y2 += y;

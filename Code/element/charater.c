@@ -4,6 +4,7 @@
 #include "../shapes/Rectangle.h"
 #include "../algif5/src/algif.h"
 #include <stdio.h>
+#include <stdbool.h>
 /*
    [Character function]
 */
@@ -47,10 +48,10 @@ Elements *New_Character(int label)
     pObj->Destroy = Character_destory;
     return pObj;
 }
-void Character_update(Elements *const ele)
+void Character_update(Elements *self)
 {
     // use the idea of finite state machine to deal with different state
-    Character *chara = ((Character *)(ele->pDerivedObj));
+    Character *chara = ((Character *)(self->pDerivedObj));
     if (chara->state == STOP)
     {
         if (key_state[ALLEGRO_KEY_SPACE])
@@ -81,13 +82,13 @@ void Character_update(Elements *const ele)
         else if (key_state[ALLEGRO_KEY_A])
         {
             chara->dir = false;
-            _Character_update_position(ele, -5, 0);
+            _Character_update_position(self, -5, 0);
             chara->state = MOVE;
         }
         else if (key_state[ALLEGRO_KEY_D])
         {
             chara->dir = true;
-            _Character_update_position(ele, 5, 0);
+            _Character_update_position(self, 5, 0);
             chara->state = MOVE;
         }
         if (chara->gif_status[chara->state]->done)
@@ -95,7 +96,8 @@ void Character_update(Elements *const ele)
     }
     else if (chara->state == ATK)
     {
-        if (chara->gif_status[chara->state]->done) {
+        if (chara->gif_status[chara->state]->done)
+        {
             chara->state = STOP;
             chara->new_proj = false;
         }
@@ -121,10 +123,10 @@ void Character_update(Elements *const ele)
         }
     }
 }
-void Character_draw(Elements *const ele)
+void Character_draw(Elements *self)
 {
     // with the state, draw corresponding image
-    Character *chara = ((Character *)(ele->pDerivedObj));
+    Character *chara = ((Character *)(self->pDerivedObj));
     ALLEGRO_BITMAP *frame = algif_get_bitmap(chara->gif_status[chara->state], al_get_time());
     if (frame)
     {
@@ -135,20 +137,20 @@ void Character_draw(Elements *const ele)
         al_play_sample_instance(chara->atk_Sound);
     }
 }
-void Character_destory(Elements *const ele)
+void Character_destory(Elements *self)
 {
-    Character *Obj = ((Character *)(ele->pDerivedObj));
+    Character *Obj = ((Character *)(self->pDerivedObj));
     al_destroy_sample_instance(Obj->atk_Sound);
     for (int i = 0; i < 3; i++)
         algif_destroy_animation(Obj->gif_status[i]);
     free(Obj->hitbox);
     free(Obj);
-    free(ele);
+    free(self);
 }
 
-void _Character_update_position(Elements *const ele, int dx, int dy)
+void _Character_update_position(Elements *self, int dx, int dy)
 {
-    Character *chara = ((Character *)(ele->pDerivedObj));
+    Character *chara = ((Character *)(self->pDerivedObj));
     chara->x += dx;
     chara->y += dy;
     Shape *hitbox = chara->hitbox;
@@ -156,4 +158,4 @@ void _Character_update_position(Elements *const ele, int dx, int dy)
     hitbox->update_center_y(hitbox, dy);
 }
 
-void Character_interact(Elements *const self, Elements *const target) {}
+void Character_interact(Elements *self, Elements *tar) {}

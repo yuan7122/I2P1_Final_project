@@ -17,15 +17,15 @@ typedef enum EleType
     Tree_L,
     Character_L,
     Projectile_L
-}EleType;
+} EleType;
 typedef struct _GameScene
 {
     ALLEGRO_BITMAP *background;
 
 } GameScene;
 Scene *New_GameScene(int label);
-void game_scene_update(Scene *const pGameSceneObj);
-void game_scene_draw(Scene *const pGameSceneObj);
-void game_scene_destroy(Scene *const pGameSceneObj);
+void game_scene_update(Scene *self);
+void game_scene_draw(Scene *self);
+void game_scene_destroy(Scene *self);
 
 #endif

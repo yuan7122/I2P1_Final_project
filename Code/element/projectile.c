@@ -29,12 +29,12 @@ Elements *New_Projectile(int label, int x, int y, int v)
 
     return pObj;
 }
-void Projectile_update(Elements *const ele)
+void Projectile_update(Elements *self)
 {
-    Projectile *Obj = ((Projectile *)(ele->pDerivedObj));
-    _Projectile_update_position(ele, Obj->v, 0);
+    Projectile *Obj = ((Projectile *)(self->pDerivedObj));
+    _Projectile_update_position(self, Obj->v, 0);
 }
-void _Projectile_update_position(Elements *const self, int dx, int dy)
+void _Projectile_update_position(Elements *self, int dx, int dy)
 {
     Projectile *Obj = ((Projectile *)(self->pDerivedObj));
     Obj->x += dx;
@@ -43,38 +43,38 @@ void _Projectile_update_position(Elements *const self, int dx, int dy)
     hitbox->update_center_x(hitbox, dx);
     hitbox->update_center_y(hitbox, dy);
 }
-void Projectile_interact(Elements *const self_ele, Elements *const ele)
+void Projectile_interact(Elements *self, Elements *tar)
 {
-    Projectile *Obj = ((Projectile *)(self_ele->pDerivedObj));
-    if (ele->label == Floor_L)
+    Projectile *Obj = ((Projectile *)(self->pDerivedObj));
+    if (tar->label == Floor_L)
     {
         if (Obj->x < 0 - Obj->width)
-            self_ele->dele = true;
+            self->dele = true;
         else if (Obj->x > WIDTH + Obj->width)
-            self_ele->dele = true;
+            self->dele = true;
     }
-    else if (ele->label == Tree_L)
+    else if (tar->label == Tree_L)
     {
-        Tree *tree = ((Tree *)(ele->pDerivedObj));
+        Tree *tree = ((Tree *)(tar->pDerivedObj));
         if (tree->hitbox->overlap(tree->hitbox, Obj->hitbox))
         {
-            self_ele->dele = true;
+            self->dele = true;
         }
     }
 }
-void Projectile_draw(Elements *const ele)
+void Projectile_draw(Elements *self)
 {
-    Projectile *Obj = ((Projectile *)(ele->pDerivedObj));
+    Projectile *Obj = ((Projectile *)(self->pDerivedObj));
     if (Obj->v > 0)
         al_draw_bitmap(Obj->img, Obj->x, Obj->y, ALLEGRO_FLIP_HORIZONTAL);
     else
         al_draw_bitmap(Obj->img, Obj->x, Obj->y, 0);
 }
-void Projectile_destory(Elements *const ele)
+void Projectile_destory(Elements *self)
 {
-    Projectile *Obj = ((Projectile *)(ele->pDerivedObj));
+    Projectile *Obj = ((Projectile *)(self->pDerivedObj));
     al_destroy_bitmap(Obj->img);
     free(Obj->hitbox);
     free(Obj);
-    free(ele);
+    free(self);
 }

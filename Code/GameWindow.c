@@ -12,7 +12,7 @@
 #include <allegro5/allegro_ttf.h>
 // include scene and following component
 #include "scene/sceneManager.h"
-
+#include <stdbool.h>
 
 Game *New_Game()
 {
@@ -27,7 +27,7 @@ Game *New_Game()
     game->game_init(game);
     return game;
 }
-void execute(Game *game)
+void execute(Game *self)
 {
     // main game loop
     bool run = true;
@@ -39,12 +39,12 @@ void execute(Game *game)
         {
         case ALLEGRO_EVENT_TIMER:
         {
-            run &= game->game_update(game);
-            game->game_draw(game);
+            run &= self->game_update(self);
+            self->game_draw(self);
             break;
         }
         case ALLEGRO_EVENT_DISPLAY_CLOSE: // stop game
-        { 
+        {
             run = false;
             break;
         }
@@ -79,7 +79,7 @@ void execute(Game *game)
         }
     }
 }
-void game_init(Game *game)
+void game_init(Game *self)
 {
     printf("Game Initializing...\n");
     GAME_ASSERT(al_init(), "failed to initialize allegro.");
@@ -95,18 +95,18 @@ void game_init(Game *game)
     addon_init &= al_install_audio();     // install audio event
     GAME_ASSERT(addon_init, "failed to initialize allegro addons.");
     // Create display
-    game->display = al_create_display(WIDTH, HEIGHT);
-    GAME_ASSERT(game->display, "failed to create display.");
+    self->display = al_create_display(WIDTH, HEIGHT);
+    GAME_ASSERT(self->display, "failed to create display.");
     // Create first scene
     create_scene(Menu_L);
     // create event queue
     event_queue = al_create_event_queue();
     GAME_ASSERT(event_queue, "failed to create event queue.");
     // Initialize Allegro settings
-    al_set_window_position(game->display, 0, 0);
-    al_set_window_title(game->display, game->title);
+    al_set_window_position(self->display, 0, 0);
+    al_set_window_title(self->display, self->title);
     // Register event
-    al_register_event_source(event_queue, al_get_display_event_source(game->display)); // register display event
+    al_register_event_source(event_queue, al_get_display_event_source(self->display)); // register display event
     al_register_event_source(event_queue, al_get_keyboard_event_source());             // register keyboard event
     al_register_event_source(event_queue, al_get_mouse_event_source());                // register mouse event
     // register timer event
@@ -115,9 +115,9 @@ void game_init(Game *game)
     al_start_timer(fps);
     // initialize the icon on the display
     ALLEGRO_BITMAP *icon = al_load_bitmap("assets/image/icon.jpg");
-    al_set_display_icon(game->display, icon);
+    al_set_display_icon(self->display, icon);
 }
-bool game_update(Game *game)
+bool game_update(Game *self)
 {
     scene->Update(scene);
     if (scene->scene_end)
@@ -139,18 +139,18 @@ bool game_update(Game *game)
     }
     return true;
 }
-void game_draw(Game *game)
+void game_draw(Game *self)
 {
     // Flush the screen first.
     al_clear_to_color(al_map_rgb(100, 100, 100));
     scene->Draw(scene);
     al_flip_display();
 }
-void game_destroy(Game *game)
+void game_destroy(Game *self)
 {
     // Make sure you destroy all things
     al_destroy_event_queue(event_queue);
-    al_destroy_display(game->display);
+    al_destroy_display(self->display);
     scene->Destroy(scene);
-    free(game);
+    free(self);
 }

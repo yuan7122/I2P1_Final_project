@@ -1,8 +1,9 @@
 #include "scene.h"
+#include <stdbool.h>
 /*
    [Scene function]
 */
-void _Remove_elements(Scene *const scene, Elements *ele)
+void _Remove_elements(Scene *scene, Elements *ele)
 {
     EPNode *ptr = scene->ele_list[ele->label];
     EPNode *parent_ptr = NULL;
@@ -28,7 +29,7 @@ void _Remove_elements(Scene *const scene, Elements *ele)
     }
     scene->ele_num--;
 }
-void _Register_elements(Scene *const scene, Elements *ele)
+void _Register_elements(Scene *scene, Elements *ele)
 {
     EPNode *ptr = scene->ele_list[ele->label];
     EPNode *new_node = (EPNode *)malloc(sizeof(EPNode));
@@ -48,23 +49,27 @@ void _Register_elements(Scene *const scene, Elements *ele)
     }
 }
 
-ElementVec _Get_all_elements(Scene *const scene)
+ElementVec _Get_all_elements(Scene *scene)
 {
     ElementVec res;
     int size = 0;
-    for(int i = 0 ; i < MAX_ELEMENT ; i++){
-        if(scene->ele_list[i] == NULL) continue;
+    for (int i = 0; i < MAX_ELEMENT; i++)
+    {
+        if (scene->ele_list[i] == NULL)
+            continue;
         EPNode *ptr = scene->ele_list[i];
-        while(ptr){
+        while (ptr)
+        {
             res.arr[size++] = ptr->ele;
             ptr = ptr->next;
         }
-        if(size == scene->ele_num) break;
+        if (size == scene->ele_num)
+            break;
     }
     res.len = scene->ele_num;
     return res;
 }
-ElementVec _Get_label_elements(Scene *const scene, int label)
+ElementVec _Get_label_elements(Scene *scene, int label)
 {
     EPNode *ptr = scene->ele_list[label];
     ElementVec res;
@@ -90,4 +95,3 @@ Scene *New_Scene(int label)
     pObj->pDerivedObj = pObj;
     return pObj;
 }
-

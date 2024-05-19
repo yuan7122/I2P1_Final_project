@@ -1,6 +1,7 @@
 #ifndef GAMEWINDOW_H_INCLUDED
 #define GAMEWINDOW_H_INCLUDED
 #include <allegro5/allegro.h>
+#include <stdbool.h>
 
 typedef struct _GAME Game;
 typedef void (*fptrGameExecute)(Game *);

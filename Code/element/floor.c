@@ -24,7 +24,7 @@ Elements *New_Floor(int label)
     pObj->Destroy = Floor_destory;
     return pObj;
 }
-void _Floor_load_map(Floor *const floor)
+void _Floor_load_map(Floor *floor)
 {
     FILE *data;
     data = fopen("assets/map/gamescene_map.txt", "r");
@@ -37,24 +37,21 @@ void _Floor_load_map(Floor *const floor)
     }
     fclose(data);
 }
-void Floor_update(Elements *const ele)
+void Floor_update(Elements *ele) {}
+void Floor_interact(Elements *self, Elements *tar)
 {
-    return;
-}
-void Floor_interact(Elements *const self_ele, Elements *const ele)
-{
-    if (ele->label == Character_L)
+    if (tar->label == Character_L)
     {
-        Character *chara = (Character *)(ele->pDerivedObj);
+        Character *chara = (Character *)(tar->pDerivedObj);
         if (chara->x < 0 - chara->width / 2)
             chara->x = 0 - chara->width / 2;
         else if (chara->x > WIDTH - chara->width / 2)
             chara->x = WIDTH - chara->width / 2;
     }
 }
-void Floor_draw(Elements *const ele)
+void Floor_draw(Elements *self)
 {
-    Floor *Obj = ((Floor *)(ele->pDerivedObj));
+    Floor *Obj = ((Floor *)(self->pDerivedObj));
     for (int i = 0; i < 6; i++)
     {
         for (int j = 0; j < 6; j++)
@@ -66,10 +63,10 @@ void Floor_draw(Elements *const ele)
         }
     }
 }
-void Floor_destory(Elements *const ele)
+void Floor_destory(Elements *self)
 {
-    Floor *Obj = ((Floor *)(ele->pDerivedObj));
+    Floor *Obj = ((Floor *)(self->pDerivedObj));
     al_destroy_bitmap(Obj->img);
     free(Obj);
-    free(ele);
+    free(self);
 }

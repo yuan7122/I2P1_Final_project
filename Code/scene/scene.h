@@ -2,6 +2,7 @@
 #define SCENE_H_INCLUDED
 #include "../global.h"
 #include "../element/element.h"
+#include <stdbool.h>
 
 /*
    [scene object]
@@ -18,9 +19,9 @@ typedef struct Element_vector
     int len;
 } ElementVec;
 typedef struct _Scene Scene;
-typedef void (*fptrUpdate)(Scene *const);
-typedef void (*fptrDraw)(Scene *const);
-typedef void (*fptrDestroy)(Scene *const);
+typedef void (*fptrUpdate)(Scene *);
+typedef void (*fptrDraw)(Scene *);
+typedef void (*fptrDestroy)(Scene *);
 struct _Scene
 {
     int label;
@@ -34,8 +35,8 @@ struct _Scene
     fptrDestroy Destroy;
 };
 Scene *New_Scene(int label);
-void _Register_elements(Scene *const, Elements *);
-void _Remove_elements(Scene *const, Elements *);
-ElementVec _Get_all_elements(Scene *const);
-ElementVec _Get_label_elements(Scene *const, int label);
+void _Register_elements(Scene *scene, Elements *ele);
+void _Remove_elements(Scene *scene, Elements *ele);
+ElementVec _Get_all_elements(Scene *scene);
+ElementVec _Get_label_elements(Scene *scene, int label);
 #endif
