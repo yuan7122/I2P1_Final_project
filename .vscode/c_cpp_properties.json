@@ -4,16 +4,16 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}\\**",
-                "${workspaceFolder}\\..\\allegro\\include"
+                "${workspaceFolder}\\allegro\\include"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "${workspaceFolder}\\..\\MinGW\\bin\\g++.exe",
+            "compilerPath": "${workspaceFolder}\\MinGW\\bin\\gcc.exe",
             "compilerArgs": [
-                "-std=c++17",
+                "-std=c11",
                 "-Wall",
                 "-Wextra"
             ]
