@@ -14,24 +14,35 @@ Elements *New_Character(int label)
     Elements *pObj = New_Elements(label);
     // setting derived object member
     // load character images
-    char state_string[5][10] = {"stop", "move", "attack", "move", "move"};
+    char state_string[5][10] = {"farmer", "farmer", "farmer", "farmer", "farmer"};
+    //pDerivedObj->img = al_load_bitmap("assets/image/farmer.png");
+    //pDerivedObj->width = al_get_bitmap_width(pDerivedObj->img);
+    //pDerivedObj->height = al_get_bitmap_height(pDerivedObj->img);
+    //char state_string[3][10] = {"stop", "move", "attack"};
     for (int i = 0; i < 5; i++)
     {
         char buffer[60];
         sprintf(buffer, "assets/image/chara_%s.gif", state_string[i]);
         pDerivedObj->gif_status[i] = algif_new_gif(buffer, -1);
     }
+    /*for (int i = 0; i < 5; i++)
+    {
+        char buffer[60];
+        sprintf(buffer, "assets/image/farmer.jpg");
+        pDerivedObj->gif_status[i] = algif_new_gif(buffer, -1);
+    }
+    */
     // load effective sound
     ALLEGRO_SAMPLE *sample = al_load_sample("assets/sound/atk_sound.wav");
     pDerivedObj->atk_Sound = al_create_sample_instance(sample);
     al_set_sample_instance_playmode(pDerivedObj->atk_Sound, ALLEGRO_PLAYMODE_ONCE);
     al_attach_sample_instance_to_mixer(pDerivedObj->atk_Sound, al_get_default_mixer());
 
-    // initial the geometric information of character
+    //initial the geometric information of character
     pDerivedObj->width = pDerivedObj->gif_status[0]->width;
     pDerivedObj->height = pDerivedObj->gif_status[0]->height;
     pDerivedObj->x = 300;
-    pDerivedObj->y = HEIGHT - pDerivedObj->height - 60;
+    pDerivedObj->y = HEIGHT - pDerivedObj->height ;//- 60;
     printf("h:%d objecth:%d\n", HEIGHT, pDerivedObj->height);
     pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x,
                                         pDerivedObj->y,
@@ -145,12 +156,12 @@ void Character_update(Elements *self)
             chara->jump_speed = 0;
             chara->state = STOP; // Return to STOP state after landing
         }
-        //if (chara->y >= HEIGHT) // Check if landed
-        //{
-            //chara->y = HEIGHT; // Reset position
-            //chara->jump_speed = 0;
-            //chara->state = STOP; // Return to STOP state after landing
-        //}
+        if (chara->y >= HEIGHT) // Check if landed
+        {
+            chara->y = HEIGHT; // Reset position
+            chara->jump_speed = 0;
+            chara->state = STOP; // Return to STOP state after landing
+        }
     }
     else if (chara->state == DOWN) // Handle crouch mode
     {
@@ -164,9 +175,9 @@ void Character_update(Elements *self)
             //chara->jump_speed = 0;
             //chara->state = STOP; // Return to STOP state after landing
         //}
-        if (chara->y >= HEIGHT-220) // Check if landed
+        if (chara->y >= HEIGHT-160) // Check if landed
         {
-            chara->y = HEIGHT-220; // Reset position
+            chara->y = HEIGHT-160; // Reset position
             chara->jump_speed = 0;
             chara->state = STOP; // Return to STOP state after landing
         }
@@ -190,7 +201,7 @@ void Character_destory(Elements *self)
 {
     Character *Obj = ((Character *)(self->pDerivedObj));
     al_destroy_sample_instance(Obj->atk_Sound);
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 5; i++)
         algif_destroy_animation(Obj->gif_status[i]);
     free(Obj->hitbox);
     free(Obj);

@@ -11,7 +11,7 @@ typedef struct _Floor
     int x, y;          // the position of image
     int width, height; // the width and height of image
     ALLEGRO_BITMAP *img;
-    int map_data[6][6];
+    int map_data[8][8];
 } Floor;
 
 Elements *New_Floor(int label);

@@ -11,6 +11,7 @@ Elements *New_Floor(int label)
     pDerivedObj->img = al_load_bitmap("assets/image/floor.png");
     pDerivedObj->width = al_get_bitmap_width(pDerivedObj->img);
     pDerivedObj->height = al_get_bitmap_height(pDerivedObj->img);
+    printf("floorwidth:%d floorheight:%d height:%d width:%d\n", pDerivedObj->width, pDerivedObj->height, HEIGHT, WIDTH);
     _Floor_load_map(pDerivedObj);
     pDerivedObj->x = 0;
     pDerivedObj->y = 0;
@@ -28,9 +29,9 @@ void _Floor_load_map(Floor *floor)
 {
     FILE *data;
     data = fopen("assets/map/gamescene_map.txt", "r");
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 8; i++)
     {
-        for (int j = 0; j < 6; j++)
+        for (int j = 0; j < 8; j++)
         {
             fscanf(data, "%d", &floor->map_data[i][j]);
         }
@@ -58,9 +59,9 @@ void Floor_interact(Elements *self, Elements *tar)
 void Floor_draw(Elements *self)
 {
     Floor *Obj = ((Floor *)(self->pDerivedObj));
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 8; i++)
     {
-        for (int j = 0; j < 6; j++)
+        for (int j = 0; j < 8; j++)
         {
             if (Obj->map_data[i][j])
             {
