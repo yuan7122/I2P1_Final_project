@@ -1,5 +1,10 @@
 #include "seeds_s.h"
 #include "../shapes/Circle.h"
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_font.h>
+#include <stdio.h>
+#include <stdbool.h>
 /*
    [Seeds_s function]
 */
@@ -21,7 +26,10 @@ Elements *New_Seeds_s(int label, int x, int y)
     // 初始化計時相關變量
     pDerivedObj->plant_time = al_get_time();
     pDerivedObj->is_harvestable = false;
-    
+    pDerivedObj->score = 20;  // 初始化積分值
+    // 初始化字型
+    pDerivedObj->font = al_create_builtin_font();
+
     // setting the interact object
     /*pObj->inter_obj[pObj->inter_len++] = Tree_L;
     pObj->inter_obj[pObj->inter_len++] = Floor_L;*/
@@ -74,11 +82,10 @@ void Seeds_s_interact(Elements *self, Elements *tar)
         }
     }*/
 }
-void Seeds_s_draw(Elements *self)
+// 修改 Seeds_s 的繪製函數
+void Seeds_s_draw(Elements *self) 
 {
     Seeds_s *Obj = ((Seeds_s *)(self->pDerivedObj));
-    //al_draw_bitmap(Obj->img, Obj->x, Obj->y, 0);
-
     if (Obj->is_harvestable) {
         // 繪製可收成的草莓（這裡可以根據需求修改顏色或圖片）
         al_draw_tinted_bitmap(Obj->img, al_map_rgb(255, 255, 255), Obj->x, Obj->y, 0);
@@ -86,12 +93,19 @@ void Seeds_s_draw(Elements *self)
         // 繪製成長中的草莓
         al_draw_tinted_bitmap(Obj->img, al_map_rgb(128, 128, 128), Obj->x, Obj->y, 0);
     }
+    // 只在字型存在時才使用
+    if (Obj->font) {
+        ALLEGRO_COLOR text_color = al_map_rgb(255, 255, 255);
+        al_draw_textf(Obj->font, text_color, Obj->x + Obj->width / 2, Obj->y - 20, ALLEGRO_ALIGN_CENTER, "%d", Obj->score);
+    }
 }
-void Seeds_s_destory(Elements *self)
+
+void Seeds_s_destory(Elements *self) 
 {
-    Seeds_s *Obj = ((Seeds_s *)(self->pDerivedObj));
-    al_destroy_bitmap(Obj->img);
-    free(Obj->hitbox);
-    free(Obj);
+    Seeds_s *obj = (Seeds_s *)(self->pDerivedObj);
+    al_destroy_bitmap(obj->img);
+    free(obj->hitbox);
+    al_destroy_font(obj->font);  // 釋放字型資源
+    free(obj);
     free(self);
 }
