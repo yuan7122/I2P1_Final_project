@@ -9,8 +9,8 @@ Elements *New_Seeds_s(int label, int x, int y)
     Seeds_s *pDerivedObj = (Seeds_s *)malloc(sizeof(Seeds_s));
     Elements *pObj = New_Elements(label);
     // setting derived object member
-    //use tree pic to try if it will appear a picture when i click z. by lintzoe
-    pDerivedObj->img = al_load_bitmap("assets/image/tree.png");
+    
+    pDerivedObj->img = al_load_bitmap("assets/image/seeds_s.png");
     pDerivedObj->width = al_get_bitmap_width(pDerivedObj->img);
     pDerivedObj->height = al_get_bitmap_height(pDerivedObj->img);
     pDerivedObj->x = x;
