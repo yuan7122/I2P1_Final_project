@@ -48,6 +48,7 @@ Elements *New_Character(int label)
                                         pDerivedObj->y,
                                         pDerivedObj->x + pDerivedObj->width,
                                         pDerivedObj->y + pDerivedObj->height);
+    //printf("character hitbox:%d\n", pDerivedObj->hitbox);
     pDerivedObj->dir = false; // true: face two right, false: face to left
     // initial the animation component
     pDerivedObj->state = STOP;

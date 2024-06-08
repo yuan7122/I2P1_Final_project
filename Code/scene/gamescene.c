@@ -12,7 +12,9 @@ Scene *New_GameScene(int label)
     // register element
     _Register_elements(pObj, New_Floor(Floor_L));
     //_Register_elements(pObj, New_Teleport(Teleport_L));
-    //_Register_elements(pObj, New_Tree(Tree_L));
+    pDerivedObj->lastTreeTime = 0.0;
+    _Register_elements(pObj, New_Tree(Tree_L));
+    printf("!");
     _Register_elements(pObj, New_Character(Character_L));
     // setting derived object function
     pObj->Update = game_scene_update;
@@ -22,6 +24,15 @@ Scene *New_GameScene(int label)
 }
 void game_scene_update(Scene *self)
 {
+    //printf("!");
+    GameScene *gs = (GameScene *)(self->pDerivedObj);
+    double now = al_get_time(); // 獲取當前時間
+
+    if (now - gs->lastTreeTime >= 30.0) // 檢查是否已經過了十秒
+    {
+        _Register_elements(self, New_Tree(Tree_L)); // 添加新的樹木物件
+        gs->lastTreeTime = now; // 更新上次生成樹木的時間
+    }
     // update every element
     ElementVec allEle = _Get_all_elements(self);
     for (int i = 0; i < allEle.len; i++)

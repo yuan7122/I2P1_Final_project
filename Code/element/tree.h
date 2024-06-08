@@ -3,6 +3,13 @@
 #include "element.h"
 #include "../scene/gamescene.h" // for element label
 #include "../shapes/Shape.h"
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
+#include <allegro5/allegro_image.h>
+#include "../algif5/src/algif.h"
+#include <stdbool.h>
+
+
 /*
    [tree object]
 */
