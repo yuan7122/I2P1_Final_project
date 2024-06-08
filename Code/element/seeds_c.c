@@ -27,8 +27,7 @@ Elements *New_Seeds_c(int label, int x, int y)
     pDerivedObj->plant_time = al_get_time();
     pDerivedObj->is_harvestable = false;
     pDerivedObj->score = 5;  // 初始化積分值
-    // 初始化字型
-    pDerivedObj->font = al_create_builtin_font();
+    pDerivedObj->font = al_create_builtin_font(); // 初始化字型
 
     // setting the interact object
     /*pObj->inter_obj[pObj->inter_len++] = Tree_L;
@@ -53,12 +52,19 @@ void Seeds_c_update(Elements *self)
     if (elapsed_time >= 20.0) {
         Obj->is_harvestable = true;
     }
+    // 設定倒數時間
+    Obj->countdown = 20 - (int)elapsed_time;
+
 }
-/*void _Seeds_c_update_position(Elements *self, int dx, int dy)
-{
-}*/
 void Seeds_c_interact(Elements *self, Elements *tar)
 {
+    /*Seeds_c *Obj = ((Seeds_c *)(self->pDerivedObj));
+    // 如果主要角色與玉米互動，且玉米可收成，則執行收成動作
+    if (tar->label == Player_L && Obj->is_harvestable) {
+        // 執行收成動作，可根據需求填寫
+        Obj->score += 5;  // 假設每次收成都增加積分
+        Obj->is_harvestable = false;  // 收成後重新設置為不可收成狀態
+    }*/
 }
 // 修改 Seeds_c 的繪製函數
 void Seeds_c_draw(Elements *self) 
@@ -71,11 +77,12 @@ void Seeds_c_draw(Elements *self)
         // 繪製成長中的玉米
         al_draw_tinted_bitmap(Obj->img, al_map_rgb(128, 128, 128), Obj->x, Obj->y, 0);
     }
-    // 只在字型存在時才使用
-    if (Obj->font) {
-        ALLEGRO_COLOR text_color = al_map_rgb(255, 255, 255);
-        al_draw_textf(Obj->font, text_color, Obj->x + Obj->width / 2, Obj->y - 20, ALLEGRO_ALIGN_CENTER, "%d", Obj->score);
-    }
+    // 顯示積分值
+    ALLEGRO_COLOR text_color = al_map_rgb(255, 255, 255);
+    al_draw_textf(Obj->font, text_color, Obj->x + Obj->width / 2, Obj->y + Obj->height, ALLEGRO_ALIGN_CENTER, "Score: %d", Obj->score);
+
+    // 顯示倒數時間
+    al_draw_textf(Obj->font, text_color, Obj->x + Obj->width / 2, Obj->y - 20, ALLEGRO_ALIGN_CENTER, "Time: %d", Obj->countdown);
 }
 
 void Seeds_c_destory(Elements *self) 
