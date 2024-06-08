@@ -70,7 +70,7 @@ void Character_update(Elements *self)
             chara->state = MOVE;
         }
         //press z to plant a seed(using a tree pic for now). by lintzoe
-        else if (key_state[ALLEGRO_KEY_Z])
+        else if (key_state[ALLEGRO_KEY_S])
         {
             chara->dir = true;
             chara->state = PLANT;
