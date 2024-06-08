@@ -13,6 +13,9 @@ typedef struct _Seeds_c
     int v;             // the velocity of seeds_c
     ALLEGRO_BITMAP *img;
     Shape *hitbox; // the hitbox of object
+    // 添加計時相關變量
+    double plant_time;
+    bool is_harvestable;
 } Seeds_c;
 Elements *New_Seeds_c(int label, int x, int y);
 void Seeds_c_update(Elements *self);
