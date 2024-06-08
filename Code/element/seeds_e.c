@@ -10,7 +10,7 @@ Elements *New_Seeds_e(int label, int x, int y)
     Elements *pObj = New_Elements(label);
     // setting derived object member
     
-    pDerivedObj->img = al_load_bitmap("assets/image/seeds_e.png");
+    pDerivedObj->img = al_load_bitmap("assets/image/seeds_e.webp");
     pDerivedObj->width = al_get_bitmap_width(pDerivedObj->img);
     pDerivedObj->height = al_get_bitmap_height(pDerivedObj->img);
     pDerivedObj->x = x;
