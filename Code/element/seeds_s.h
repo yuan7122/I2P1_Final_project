@@ -14,7 +14,7 @@ typedef struct _Seeds_s
     ALLEGRO_BITMAP *img;
     Shape *hitbox; // the hitbox of object
 } Seeds_s;
-Elements *New_Seeds_s(int label, int x, int y, int v);
+Elements *New_Seeds_s(int label, int x, int y);
 void Seeds_s_update(Elements *self);
 void Seeds_s_interact(Elements *self, Elements *tar);
 void Seeds_s_draw(Elements *self);
