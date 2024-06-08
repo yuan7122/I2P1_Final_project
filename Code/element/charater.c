@@ -72,9 +72,13 @@ void Character_update(Elements *self)
         //press z to plant a seed(using a tree pic for now). by lintzoe
         else if (key_state[ALLEGRO_KEY_S])
         {
-            chara->dir = true;
-            chara->state = PLANT;
+            Elements *pro;
+            pro = New_Seeds_s(Seeds_s_L, chara->x, chara->y);
+            _Register_elements(scene, pro);
+            //chara->new_proj = true;
+            chara->state = STOP;
         }
+        
         else
         {
             chara->state = STOP;
@@ -103,6 +107,7 @@ void Character_update(Elements *self)
     }
     else if (chara->state == ATK)
     {
+        printf("new_pro: %d\n", chara->new_proj);
         if (chara->gif_status[chara->state]->done)
         {
             chara->state = STOP;
@@ -130,15 +135,19 @@ void Character_update(Elements *self)
         }
     }
     //added this status to plant. by lintzoe
-    else if(chara->state == PLANT)
-    {   Elements *pro;
+    /*else if(chara->state == PLANT)
+    {   
+        //printf("plant new_pro: %d\n", chara->new_proj);
+        Elements *pro;
     //try to put a seed on (50,50). by lintzoe
             //pro = New_Seeds_s(Seeds_s_L, 50, 50);
             //try to put a seed on where the character is. by lintzoe
             pro = New_Seeds_s(Seeds_s_L, chara->x, chara->y);
             _Register_elements(scene, pro);
-            chara->new_proj = true;
-    }
+            //chara->new_proj = true;
+            if (chara->gif_status[chara->state]->done)
+            chara->state = STOP;
+    }*/
 }
 void Character_draw(Elements *self)
 {
