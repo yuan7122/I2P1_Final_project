@@ -14,10 +14,10 @@ Elements *New_Character(int label)
     Elements *pObj = New_Elements(label);
     // setting derived object member
     // load character images
-    char state_string[3][10] = {"stop", "move", "attack"};
-    for (int i = 0; i < 3; i++)
+    char state_string[5][10] = {"stop", "move", "attack", "move", "move"};
+    for (int i = 0; i < 5; i++)
     {
-        char buffer[50];
+        char buffer[60];
         sprintf(buffer, "assets/image/chara_%s.gif", state_string[i]);
         pDerivedObj->gif_status[i] = algif_new_gif(buffer, -1);
     }
@@ -32,11 +32,12 @@ Elements *New_Character(int label)
     pDerivedObj->height = pDerivedObj->gif_status[0]->height;
     pDerivedObj->x = 300;
     pDerivedObj->y = HEIGHT - pDerivedObj->height - 60;
+    printf("h:%d objecth:%d\n", HEIGHT, pDerivedObj->height);
     pDerivedObj->hitbox = New_Rectangle(pDerivedObj->x,
                                         pDerivedObj->y,
                                         pDerivedObj->x + pDerivedObj->width,
                                         pDerivedObj->y + pDerivedObj->height);
-    pDerivedObj->dir = false; // true: face to right, false: face to left
+    pDerivedObj->dir = false; // true: face two right, false: face to left
     // initial the animation component
     pDerivedObj->state = STOP;
     pDerivedObj->new_proj = false;
@@ -67,6 +68,16 @@ void Character_update(Elements *self)
         {
             chara->dir = true;
             chara->state = MOVE;
+        }
+        else if (key_state[ALLEGRO_KEY_W]) // Handle jump mode
+        {
+            chara->state = JUMP;
+            chara->jump_speed = 10; // Set initial jump speed
+        }
+        else if (key_state[ALLEGRO_KEY_S]) // Handle jump mode
+        {
+            chara->state = DOWN;
+            chara->jump_speed = -10; // Set initial jump speed
         }
         else
         {
@@ -120,6 +131,44 @@ void Character_update(Elements *self)
             }
             _Register_elements(scene, pro);
             chara->new_proj = true;
+        }
+    }
+    else if (chara->state == JUMP) // Handle jump mode
+    {
+        int GRAVITY = -10;
+        //int GROUND_LEVEL = 0;
+        _Character_update_position(self, 0, chara->jump_speed);
+        chara->jump_speed += GRAVITY; // Apply gravity
+        if (chara->y <= 0) // Check if landed
+        {
+            chara->y = 0; // Reset position
+            chara->jump_speed = 0;
+            chara->state = STOP; // Return to STOP state after landing
+        }
+        //if (chara->y >= HEIGHT) // Check if landed
+        //{
+            //chara->y = HEIGHT; // Reset position
+            //chara->jump_speed = 0;
+            //chara->state = STOP; // Return to STOP state after landing
+        //}
+    }
+    else if (chara->state == DOWN) // Handle crouch mode
+    {
+        int GRAVITY = 10;
+        //int GROUND_LEVEL = 0;
+        _Character_update_position(self, 0, chara->jump_speed);
+        chara->jump_speed += GRAVITY; // Apply gravity - Gravity not applied in crouch mode
+        //if (chara->y <= 5) // Check if landed
+        //{
+            //chara->y = 5; // Reset position
+            //chara->jump_speed = 0;
+            //chara->state = STOP; // Return to STOP state after landing
+        //}
+        if (chara->y >= HEIGHT-220) // Check if landed
+        {
+            chara->y = HEIGHT-220; // Reset position
+            chara->jump_speed = 0;
+            chara->state = STOP; // Return to STOP state after landing
         }
     }
 }
