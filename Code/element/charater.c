@@ -133,8 +133,9 @@ void Character_update(Elements *self)
     else if(chara->state == PLANT)
     {   Elements *pro;
     //try to put a seed on (50,50). by lintzoe
-            pro = New_Seeds_s(Seeds_s_L, 50, 50);
-            
+            //pro = New_Seeds_s(Seeds_s_L, 50, 50);
+            //try to put a seed on where the character is. by lintzoe
+            pro = New_Seeds_s(Seeds_s_L, chara->x, chara->y);
             _Register_elements(scene, pro);
             chara->new_proj = true;
     }
