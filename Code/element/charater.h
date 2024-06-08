@@ -15,7 +15,8 @@ typedef enum CharacterType
 {
     STOP = 0,
     MOVE,
-    ATK
+    ATK,
+    PLANT
 } CharacterType;
 typedef struct _Character
 {

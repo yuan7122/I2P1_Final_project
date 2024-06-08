@@ -16,7 +16,8 @@ typedef enum EleType
     Teleport_L,
     Tree_L,
     Character_L,
-    Projectile_L
+    Projectile_L,
+    Seeds_s_L
 } EleType;
 typedef struct _GameScene
 {

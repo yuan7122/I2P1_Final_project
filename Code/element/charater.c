@@ -68,6 +68,12 @@ void Character_update(Elements *self)
             chara->dir = true;
             chara->state = MOVE;
         }
+        //press z to plant a seed(using a tree pic for now). by lintzoe
+        else if (key_state[ALLEGRO_KEY_Z])
+        {
+            chara->dir = true;
+            chara->state = PLANT;
+        }
         else
         {
             chara->state = STOP;
@@ -121,6 +127,15 @@ void Character_update(Elements *self)
             _Register_elements(scene, pro);
             chara->new_proj = true;
         }
+    }
+    //added this status to plant. by lintzoe
+    else if(chara->state == PLANT)
+    {   Elements *pro;
+    //try to put a seed on (50,50). by lintzoe
+            pro = New_Seeds_s(Seeds_s_L, 50, 50);
+            
+            _Register_elements(scene, pro);
+            chara->new_proj = true;
     }
 }
 void Character_draw(Elements *self)

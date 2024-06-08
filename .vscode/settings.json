@@ -1,5 +1,8 @@
 {
 	"terminal.integrated.env.windows": {
 		"PATH": "${workspaceFolder}\\MinGW\\bin;${env:PATH}"
+	},
+	"files.associations": {
+		"seeds_s.h": "c"
 	}
 }
