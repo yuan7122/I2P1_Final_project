@@ -1,6 +1,7 @@
 #include "charater.h"
 #include "../scene/sceneManager.h"
 #include "projectile.h"
+#include "seeds_s.h"
 #include "../shapes/Rectangle.h"
 #include "../algif5/src/algif.h"
 #include <stdio.h>

@@ -3,6 +3,8 @@
 		"PATH": "${workspaceFolder}\\MinGW\\bin;${env:PATH}"
 	},
 	"files.associations": {
-		"seeds_s.h": "c"
+		"seeds_s.h": "c",
+		"algif.h": "c",
+		"projectile.h": "c"
 	}
 }
