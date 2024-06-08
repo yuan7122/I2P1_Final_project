@@ -2,6 +2,7 @@
 #define ELEMENT_H_INCLUDED
 #include "../global.h"
 #include <stdbool.h>
+#include <stdio.h>
 
 typedef struct _Elements Elements;
 typedef void (*fptrEleDraw)(Elements *);

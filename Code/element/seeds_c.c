@@ -29,7 +29,7 @@ Elements *New_Seeds_c(int label, int x, int y)
     pDerivedObj->score = 5;  // 初始化積分值
     pDerivedObj->font = al_create_builtin_font(); // 初始化字型
     pDerivedObj->timer = al_create_timer(1.0);
-    pDerivedObj->countdown = 20;
+    pDerivedObj->countdown = 50;
     pDerivedObj->event_queue = al_create_event_queue();
     al_register_event_source(pDerivedObj->event_queue, al_get_timer_event_source(pDerivedObj->timer));
     al_start_timer(pDerivedObj->timer);
@@ -56,11 +56,11 @@ void Seeds_c_update(Elements *self)
             double current_time = al_get_time();
             double elapsed_time = current_time - Obj->plant_time;
 
-            if (elapsed_time >= 20.0) {
+            if (elapsed_time >= 50.0) {
                 Obj->is_harvestable = true;
             }
             if (Obj->countdown > 0) {
-                Obj->countdown = 20 - (int)elapsed_time;
+                Obj->countdown = 50 - (int)elapsed_time;
                 if (Obj->countdown <= 0) {
                     Obj->countdown = 0;
                     Obj->is_harvestable = true;
@@ -71,12 +71,14 @@ void Seeds_c_update(Elements *self)
 }
 void Seeds_c_interact(Elements *self, Elements *tar)
 {
-    /*
     Seeds_c *Obj = ((Seeds_c *)(self->pDerivedObj));
-    if (tar->label == Player_L && Obj->is_harvestable) {
-        Obj->score += 5;
-        Obj->is_harvestable = false;
-    }*/
+    if (tar->label == Character_L && Obj->is_harvestable) {
+        Obj->score += 5; // 收成後增加積分
+        Obj->is_harvestable = false; // 重置為不可收成狀態
+        Obj->plant_time = al_get_time(); // 重置種植時間
+        Obj->countdown = 50; // 重置倒數時間
+        al_start_timer(Obj->timer); // 重啟計時器
+    }
 }
 // 修改 Seeds_c 的繪製函數
 void Seeds_c_draw(Elements *self) 

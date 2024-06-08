@@ -16,10 +16,12 @@ typedef struct _Seeds_s
     // 添加計時相關變量
     double plant_time;
     bool is_harvestable;
-    // 添加積分值變量
-    int score; 
+    int score; // 添加積分值變量
     // 新增成員變數
     ALLEGRO_FONT *font;
+    ALLEGRO_TIMER *timer; // 計時器
+    int countdown; // 倒數時間
+    ALLEGRO_EVENT_QUEUE *event_queue; // 新增事件佇列成員
 } Seeds_s;
 Elements *New_Seeds_s(int label, int x, int y);
 void Seeds_s_update(Elements *self);

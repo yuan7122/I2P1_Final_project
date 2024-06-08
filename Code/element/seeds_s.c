@@ -27,9 +27,13 @@ Elements *New_Seeds_s(int label, int x, int y)
     pDerivedObj->plant_time = al_get_time();
     pDerivedObj->is_harvestable = false;
     pDerivedObj->score = 20;  // 初始化積分值
-    // 初始化字型
-    pDerivedObj->font = al_create_builtin_font();
-
+    pDerivedObj->font = al_create_builtin_font(); // 初始化字型
+    pDerivedObj->timer = al_create_timer(1.0);
+    pDerivedObj->countdown = 160;
+    pDerivedObj->event_queue = al_create_event_queue();
+    al_register_event_source(pDerivedObj->event_queue, al_get_timer_event_source(pDerivedObj->timer));
+    al_start_timer(pDerivedObj->timer);
+    
     // setting the interact object
     /*pObj->inter_obj[pObj->inter_len++] = Tree_L;
     pObj->inter_obj[pObj->inter_len++] = Floor_L;*/
@@ -45,59 +49,49 @@ Elements *New_Seeds_s(int label, int x, int y)
 }
 void Seeds_s_update(Elements *self)
 {
-    Seeds_s *Obj = ((Seeds_s *)(self->pDerivedObj));
-    double current_time = al_get_time();
-    double elapsed_time = current_time - Obj->plant_time;
+   Seeds_s *Obj = ((Seeds_s *)(self->pDerivedObj));
+    ALLEGRO_EVENT ev;
+    while (al_get_next_event(Obj->event_queue, &ev)) { // 獲取下一個事件
+        if (ev.type == ALLEGRO_EVENT_TIMER) {
+            double current_time = al_get_time();
+            double elapsed_time = current_time - Obj->plant_time;
 
-    // 設定草莓成長時間為20秒
-    if (elapsed_time >= 20.0) {
-        Obj->is_harvestable = true;
+            if (elapsed_time >= 160.0) {
+                Obj->is_harvestable = true;
+            }
+            if (Obj->countdown > 0) {
+                Obj->countdown = 160 - (int)elapsed_time;
+                if (Obj->countdown <= 0) {
+                    Obj->countdown = 0;
+                    Obj->is_harvestable = true;
+                }
+            }
+        }
     }
 }
-/*void _Seeds_s_update_position(Elements *self, int dx, int dy)
-{
-    Seeds_s *Obj = ((Seeds_s *)(self->pDerivedObj));
-    Obj->x += dx;
-    Obj->y += dy;
-    Shape *hitbox = Obj->hitbox;
-    hitbox->update_center_x(hitbox, dx);
-    hitbox->update_center_y(hitbox, dy);
-}*/
 void Seeds_s_interact(Elements *self, Elements *tar)
 {
-    //Seeds_s *Obj = ((Seeds_s *)(self->pDerivedObj));
-    /*if (tar->label == Floor_L)
-    {
-        if (Obj->x < 0 - Obj->width)
-            self->dele = true;
-        else if (Obj->x > WIDTH + Obj->width)
-            self->dele = true;
+    Seeds_s *Obj = ((Seeds_s *)(self->pDerivedObj));
+    if (tar->label == Character_L && Obj->is_harvestable) {
+        Obj->score += 5; // 收成後增加積分
+        Obj->is_harvestable = false; // 重置為不可收成狀態
+        Obj->plant_time = al_get_time(); // 重置種植時間
+        Obj->countdown = 160; // 重置倒數時間
+        al_start_timer(Obj->timer); // 重啟計時器
     }
-    else if (tar->label == Tree_L)
-    {
-        Tree *tree = ((Tree *)(tar->pDerivedObj));
-        if (tree->hitbox->overlap(tree->hitbox, Obj->hitbox))
-        {
-            self->dele = true;
-        }
-    }*/
 }
 // 修改 Seeds_s 的繪製函數
 void Seeds_s_draw(Elements *self) 
 {
     Seeds_s *Obj = ((Seeds_s *)(self->pDerivedObj));
     if (Obj->is_harvestable) {
-        // 繪製可收成的草莓（這裡可以根據需求修改顏色或圖片）
         al_draw_tinted_bitmap(Obj->img, al_map_rgb(255, 255, 255), Obj->x, Obj->y, 0);
     } else {
-        // 繪製成長中的草莓
         al_draw_tinted_bitmap(Obj->img, al_map_rgb(128, 128, 128), Obj->x, Obj->y, 0);
     }
-    // 只在字型存在時才使用
-    if (Obj->font) {
-        ALLEGRO_COLOR text_color = al_map_rgb(255, 255, 255);
-        al_draw_textf(Obj->font, text_color, Obj->x + Obj->width / 2, Obj->y - 20, ALLEGRO_ALIGN_CENTER, "%d", Obj->score);
-    }
+    ALLEGRO_COLOR text_color = al_map_rgb(255, 255, 255);
+    al_draw_textf(Obj->font, text_color, Obj->x + Obj->width / 2, Obj->y + 20 + Obj->height, ALLEGRO_ALIGN_CENTER, "Score: %d", Obj->score);
+    al_draw_textf(Obj->font, text_color, Obj->x + Obj->width / 2, Obj->y - 20, ALLEGRO_ALIGN_CENTER, "Time: %d", Obj->countdown);
 }
 
 void Seeds_s_destory(Elements *self) 
@@ -105,7 +99,9 @@ void Seeds_s_destory(Elements *self)
     Seeds_s *obj = (Seeds_s *)(self->pDerivedObj);
     al_destroy_bitmap(obj->img);
     free(obj->hitbox);
-    al_destroy_font(obj->font);  // 釋放字型資源
+    al_destroy_font(obj->font);
+    al_destroy_timer(obj->timer);
+    al_destroy_event_queue(obj->event_queue);
     free(obj);
     free(self);
 }
