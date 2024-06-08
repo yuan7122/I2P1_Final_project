@@ -3,7 +3,8 @@
 /*
    [Seeds_s function]
 */
-Elements *New_Seeds_s(int label, int x, int y, int v)
+//deleted v. by lintzoe
+Elements *New_Seeds_s(int label, int x, int y)
 {
     Seeds_s *pDerivedObj = (Seeds_s *)malloc(sizeof(Seeds_s));
     Elements *pObj = New_Elements(label);
