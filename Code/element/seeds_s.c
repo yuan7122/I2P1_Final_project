@@ -3,7 +3,7 @@
 /*
    [Seeds_s function]
 */
-//deleted v. by lintzoe
+//deleted int v. by lintzoe
 Elements *New_Seeds_s(int label, int x, int y)
 {
     Seeds_s *pDerivedObj = (Seeds_s *)malloc(sizeof(Seeds_s));
@@ -47,7 +47,7 @@ void _Seeds_s_update_position(Elements *self, int dx, int dy)
 }
 void Seeds_s_interact(Elements *self, Elements *tar)
 {
-    Seeds_s *Obj = ((Seeds_s *)(self->pDerivedObj));
+    //Seeds_s *Obj = ((Seeds_s *)(self->pDerivedObj));
     /*if (tar->label == Floor_L)
     {
         if (Obj->x < 0 - Obj->width)
