@@ -2,6 +2,8 @@
 #include "../scene/sceneManager.h"
 #include "projectile.h"
 #include "seeds_s.h"
+#include "seeds_c.h"
+#include "seeds_e.h"
 #include "../shapes/Rectangle.h"
 #include "../algif5/src/algif.h"
 #include <stdio.h>
@@ -70,7 +72,7 @@ void Character_update(Elements *self)
             chara->state = MOVE;
         }
         //press z to plant a seed(using a tree pic for now). by lintzoe
-        else if (key_state[ALLEGRO_KEY_S])
+        else if (key_state[ALLEGRO_KEY_1])
         {
             Elements *pro;
             pro = New_Seeds_s(Seeds_s_L, chara->x, chara->y);
@@ -78,7 +80,22 @@ void Character_update(Elements *self)
             //chara->new_proj = true;
             chara->state = STOP;
         }
-        
+        else if (key_state[ALLEGRO_KEY_2])
+        {
+            Elements *pro;
+            pro = New_Seeds_c(Seeds_c_L, chara->x, chara->y);
+            _Register_elements(scene, pro);
+            //chara->new_proj = true;
+            chara->state = STOP;
+        }
+        else if (key_state[ALLEGRO_KEY_3])
+        {
+            Elements *pro;
+            pro = New_Seeds_e(Seeds_e_L, chara->x, chara->y);
+            _Register_elements(scene, pro);
+            //chara->new_proj = true;
+            chara->state = STOP;
+        }
         else
         {
             chara->state = STOP;

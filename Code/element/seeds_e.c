@@ -33,8 +33,8 @@ Elements *New_Seeds_e(int label, int x, int y)
 }
 void Seeds_e_update(Elements *self)
 {
-    Seeds_e *Obj = ((Seeds_e *)(self->pDerivedObj));
-    _Seeds_e_update_position(self, Obj->v, 0);
+    //Seeds_e *Obj = ((Seeds_e *)(self->pDerivedObj));
+    //_Seeds_e_update_position(self, Obj->v, 0);
 }
 void _Seeds_e_update_position(Elements *self, int dx, int dy)
 {
@@ -67,9 +67,9 @@ void Seeds_e_interact(Elements *self, Elements *tar)
 void Seeds_e_draw(Elements *self)
 {
     Seeds_e *Obj = ((Seeds_e *)(self->pDerivedObj));
-    if (Obj->v > 0)
-        al_draw_bitmap(Obj->img, Obj->x, Obj->y, ALLEGRO_FLIP_HORIZONTAL);
-    else
+    //if (Obj->v > 0)
+        //al_draw_bitmap(Obj->img, Obj->x, Obj->y, ALLEGRO_FLIP_HORIZONTAL);
+    //else
         al_draw_bitmap(Obj->img, Obj->x, Obj->y, 0);
 }
 void Seeds_e_destory(Elements *self)

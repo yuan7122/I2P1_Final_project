@@ -5,6 +5,8 @@
 	"files.associations": {
 		"seeds_s.h": "c",
 		"algif.h": "c",
-		"projectile.h": "c"
+		"projectile.h": "c",
+		"rectangle.h": "c",
+		"seeds_e.h": "c"
 	}
 }
