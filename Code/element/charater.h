@@ -32,7 +32,7 @@ typedef struct _Character
     int anime_time; // indicate how long the animation
     bool new_proj;
     Shape *hitbox; // the hitbox of object
-    ALLEGRO_BITMAP *img;
+    //ALLEGRO_BITMAP *img;
 } Character;
 Elements *New_Character(int label);
 void _Character_update_position(Elements *self, int dx, int dy);

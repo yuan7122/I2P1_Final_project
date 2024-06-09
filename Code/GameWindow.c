@@ -133,11 +133,9 @@ bool game_update(Game *self)
             //printf("case 1\n");
             break;
         case -1:
-            //printf("case 1\n");
-            //create_scene(GameScene_L);
+            printf("case -1\n");
             return false;
         default:
-            //create_scene(GameScene_L);
             break;
         }
     }

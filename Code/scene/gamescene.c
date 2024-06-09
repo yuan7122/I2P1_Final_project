@@ -14,7 +14,7 @@ Scene *New_GameScene(int label)
     //_Register_elements(pObj, New_Teleport(Teleport_L));
     pDerivedObj->lastTreeTime = 0.0;
     _Register_elements(pObj, New_Tree(Tree_L));
-    printf("!");
+    //printf("!");
     _Register_elements(pObj, New_Character(Character_L));
     // setting derived object function
     pObj->Update = game_scene_update;

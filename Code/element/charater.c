@@ -109,6 +109,31 @@ void Character_update(Elements *self)
             //chara->new_proj = true;
             chara->state = STOP;
         }
+        else if (key_state[ALLEGRO_KEY_F])
+        {
+            // Handle watering seeds when F key is pressed
+            printf("ALLEGRO_KEY_F pressed\n");
+            Scene *currentScene = scene;  // 获取当前场景
+            if (currentScene != NULL)
+            {
+                ElementVec allSeeds = _Get_label_elements(currentScene, Seeds_c_L);
+                for (int i = 0; i < allSeeds.len; i++)
+                {
+                    Elements *seedElement = allSeeds.arr[i];
+                    Seeds_c *seed = (Seeds_c *)(seedElement->pDerivedObj);
+
+                    // 检查角色和种子之间的距离
+                    int distance_x = abs(chara->x - seed->x);
+                    int distance_y = abs(chara->y - seed->y);
+                    int max_distance = 50; // 设置一个距离阈值
+
+                    if (distance_x <= max_distance && distance_y <= max_distance)
+                    {
+                        water_seeds_c(seedElement); // 为附近的种子浇水
+                    }
+                }
+            }
+        }
         else
         {
             chara->state = STOP;
