@@ -78,7 +78,8 @@ void Character_update(Elements *self)
             pro = New_Seeds_s(Seeds_s_L, chara->x, chara->y);
             _Register_elements(scene, pro);
             //chara->new_proj = true;
-            chara->state = STOP;
+            //chara->state = STOP;
+            chara->state = MOVE;
         }
         else if (key_state[ALLEGRO_KEY_2])
         {
@@ -86,7 +87,8 @@ void Character_update(Elements *self)
             pro = New_Seeds_c(Seeds_c_L, chara->x, chara->y);
             _Register_elements(scene, pro);
             //chara->new_proj = true;
-            chara->state = STOP;
+            //chara->state = STOP;
+            chara->state = MOVE;
         }
         else if (key_state[ALLEGRO_KEY_3])
         {
@@ -94,7 +96,8 @@ void Character_update(Elements *self)
             pro = New_Seeds_e(Seeds_e_L, chara->x, chara->y);
             _Register_elements(scene, pro);
             //chara->new_proj = true;
-            chara->state = STOP;
+            //chara->state = STOP;
+            chara->state = MOVE;
         }
         else
         {

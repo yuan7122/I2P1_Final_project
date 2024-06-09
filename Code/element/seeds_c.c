@@ -33,7 +33,7 @@ Elements *New_Seeds_c(int label, int x, int y)
     pDerivedObj->score = 5;  // 初始化積分值
     pDerivedObj->font = al_create_builtin_font(); // 初始化字型
     pDerivedObj->timer = al_create_timer(1.0);
-    pDerivedObj->countdown = 50;
+    pDerivedObj->countdown = 20;
     pDerivedObj->event_queue = al_create_event_queue();
     pDerivedObj->is_processed = false; // 添加这个标志
 
@@ -61,18 +61,18 @@ void Seeds_c_update(Elements *self)
             double current_time = al_get_time();
             double elapsed_time = current_time - Obj->plant_time;
 
-            if (elapsed_time >= 50.0) {
+            if (elapsed_time >= 20.0) {
                 Obj->is_harvestable = true;
             }
             if (Obj->countdown > 0) {
-                Obj->countdown = 50 - (int)elapsed_time;
+                Obj->countdown = 20 - (int)elapsed_time;
                 if (Obj->countdown <= 0) {
                     Obj->countdown = 0;
                     Obj->is_harvestable = true;
                 }
             }
         }
-        
+
     }
     // 在每次更新後重置全局標誌
     interaction_processed = false;
@@ -97,7 +97,7 @@ void Seeds_c_interact(Elements *self, Elements *tar)
             printf("Harvested! Score added: %d, Total score: %d\n", Obj->score, tot_score);
             Obj->is_harvestable = false;
             Obj->plant_time = al_get_time();
-            Obj->countdown = 50;
+            Obj->countdown = 20;
             al_start_timer(Obj->timer);
         }
         else{
