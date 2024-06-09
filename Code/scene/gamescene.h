@@ -25,7 +25,10 @@ typedef enum EleType
 } EleType;
 typedef struct _GameScene
 {
-    ALLEGRO_BITMAP *background;
+    ALLEGRO_BITMAP *day_background;
+    ALLEGRO_BITMAP *dusk1_background;
+    ALLEGRO_BITMAP *dusk2_background;
+    ALLEGRO_BITMAP *night_background;
     ALLEGRO_FONT *font;
 } GameScene;
 Scene *New_GameScene(int label);
