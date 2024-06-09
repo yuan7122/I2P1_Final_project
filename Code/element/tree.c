@@ -58,6 +58,7 @@ Elements *New_Tree(int label)
         pObj->Interact = Tree_interact;
         pObj->Draw = Tree_draw;
         pObj->Destroy = Tree_destory;
+        pDerivedObj->create_time = al_get_time();
         //lastTreeTime = now;
         //lastTreeTime = now; // 更新上次生成樹木的時間
         //return pObj;
@@ -70,7 +71,13 @@ Elements *New_Tree(int label)
     printf("lastTreeTime=%f now=%f\n", lastTreeTime, now);
     return pObj;
 }
-void Tree_update(Elements *self) {}
+void Tree_update(Elements *self) {
+    Tree *Obj = (Tree *)(self->pDerivedObj);
+    double now = al_get_time();
+    if (now - Obj->create_time >= 10.0) {
+        self->dele = true; // 标记为删除
+    }
+}
 void Tree_interact(Elements *self, Elements *tar) {
     // 这里假设 Character 使用的是 'Character' 标签
     Tree *Obj = ((Tree *)(self->pDerivedObj));

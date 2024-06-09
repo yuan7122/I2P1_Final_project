@@ -19,6 +19,7 @@ typedef struct _Tree
     int width, height; // the width and height of image
     ALLEGRO_BITMAP *img;
     Shape *hitbox; // the hitbox of object
+    double create_time;
 } Tree;
 Elements *New_Tree(int label);
 void Tree_update(Elements *self);
