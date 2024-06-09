@@ -10,7 +10,7 @@ Scene *New_GameScene(int label)
     Scene *pObj = New_Scene(label);
     // setting derived object member
     pDerivedObj->background = al_load_bitmap("assets/image/day.jpeg");
-    pDerivedObj->font = al_load_ttf_font("assets/font/pirulen.ttf", 12, 0);
+    pDerivedObj->font = al_load_ttf_font("assets/font/pirulen.ttf", 30, 0);
     pObj->pDerivedObj = pDerivedObj;
     // register element
     _Register_elements(pObj, New_Floor(Floor_L));
@@ -29,6 +29,7 @@ void game_scene_update(Scene *self)
     ElementVec allEle = _Get_all_elements(self);
     for (int i = 0; i < allEle.len; i++)
     {
+
         allEle.arr[i]->Update(allEle.arr[i]);
     }
 
@@ -68,7 +69,7 @@ void game_scene_draw(Scene *self)
     }
     char score_text[50];
     sprintf(score_text, "Total Score: %d", tot_score);
-    al_draw_text(gs->font, al_map_rgb(255, 255, 255), 790, 60, 50, score_text);
+    al_draw_text(gs->font, al_map_rgb(0, 0, 0), 790, 60, 50, score_text);
 }
 void game_scene_destroy(Scene *self)
 {

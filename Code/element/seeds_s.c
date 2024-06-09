@@ -78,6 +78,7 @@ void Seeds_s_interact(Elements *self, Elements *tar)
         if (chara->hitbox->overlap(chara->hitbox, Obj->hitbox))
         {
             self->dele = true;
+            tot_score += Obj->score;
             //printf("-10s\n"); // 打印 -10s
         }
         // 检查是否碰撞
