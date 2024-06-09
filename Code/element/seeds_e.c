@@ -27,7 +27,9 @@ Elements *New_Seeds_e(int label, int x, int y)
     pDerivedObj->plant_time = al_get_time();
     pDerivedObj->is_harvestable = false;
     pDerivedObj->score = 10;  // 初始化積分值
+
     pDerivedObj->font = al_create_builtin_font(); // 初始化字型
+    //pDerivedObj->font = al_load_ttf_font("C:\\Windows\\Fonts\\arial.ttf", 30, 0);
     pDerivedObj->timer = al_create_timer(1.0);
     pDerivedObj->countdown = 90;
     pDerivedObj->event_queue = al_create_event_queue();
