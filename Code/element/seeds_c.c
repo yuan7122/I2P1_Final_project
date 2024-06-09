@@ -1,0 +1,150 @@
+#include "seeds_c.h"
+#include "../shapes/Circle.h"
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_font.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include "../scene/sceneManager.h"
+
+/*
+   [Seeds_c function]
+*/
+//deleted int v. by lintzoe
+Elements *New_Seeds_c(int label, int x, int y)
+{
+    Seeds_c *pDerivedObj = (Seeds_c *)malloc(sizeof(Seeds_c));
+    if (!pDerivedObj) {
+        printf("Error: Failed to allocate memory for Seeds_c object\n");
+        return NULL;
+    }
+    Elements *pObj = New_Elements(label);
+    if (!pObj) {
+        free(pDerivedObj); // 釋放 Seeds_c 物件的記憶體
+        printf("Error: Failed to allocate memory for Elements object\n");
+        return NULL;
+    }
+    // setting derived object member
+    
+    pDerivedObj->img = al_load_bitmap("assets/image/seeds_c.webp");
+    pDerivedObj->width = al_get_bitmap_width(pDerivedObj->img);
+    pDerivedObj->height = al_get_bitmap_height(pDerivedObj->img);
+    pDerivedObj->x = x;
+    pDerivedObj->y = y;
+    pDerivedObj->hitbox = New_Circle(pDerivedObj->x + pDerivedObj->width / 2,
+                                     pDerivedObj->y + pDerivedObj->height / 2,
+                                     min(pDerivedObj->width, pDerivedObj->height) / 2);
+    // 初始化計時相關變量
+    pDerivedObj->plant_time = al_get_time();
+    pDerivedObj->is_harvestable = false;
+    pDerivedObj->score = 5;  // 初始化積分值
+    pDerivedObj->font = al_create_builtin_font(); // 初始化字型
+    pDerivedObj->timer = al_create_timer(1.0);
+    pDerivedObj->countdown = 50;
+    pDerivedObj->minus = 0;
+    pDerivedObj->event_queue = al_create_event_queue();
+    al_register_event_source(pDerivedObj->event_queue, al_get_timer_event_source(pDerivedObj->timer));
+    al_start_timer(pDerivedObj->timer);
+    
+    // setting the interact object
+    /*pObj->inter_obj[pObj->inter_len++] = Tree_L;
+    pObj->inter_obj[pObj->inter_len++] = Floor_L;*/
+
+    // setting derived object function
+    pObj->pDerivedObj = pDerivedObj;
+    pObj->Update = Seeds_c_update;
+    pObj->Interact = Seeds_c_interact;
+    pObj->Draw = Seeds_c_draw;
+    pObj->Destroy = Seeds_c_destory;
+
+    return pObj;
+}
+void Seeds_c_update(Elements *self)
+{
+   Seeds_c *Obj = ((Seeds_c *)(self->pDerivedObj));
+    ALLEGRO_EVENT ev;
+    while (al_get_next_event(Obj->event_queue, &ev)) { // 獲取下一個事件
+        if (ev.type == ALLEGRO_EVENT_TIMER) {
+            double current_time = al_get_time();
+            double elapsed_time = current_time - Obj->plant_time;
+
+            if (elapsed_time >= 50.0) {
+                Obj->is_harvestable = true;
+            }
+            if (Obj->countdown > 0) {
+                Obj->countdown = 50 - (int)elapsed_time - Obj->minus;
+                if (Obj->countdown <= 0) {
+                    Obj->countdown = 0;
+                    Obj->is_harvestable = true;
+                }
+            }
+        }
+    }
+}
+void Seeds_c_interact(Elements *self, Elements *tar)
+{
+    Seeds_c *Obj = ((Seeds_c *)(self->pDerivedObj));
+    if (tar->label == Character_L && Obj->is_harvestable) {
+        Obj->score += 5; // 收成後增加積分
+        Obj->is_harvestable = false; // 重置為不可收成狀態
+        Obj->plant_time = al_get_time(); // 重置種植時間
+        Obj->countdown = 50; // 重置倒數時間
+        Obj->minus = 0; 
+        al_start_timer(Obj->timer); // 重啟計時器
+    }
+}
+void reduce_seeds_c_countdown() {
+    // 获取当前场景
+    //minus+=10;
+    //printf("%f\n",minus);
+    Scene *currentScene = scene;  // 这里假设有一个 Get_Current_Scene 函数来获取当前场景
+    if (currentScene != NULL) {
+        ElementVec allSeeds = _Get_label_elements(currentScene, Seeds_c_L);
+        for (int i = 0; i < allSeeds.len; i++) {
+            Seeds_c *seed = (Seeds_c *)(allSeeds.arr[i]->pDerivedObj);
+            seed->minus += 5;
+            //if (seed->countdown < 0) {
+                //seed->countdown = 0;
+            //}
+            printf("Seeds_c countdown reduced by 10\n");
+        }
+    }
+}
+// 修改 Seeds_c 的繪製函數
+void Seeds_c_draw(Elements *self) 
+{
+    Seeds_c *Obj = ((Seeds_c *)(self->pDerivedObj));
+    if (Obj->is_harvestable) {
+        al_draw_tinted_bitmap(Obj->img, al_map_rgb(255, 255, 255), Obj->x, Obj->y, 0);
+    } else {
+        al_draw_tinted_bitmap(Obj->img, al_map_rgb(128, 128, 128), Obj->x, Obj->y, 0);
+    }
+    ALLEGRO_COLOR text_color = al_map_rgb(255, 255, 255);
+    al_draw_textf(Obj->font, text_color, Obj->x + Obj->width / 2, Obj->y + Obj->height, ALLEGRO_ALIGN_CENTER, "Score: %d", Obj->score);
+    al_draw_textf(Obj->font, text_color, Obj->x + Obj->width / 2, Obj->y - 20, ALLEGRO_ALIGN_CENTER, "Time: %d", Obj->countdown);
+}
+
+void Seeds_c_destory(Elements *self) 
+{
+    /*Seeds_c *obj = (Seeds_c *)(self->pDerivedObj);
+    al_destroy_bitmap(obj->img);
+    free(obj->hitbox);
+    al_destroy_font(obj->font);
+    al_destroy_timer(obj->timer);
+    al_destroy_event_queue(obj->event_queue);
+    free(obj);
+    free(self);*/
+    if (!self) return;
+
+    Seeds_c *obj = (Seeds_c *)(self->pDerivedObj);
+    if (obj) {
+        al_destroy_bitmap(obj->img);
+        free(obj->hitbox);
+        al_destroy_font(obj->font);
+        al_destroy_timer(obj->timer);
+        al_destroy_event_queue(obj->event_queue);
+        free(obj);
+    }
+    
+    free(self);
+}

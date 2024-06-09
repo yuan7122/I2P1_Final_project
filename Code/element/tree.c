@@ -6,6 +6,7 @@
 #include <allegro5/allegro_image.h>
 #include <stdbool.h>
 #include "../algif5/src/algif.h"
+#include "seeds_c.h"
 
 //#include "Rectangle.h" :not right - see line 3
 /*
@@ -28,7 +29,7 @@ Elements *New_Tree(int label)
     // setting derived object member
     double now = al_get_time(); // 獲取當前時間
     printf("lastTreeTime1=%f now1=%f\n", lastTreeTime, now);
-    if (lastTreeTime==0 || now - lastTreeTime >= 10.0) // 檢查是否已經過了十秒
+    if (lastTreeTime==0||now - lastTreeTime >= 10.0) // 檢查是否已經過了十秒
     {
         lastTreeTime = now;
         // 隨機生成樹木位置
@@ -40,6 +41,9 @@ Elements *New_Tree(int label)
         if(pDerivedObj->img == NULL)
         {
             printf("Error loading\n");
+            free(pDerivedObj); // 釋放 Tree 物件的記憶體
+            free(pObj); // 釋放 Elements 物件的記憶體
+            return NULL; // 返回空指針，表示失敗
         }
         pDerivedObj->width = al_get_bitmap_width(pDerivedObj->img);
         pDerivedObj->height = al_get_bitmap_height(pDerivedObj->img);
@@ -83,18 +87,21 @@ void Tree_interact(Elements *self, Elements *tar) {
     Tree *Obj = ((Tree *)(self->pDerivedObj));
     printf("in tree interact\n");
     if (tar->label == Character_L) {
-        Tree *Obj = (Tree *)(self->pDerivedObj);
+        //Tree *Obj = (Tree *)(self->pDerivedObj);
         Character *chara = (Character *)(tar->pDerivedObj);
         if (chara->hitbox->overlap(chara->hitbox, Obj->hitbox))
         {
             self->dele = true;
-            printf("-10s\n"); // 打印 -10s
+            reduce_seeds_c_countdown();
+            printf("-10s\n"); // 打印 -10
+  
+        } else {
+                printf("No Seeds_c object detected\n"); // 没有检测到 Seeds_c 对象
         }
-        // 检查是否碰撞
-        else {
-            printf("No collision detected\n"); // 没有检测到碰撞
-        }
+    } else {
+        printf("No Character object detected\n"); // 没有检测到 Character 对象
     }
+
 }
 void Tree_draw(Elements *self)
 {

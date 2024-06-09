@@ -5,6 +5,7 @@
 #include "../algif5/src/algif.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include "seeds_c.h"
 /*
    [Character function]
 */
@@ -65,6 +66,7 @@ void Character_update(Elements *self)
 {
     // use the idea of finite state machine to deal with different state
     Character *chara = ((Character *)(self->pDerivedObj));
+    printf("Character state: %d\n", chara->state);
     if (chara->state == STOP)
     {
         if (key_state[ALLEGRO_KEY_SPACE])
@@ -90,6 +92,22 @@ void Character_update(Elements *self)
         {
             chara->state = DOWN;
             chara->jump_speed = -10; // Set initial jump speed
+        }
+        else if (key_state[ALLEGRO_KEY_2])
+        {
+            Elements *pro;
+            printf("ALLEGRO_KEY_2 pressed\n");
+            pro = New_Seeds_c(Seeds_c_L, chara->x, chara->y);
+            printf("after newseeds\n");
+            _Register_elements(scene, pro);
+            if (!pro) {
+                fprintf(stderr, "Failed to create new Seeds_c\n");
+            } else {
+                _Register_elements(scene, pro);
+                printf("New seed created and registered\n");
+            }
+            //chara->new_proj = true;
+            chara->state = STOP;
         }
         else
         {
