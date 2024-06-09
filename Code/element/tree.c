@@ -16,24 +16,6 @@ int randomTreePosition()
     return rand() % 8; // 生成0到7之間的隨機整數
 }
 
-bool CheckCollision(Shape *shape1, Shape *shape2) {
-    // 获取 shape1 和 shape2 的类型
-    ShapeType type1 = shape1->getType();
-    ShapeType type2 = shape2->getType();
-
-    // 确保两个形状都是矩形类型，因为你的目的是检测矩形之间的碰撞
-    if (type1 != RECTANGLE || type2 != RECTANGLE) {
-        return false; // 如果有一个不是矩形，直接返回 false
-    }
-
-    // 强制类型转换为 Rectangle
-    Rectangle *rect1 = (Rectangle *)(shape1->pDerivedObj);
-    Rectangle *rect2 = (Rectangle *)(shape2->pDerivedObj);
-
-    // 判断两个矩形是否相交
-    return !(rect1->x2 < rect2->x1 || rect1->x1 > rect2->x2 ||
-             rect1->y2 < rect2->y1 || rect1->y1 > rect2->y2);
-}
 Elements *New_Tree(int label)
 {
     printf("OK\n");
@@ -68,6 +50,8 @@ Elements *New_Tree(int label)
                                             pDerivedObj->x + 2 * pDerivedObj->width / 3,
                                             pDerivedObj->y + 2 * pDerivedObj->height / 3);
         //printf("treehitbox: %d\n", pDerivedObj->hitbox);
+        // setting the interact object
+        pObj->inter_obj[pObj->inter_len++] = Character_L;
         // setting derived object function
         pObj->pDerivedObj = pDerivedObj;
         pObj->Update = Tree_update;
@@ -89,16 +73,17 @@ Elements *New_Tree(int label)
 void Tree_update(Elements *self) {}
 void Tree_interact(Elements *self, Elements *tar) {
     // 这里假设 Character 使用的是 'Character' 标签
+    Tree *Obj = ((Tree *)(self->pDerivedObj));
     printf("in tree interact\n");
     if (tar->label == Character_L) {
         Tree *Obj = (Tree *)(self->pDerivedObj);
-        Character *charObj = (Character *)(tar->pDerivedObj);
-
-        // 检查是否碰撞
-        if (CheckCollision(Obj->hitbox, charObj->hitbox)) {
-            self->dele = 1; // 标记树木为删除
+        Character *chara = (Character *)(tar->pDerivedObj);
+        if (chara->hitbox->overlap(chara->hitbox, Obj->hitbox))
+        {
+            self->dele = true;
             printf("-10s\n"); // 打印 -10s
         }
+        // 检查是否碰撞
         else {
             printf("No collision detected\n"); // 没有检测到碰撞
         }
