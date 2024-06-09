@@ -1,4 +1,6 @@
 #include "gamescene.h"
+#include <allegro5/allegro_primitives.h>
+#include <stdbool.h>
 /*
    [GameScene function]
 */
@@ -8,6 +10,7 @@ Scene *New_GameScene(int label)
     Scene *pObj = New_Scene(label);
     // setting derived object member
     pDerivedObj->background = al_load_bitmap("assets/image/stage.jpg");
+    pDerivedObj->font = al_load_ttf_font("assets/font/pirulen.ttf", 12, 0);
     pObj->pDerivedObj = pDerivedObj;
     // register element
     _Register_elements(pObj, New_Floor(Floor_L));
@@ -63,12 +66,14 @@ void game_scene_draw(Scene *self)
         Elements *ele = allEle.arr[i];
         ele->Draw(ele);
     }
+    al_draw_text(gs->font, al_map_rgb(255, 255, 255), 790, 60, 50, "Total Score: ");
 }
 void game_scene_destroy(Scene *self)
 {
     GameScene *Obj = ((GameScene *)(self->pDerivedObj));
     ALLEGRO_BITMAP *background = Obj->background;
     al_destroy_bitmap(background);
+    al_destroy_font(Obj->font);
     ElementVec allEle = _Get_all_elements(self);
     for (int i = 0; i < allEle.len; i++)
     {
