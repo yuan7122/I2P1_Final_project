@@ -66,7 +66,9 @@ void game_scene_draw(Scene *self)
         Elements *ele = allEle.arr[i];
         ele->Draw(ele);
     }
-    al_draw_text(gs->font, al_map_rgb(255, 255, 255), 790, 60, 50, "Total Score: ");
+    char score_text[50];
+    sprintf(score_text, "Total Score: %d", tot_score);
+    al_draw_text(gs->font, al_map_rgb(255, 255, 255), 790, 60, 50, score_text);
 }
 void game_scene_destroy(Scene *self)
 {

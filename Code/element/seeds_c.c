@@ -8,6 +8,10 @@
 /*
    [Seeds_c function]
 */
+
+// 全局標誌變量
+bool interaction_processed = false;
+
 //deleted int v. by lintzoe
 Elements *New_Seeds_c(int label, int x, int y)
 {
@@ -31,6 +35,8 @@ Elements *New_Seeds_c(int label, int x, int y)
     pDerivedObj->timer = al_create_timer(1.0);
     pDerivedObj->countdown = 50;
     pDerivedObj->event_queue = al_create_event_queue();
+    pDerivedObj->is_processed = false; // 添加这个标志
+
     al_register_event_source(pDerivedObj->event_queue, al_get_timer_event_source(pDerivedObj->timer));
     al_start_timer(pDerivedObj->timer);
     
@@ -66,32 +72,36 @@ void Seeds_c_update(Elements *self)
                 }
             }
         }
+        
     }
+    // 在每次更新後重置全局標誌
+    interaction_processed = false;
 }
 void Seeds_c_interact(Elements *self, Elements *tar)
 {
-    /*Seeds_c *Obj = ((Seeds_c *)(self->pDerivedObj));
-    if (tar->label == Character_L && Obj->is_harvestable) {
-        Obj->score += 5; // 收成後增加積分
-        Obj->is_harvestable = false; // 重置為不可收成狀態
-        Obj->plant_time = al_get_time(); // 重置種植時間
-        Obj->countdown = 50; // 重置倒數時間
-        al_start_timer(Obj->timer); // 重啟計時器
-    }*/
-   // 这里假设 Character 使用的是 'Character' 标签
     Seeds_c *Obj = ((Seeds_c *)(self->pDerivedObj));
-    //printf("in seeds_c interact\n");
-    if (tar->label == Character_L&&Obj->is_harvestable&&key_state[ALLEGRO_KEY_H]) {
-        Seeds_c *Obj = (Seeds_c *)(self->pDerivedObj);
+    if (tar->label == Character_L && Obj->is_harvestable && key_state[ALLEGRO_KEY_H]) {
         Character *chara = (Character *)(tar->pDerivedObj);
-        if (chara->hitbox->overlap(chara->hitbox, Obj->hitbox))
-        {
-            self->dele = true;
-            //printf("-10s\n"); // 打印 -10s
+        
+        // 確保物件已標記為可刪除以避免多次計分
+        if (self->dele) {
+            return;
         }
-        // 检查是否碰撞
-        else {
-            //printf("No collision detected\n"); // 没有检测到碰撞
+
+        // 碰撞檢測
+        if (chara->hitbox->overlap(chara->hitbox, Obj->hitbox)) {
+            self->dele = true;
+            tot_score += Obj->score;
+            Obj->is_processed = true; // 设置为已处理
+            interaction_processed = true; // 设置全局标志为已处理
+            printf("Harvested! Score added: %d, Total score: %d\n", Obj->score, tot_score);
+            Obj->is_harvestable = false;
+            Obj->plant_time = al_get_time();
+            Obj->countdown = 50;
+            al_start_timer(Obj->timer);
+        }
+        else{
+            printf("No collision detected\n");
         }
     }
 }
@@ -112,11 +122,21 @@ void Seeds_c_draw(Elements *self)
 void Seeds_c_destory(Elements *self) 
 {
     Seeds_c *obj = (Seeds_c *)(self->pDerivedObj);
-    al_destroy_bitmap(obj->img);
-    free(obj->hitbox);
-    al_destroy_font(obj->font);
-    al_destroy_timer(obj->timer);
-    al_destroy_event_queue(obj->event_queue);
+    if (obj->img) {
+        al_destroy_bitmap(obj->img);
+    }
+    if (obj->hitbox) {
+        free(obj->hitbox);
+    }
+    if (obj->font) {
+        al_destroy_font(obj->font);
+    }
+    if (obj->timer) {
+        al_destroy_timer(obj->timer);
+    }
+    if (obj->event_queue) {
+        al_destroy_event_queue(obj->event_queue);
+    }
     free(obj);
     free(self);
 }

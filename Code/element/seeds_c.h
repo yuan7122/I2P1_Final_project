@@ -16,6 +16,7 @@ typedef struct _Seeds_c
     // 添加計時相關變量
     double plant_time;
     bool is_harvestable;
+    bool is_processed;
     int score; // 添加積分值變量
     // 新增成員變數
     ALLEGRO_FONT *font;
