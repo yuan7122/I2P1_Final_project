@@ -35,8 +35,7 @@ Elements *New_Seeds_c(int label, int x, int y)
     al_start_timer(pDerivedObj->timer);
     
     // setting the interact object
-    /*pObj->inter_obj[pObj->inter_len++] = Tree_L;
-    pObj->inter_obj[pObj->inter_len++] = Floor_L;*/
+    pObj->inter_obj[pObj->inter_len++] = Character_L;
 
     // setting derived object function
     pObj->pDerivedObj = pDerivedObj;
@@ -71,13 +70,29 @@ void Seeds_c_update(Elements *self)
 }
 void Seeds_c_interact(Elements *self, Elements *tar)
 {
-    Seeds_c *Obj = ((Seeds_c *)(self->pDerivedObj));
+    /*Seeds_c *Obj = ((Seeds_c *)(self->pDerivedObj));
     if (tar->label == Character_L && Obj->is_harvestable) {
         Obj->score += 5; // 收成後增加積分
         Obj->is_harvestable = false; // 重置為不可收成狀態
         Obj->plant_time = al_get_time(); // 重置種植時間
         Obj->countdown = 50; // 重置倒數時間
         al_start_timer(Obj->timer); // 重啟計時器
+    }*/
+   // 这里假设 Character 使用的是 'Character' 标签
+    Seeds_c *Obj = ((Seeds_c *)(self->pDerivedObj));
+    //printf("in seeds_c interact\n");
+    if (tar->label == Character_L&&Obj->is_harvestable&&key_state[ALLEGRO_KEY_H]) {
+        Seeds_c *Obj = (Seeds_c *)(self->pDerivedObj);
+        Character *chara = (Character *)(tar->pDerivedObj);
+        if (chara->hitbox->overlap(chara->hitbox, Obj->hitbox))
+        {
+            self->dele = true;
+            //printf("-10s\n"); // 打印 -10s
+        }
+        // 检查是否碰撞
+        else {
+            //printf("No collision detected\n"); // 没有检测到碰撞
+        }
     }
 }
 // 修改 Seeds_c 的繪製函數
