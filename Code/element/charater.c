@@ -66,7 +66,7 @@ void Character_update(Elements *self)
 {
     // use the idea of finite state machine to deal with different state
     Character *chara = ((Character *)(self->pDerivedObj));
-    printf("Character state: %d\n", chara->state);
+    //printf("Character state: %d\n", chara->state);
     if (chara->state == STOP)
     {
         if (key_state[ALLEGRO_KEY_SPACE])
@@ -97,7 +97,9 @@ void Character_update(Elements *self)
         {
             Elements *pro;
             printf("ALLEGRO_KEY_2 pressed\n");
-            pro = New_Seeds_c(Seeds_c_L, chara->x, chara->y);
+            pro = New_Seeds_c(Seeds_c_L, chara->x-30+chara->width/2, chara->y);
+            printf("chara->x = %d, chara->y = %d", chara->x, chara->y);
+            printf("now scene has %d objects\n",scene->ele_num);
             printf("after newseeds\n");
             _Register_elements(scene, pro);
             if (!pro) {
@@ -107,21 +109,22 @@ void Character_update(Elements *self)
                 printf("New seed created and registered\n");
             }
             //chara->new_proj = true;
-            chara->state = STOP;
+            chara->state = MOVE;
         }
-        else if (key_state[ALLEGRO_KEY_F])
+        /* else if (key_state[ALLEGRO_KEY_F])
         {
             // Handle watering seeds when F key is pressed
             printf("ALLEGRO_KEY_F pressed\n");
             Scene *currentScene = scene;  // 获取当前场景
             if (currentScene != NULL)
             {
+                
                 ElementVec allSeeds = _Get_label_elements(currentScene, Seeds_c_L);
                 for (int i = 0; i < allSeeds.len; i++)
                 {
                     Elements *seedElement = allSeeds.arr[i];
                     Seeds_c *seed = (Seeds_c *)(seedElement->pDerivedObj);
-
+                    printf("Seeds id = %d\n", seedElement->id);
                     // 检查角色和种子之间的距离
                     int distance_x = abs(chara->x - seed->x);
                     int distance_y = abs(chara->y - seed->y);
@@ -133,7 +136,7 @@ void Character_update(Elements *self)
                     }
                 }
             }
-        }
+        }*/
         else
         {
             chara->state = STOP;
