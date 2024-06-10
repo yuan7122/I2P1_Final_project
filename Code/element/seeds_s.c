@@ -92,13 +92,13 @@ void Seeds_s_draw(Elements *self)
 {
     Seeds_s *Obj = ((Seeds_s *)(self->pDerivedObj));
     if (Obj->is_harvestable) {
-        al_draw_tinted_bitmap(Obj->img, al_map_rgb(255, 255, 255), Obj->x, Obj->y, 0);
+        al_draw_tinted_bitmap(Obj->img, al_map_rgb(255, 255, 255), Obj->x, Obj->y-20, 0);
     } else {
-        al_draw_tinted_bitmap(Obj->img, al_map_rgb(128, 128, 128), Obj->x, Obj->y, 0);
+        al_draw_tinted_bitmap(Obj->img, al_map_rgb(128, 128, 128), Obj->x, Obj->y-20, 0);
     }
     ALLEGRO_COLOR text_color = al_map_rgb(255, 255, 255);
-    al_draw_textf(Obj->font, text_color, Obj->x + Obj->width / 2, Obj->y + 20 + Obj->height, ALLEGRO_ALIGN_CENTER, "Score: %d", Obj->score);
-    al_draw_textf(Obj->font, text_color, Obj->x + Obj->width / 2, Obj->y - 20, ALLEGRO_ALIGN_CENTER, "Time: %d", Obj->countdown);
+    al_draw_textf(Obj->font, text_color, Obj->x + Obj->width / 2, Obj->y + 20 + Obj->height-30, ALLEGRO_ALIGN_CENTER, "Score: %d", Obj->score);
+    al_draw_textf(Obj->font, text_color, Obj->x + Obj->width / 2, Obj->y - 40, ALLEGRO_ALIGN_CENTER, "Time: %d", Obj->countdown);
 }
 
 void Seeds_s_destory(Elements *self) 
