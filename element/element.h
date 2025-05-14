@@ -6,7 +6,7 @@
 typedef struct _Elements Elements;
 typedef void (*fptrEleDraw)(Elements *);
 typedef void (*fptrEleUpdate)(Elements *);
-typedef void (*fptrEleInteract)(Elements *, Elements *);
+typedef void (*fptrEleInteract)(Elements *);
 typedef void (*fptrEleDestroy)(Elements *);
 struct _Elements
 {

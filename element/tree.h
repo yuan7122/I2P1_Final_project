@@ -15,7 +15,7 @@ typedef struct _Tree
 } Tree;
 Elements *New_Tree(int label);
 void Tree_update(Elements *self);
-void Tree_interact(Elements *self, Elements *tar);
+void Tree_interact(Elements *self);
 void Tree_draw(Elements *self);
 void Tree_destory(Elements *self);
 

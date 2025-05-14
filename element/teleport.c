@@ -1,5 +1,6 @@
 #include "teleport.h"
 #include "../scene/gamescene.h" // for element label
+#include "../scene/sceneManager.h" // for scene variable
 #include "charater.h"
 #include <stdbool.h>
 /*
@@ -38,11 +39,12 @@ void Teleport_update(Elements *self)
         Obj->activate = false;
     }
 }
-void Teleport_interact(Elements *self, Elements *tar)
+void Teleport_interact(Elements *self)
 {
-    if (tar->label == Character_L)
+    ElementVec labelEle = _Get_label_elements(scene, Character_L);
+    for (int i = 0; i < labelEle.len; i++)
     {
-        _Teleport_interact_Character(self, tar);
+        _Teleport_interact_Character(self, labelEle.arr[i]);
     }
 }
 void _Teleport_interact_Character(Elements *self, Elements *tar)

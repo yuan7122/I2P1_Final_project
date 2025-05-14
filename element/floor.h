@@ -14,7 +14,7 @@ typedef struct _Floor
 
 Elements *New_Floor(int label);
 void Floor_update(Elements *self);
-void Floor_interact(Elements *self, Elements *tar);
+void Floor_interact(Elements *self);
 void Floor_draw(Elements *self);
 void Floor_destory(Elements *self);
 void _Floor_load_map(Floor *floor);

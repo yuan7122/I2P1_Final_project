@@ -1,6 +1,7 @@
 #include "floor.h"
 #include "charater.h"
 #include "../scene/gamescene.h" // for element label
+#include "../scene/sceneManager.h" // for scene variable
 #include <stdio.h>
 /*
    [floor function]
@@ -40,12 +41,12 @@ void _Floor_load_map(Floor *floor)
     fclose(data);
 }
 void Floor_update(Elements *ele) {}
-void Floor_interact(Elements *self, Elements *tar)
+void Floor_interact(Elements *self)
 {
-    
-    if (tar->label == Character_L)
+    ElementVec labelEle = _Get_label_elements(scene, Character_L);
+    for (int i = 0; i < labelEle.len; i++)
     {
-        _Floor_interact_Character(self, tar);
+        _Floor_interact_Character(self, labelEle.arr[i]);
     }
 }
 void _Floor_interact_Character(Elements *self, Elements *tar)

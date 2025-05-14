@@ -162,4 +162,4 @@ void _Character_update_position(Elements *self, int dx, int dy)
     hitbox->update_center_y(hitbox, dy);
 }
 
-void Character_interact(Elements *self, Elements *tar) {}
+void Character_interact(Elements *self) {}

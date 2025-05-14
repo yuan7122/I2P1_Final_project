@@ -26,7 +26,7 @@ Elements *New_Tree(int label)
     return pObj;
 }
 void Tree_update(Elements *self) {}
-void Tree_interact(Elements *self, Elements *tar) {}
+void Tree_interact(Elements *self) {}
 void Tree_draw(Elements *self)
 {
     Tree *Obj = ((Tree *)(self->pDerivedObj));

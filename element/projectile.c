@@ -2,6 +2,7 @@
 #include "tree.h"
 #include "../shapes/Circle.h"
 #include "../scene/gamescene.h" // for element label
+#include "../scene/sceneManager.h" // for scene variable
 /*
    [Projectile function]
 */
@@ -45,16 +46,23 @@ void _Projectile_update_position(Elements *self, int dx, int dy)
     hitbox->update_center_x(hitbox, dx);
     hitbox->update_center_y(hitbox, dy);
 }
-void Projectile_interact(Elements *self, Elements *tar)
+void Projectile_interact(Elements *self)
 {
-    
-    if (tar->label == Floor_L)
+    for (int j = 0; j < self->inter_len; j++)
     {
-        _Projectile_interact_Floor(self, tar);
-    }
-    else if (tar->label == Tree_L)
-    {
-        _Projectile_interact_Floor(self, tar);
+        int inter_label = self->inter_obj[j];
+        ElementVec labelEle = _Get_label_elements(scene, inter_label);
+        for (int i = 0; i < labelEle.len; i++)
+        {
+            if (inter_label == Floor_L)
+            {
+                _Projectile_interact_Floor(self, labelEle.arr[i]);
+            }
+            else if (inter_label == Tree_L)
+            {
+                _Projectile_interact_Tree(self, labelEle.arr[i]);
+            }
+        }
     }
 }
 void _Projectile_interact_Floor(Elements *self, Elements *tar)

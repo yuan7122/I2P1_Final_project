@@ -1,10 +1,5 @@
 {
 	"terminal.integrated.env.windows": {
-		"PATH": "${workspaceFolder}\\MinGW\\bin;${env:PATH}"
-	},
-	"files.associations": {
-		"allegro_primitives.h": "c",
-		"scenemanager.h": "c",
-		"algif.h": "c"
+		"PATH": "${workspaceFolder}\\..\\MinGW\\bin;${env:PATH}"
 	}
 }
